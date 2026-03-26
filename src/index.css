@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+:root {
+	color-scheme: light;
+	--sys-bg-base: #f8fbff;
+	--sys-text-base: #1d1d1f;
+	--sys-border-soft: rgba(15, 23, 42, 0.12);
+	--sys-shadow-soft: 0 24px 60px -40px rgba(15, 23, 42, 0.55);
+	--sys-grid-line: rgba(15, 23, 42, 0.04);
+	--sys-bg-glow-warm: #ffe6d6;
+	--sys-bg-glow-cool: #d7f5ff;
+}
+
+body {
+	font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+	background: radial-gradient(1200px 600px at 10% -10%, var(--sys-bg-glow-warm) 0%, transparent 55%),
+		radial-gradient(900px 500px at 100% 0%, var(--sys-bg-glow-cool) 0%, transparent 45%),
+		linear-gradient(180deg, #fff7ef 0%, #fffaf5 35%, #f8fbff 100%),
+		repeating-linear-gradient(
+			90deg,
+			var(--sys-grid-line) 0,
+			var(--sys-grid-line) 1px,
+			transparent 1px,
+			transparent 32px
+		);
+	color: var(--sys-text-base);
+	min-height: 100vh;
+}
+
+.app-system-bg {
+	min-height: 100vh;
+	background-color: var(--sys-bg-base);
+}
+
+.app-content-shell {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.fade-up {
+	animation: fade-up 700ms ease both;
+}
+
+@keyframes button-pop {
+	from {
+		transform: translateY(0) scale(1);
+	}
+	to {
+		transform: translateY(-1px) scale(1.01);
+	}
+}
+
+.motion-lift {
+	transition: transform 220ms ease, box-shadow 220ms ease, background-color 220ms ease,
+		border-color 220ms ease, color 220ms ease;
+}
+
+.motion-lift:hover {
+	animation: button-pop 220ms ease forwards;
+	box-shadow: 0 12px 24px -16px rgba(15, 23, 42, 0.45);
+}
+
+.motion-lift:active {
+	transform: translateY(0) scale(0.985);
+}
+
+.motion-icon svg {
+	transition: transform 220ms ease;
+}
+
+.motion-icon:hover svg {
+	transform: translateX(1px);
+}
+
+.view-switch {
+	animation: view-switch-in 320ms ease both;
+}
+
+@keyframes view-switch-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.loading-dot {
+	border: 2px solid rgba(100, 116, 139, 0.25);
+	border-top-color: rgba(15, 23, 42, 0.85);
+	border-radius: 9999px;
+	animation: spin 700ms linear infinite;
+}
+
+.loading-dot--preview {
+	border-color: rgba(14, 116, 144, 0.25);
+	border-top-color: rgba(3, 105, 161, 0.9);
+}
+
+.loading-dot--csv {
+	border-color: rgba(5, 150, 105, 0.25);
+	border-top-color: rgba(4, 120, 87, 0.9);
+}
+
+.loading-dot--pdf {
+	border-color: rgba(225, 29, 72, 0.25);
+	border-top-color: rgba(190, 18, 60, 0.9);
+}
+
+.result-toast {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	padding: 0.65rem 0.85rem;
+	border-radius: 0.75rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	width: fit-content;
+	margin-left: auto;
+	animation: fade-up 220ms ease both;
+}
+
+.result-toast--success {
+	border: 1px solid rgba(16, 185, 129, 0.35);
+	background: rgba(236, 253, 245, 0.85);
+	color: rgb(6, 95, 70);
+}
+
+.result-toast--error {
+	border: 1px solid rgba(225, 29, 72, 0.35);
+	background: rgba(255, 241, 242, 0.92);
+	color: rgb(159, 18, 57);
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fade-up,
+	.motion-lift:hover,
+	.view-switch,
+	.loading-dot,
+	.result-toast {
+		animation: none;
+	}
+
+	.motion-lift,
+	.motion-icon svg {
+		transition: none;
+	}
+}
