@@ -9,4 +9,5 @@ export type ExcelData = {
   headers: string[]
   rows: ExcelRow[]
   headerGroups?: HeaderGroup[]
+  detectedNivel?: 'transicion' | 'basica' | 'media'
 }

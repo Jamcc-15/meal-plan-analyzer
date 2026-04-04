@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import type { MealScope, TableDensity } from '../types/app.types.ts'
+import type { Nivel } from '../types/breakfast-rules.types.ts'
 import type { PortionType } from '../types/liquid-analysis.types.ts'
 
 const TABLE_FILTER_STORAGE_KEY = 'minuta-analyzer:table-filter'
 const PORTION_STORAGE_KEY = 'minuta-analyzer:selected-portion'
 const MEAL_STORAGE_KEY = 'minuta-analyzer:selected-meal'
 const TABLE_DENSITY_STORAGE_KEY = 'minuta-analyzer:table-density'
+const NIVEL_STORAGE_KEY = 'minuta-analyzer:selected-nivel'
 
 const getStoredPortion = (): PortionType => {
   const stored = localStorage.getItem(PORTION_STORAGE_KEY)
@@ -24,6 +26,11 @@ const getStoredTableDensity = (): TableDensity => {
   return stored === 'compacto' ? 'compacto' : 'comodo'
 }
 
+const getStoredNivel = (): Nivel => {
+  const stored = localStorage.getItem(NIVEL_STORAGE_KEY)
+  return stored === 'transicion' || stored === 'media' ? stored : 'basica'
+}
+
 export const useAppPreferences = () => {
   const [tableFilter, setTableFilter] = useState(() =>
     localStorage.getItem(TABLE_FILTER_STORAGE_KEY) ?? '',
@@ -31,6 +38,7 @@ export const useAppPreferences = () => {
   const [selectedPortion, setSelectedPortion] = useState<PortionType>(getStoredPortion)
   const [selectedMeal, setSelectedMeal] = useState<MealScope>(getStoredMeal)
   const [tableDensity, setTableDensity] = useState<TableDensity>(getStoredTableDensity)
+  const [selectedNivel, setSelectedNivel] = useState<Nivel>(getStoredNivel)
 
   useEffect(() => {
     localStorage.setItem(TABLE_FILTER_STORAGE_KEY, tableFilter)
@@ -48,6 +56,10 @@ export const useAppPreferences = () => {
     localStorage.setItem(TABLE_DENSITY_STORAGE_KEY, tableDensity)
   }, [tableDensity])
 
+  useEffect(() => {
+    localStorage.setItem(NIVEL_STORAGE_KEY, selectedNivel)
+  }, [selectedNivel])
+
   const clearStoredFilter = () => {
     setTableFilter('')
     localStorage.removeItem(TABLE_FILTER_STORAGE_KEY)
@@ -60,6 +72,8 @@ export const useAppPreferences = () => {
     setSelectedPortion,
     selectedMeal,
     setSelectedMeal,
+    selectedNivel,
+    setSelectedNivel,
     tableDensity,
     setTableDensity,
     clearStoredFilter,

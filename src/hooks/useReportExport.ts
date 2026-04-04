@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import type { BreakfastValidation, Nivel } from '../types/breakfast-rules.types.ts'
 import type { LiquidSummary } from '../types/liquid-analysis.types.ts'
 
 type UseReportExportInput = {
@@ -6,6 +7,8 @@ type UseReportExportInput = {
   solidSummary: LiquidSummary
   breakfastRawLiquid: Record<string, number>
   breakfastRawSolid: Record<string, number>
+  breakfastValidation: BreakfastValidation
+  selectedNivel: Nivel
 }
 
 export const useReportExport = ({
@@ -13,6 +16,8 @@ export const useReportExport = ({
   solidSummary,
   breakfastRawLiquid,
   breakfastRawSolid,
+  breakfastValidation,
+  selectedNivel,
 }: UseReportExportInput) => {
   const exportResultsCsv = useCallback(async () => {
     const { exportResultsCsv } = await import('../utils/reportExport.ts')
@@ -29,18 +34,20 @@ export const useReportExport = ({
     await exportResultsPdf({
       liquidSummary,
       solidSummary,
-      breakfastRawSolid,
+      breakfastValidation,
+      selectedNivel,
     })
-  }, [liquidSummary, solidSummary, breakfastRawSolid])
+  }, [liquidSummary, solidSummary, breakfastValidation, selectedNivel])
 
   const previewResultsPdf = useCallback(async () => {
     const { previewResultsPdf } = await import('../utils/reportExport.ts')
     await previewResultsPdf({
       liquidSummary,
       solidSummary,
-      breakfastRawSolid,
+      breakfastValidation,
+      selectedNivel,
     })
-  }, [liquidSummary, solidSummary, breakfastRawSolid])
+  }, [liquidSummary, solidSummary, breakfastValidation, selectedNivel])
 
   return { exportResultsCsv, exportResultsPdf, previewResultsPdf }
 }

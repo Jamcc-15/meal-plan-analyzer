@@ -39,14 +39,14 @@ export const APP_THEME = {
     base: 'min-w-full border-separate border-spacing-0 text-left',
     head: 'sticky top-0 z-10 bg-linear-to-r from-slate-50 via-white to-slate-50',
     groupHeader:
-      'border-b border-slate-200 px-2 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] sm:px-3',
+      'border-b border-slate-200 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] sm:px-4',
     columnHeader:
-      'whitespace-nowrap border-b border-slate-200 px-2 text-[11px] font-semibold uppercase tracking-[0.18em] sm:px-3',
+      'whitespace-nowrap border-b border-slate-200 px-3 text-[11px] font-semibold uppercase tracking-[0.18em] sm:px-4',
     firstHeaderSticky: 'sticky left-0 z-20 shadow-[8px_0_12px_-12px_rgba(15,23,42,0.35)]',
     rowEven: 'bg-white',
     rowOdd: 'bg-slate-50/50',
     cell:
-      'cursor-pointer border-b border-slate-100 px-2 text-slate-700 transition sm:px-3',
+      'cursor-pointer border-b border-slate-100 px-3 text-slate-700 transition sm:px-4',
     firstCellSticky:
       'sticky left-0 z-10 bg-inherit font-semibold text-slate-700 shadow-[8px_0_12px_-12px_rgba(15,23,42,0.25)]',
     noResults: 'px-3 py-6 text-center text-sm text-slate-500',

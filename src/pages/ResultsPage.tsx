@@ -2,6 +2,7 @@ import LunchCoveragePanel from '../components/lunch/LunchCoveragePanel.tsx'
 import ResultsView from '../components/ResultsView.tsx'
 import EmptyStateCard from '../components/ui/EmptyStateCard.tsx'
 import type { LunchCoverageItem, MealScope } from '../types/app.types.ts'
+import type { BreakfastValidation, Nivel, ProductDrilldownMap } from '../features/breakfast/index.ts'
 import type { ExcelData } from '../types/excel.types.ts'
 import type { LiquidSummary } from '../types/liquid-analysis.types.ts'
 
@@ -13,10 +14,14 @@ type ResultsPageProps = {
   solidSummary: LiquidSummary
   breakfastRawLiquid: Record<string, number>
   breakfastRawSolid: Record<string, number>
-  onExportCsv: () => void
+  selectedNivel: Nivel
+  breakfastValidation: BreakfastValidation
+  liquidDrilldown: ProductDrilldownMap
+  solidDrilldown: ProductDrilldownMap
   onExportPdf: () => void
   onPreviewPdf: () => void
   onBackToExploration: () => void
+  onInspectProduct: (productBase: string) => void
 }
 
 const ResultsPage = ({
@@ -27,10 +32,14 @@ const ResultsPage = ({
   solidSummary,
   breakfastRawLiquid,
   breakfastRawSolid,
-  onExportCsv,
+  selectedNivel,
+  breakfastValidation,
+  liquidDrilldown,
+  solidDrilldown,
   onExportPdf,
   onPreviewPdf,
   onBackToExploration,
+  onInspectProduct,
 }: ResultsPageProps) => {
   if (!data) {
     return (
@@ -53,9 +62,13 @@ const ResultsPage = ({
         solidSummary={solidSummary}
         liquidRaw={breakfastRawLiquid}
         solidRaw={breakfastRawSolid}
-        onExportCsv={onExportCsv}
+        selectedNivel={selectedNivel}
+        breakfastValidation={breakfastValidation}
+        liquidDrilldown={liquidDrilldown}
+        solidDrilldown={solidDrilldown}
         onExportPdf={onExportPdf}
         onPreviewPdf={onPreviewPdf}
+        onInspectProduct={onInspectProduct}
       />
     )
   }

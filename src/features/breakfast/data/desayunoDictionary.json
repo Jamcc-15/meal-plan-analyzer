@@ -1,0 +1,245 @@
+{
+  "products": [
+    {
+      "id": "leche_blanca",
+      "producto_base": "Leche líquida",
+      "variedad": "Blanca",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida"
+    },
+    {
+      "id": "leche_vainilla",
+      "producto_base": "Leche líquida",
+      "variedad": "Vainilla",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida"
+    },
+    {
+      "id": "leche_chocolate",
+      "producto_base": "Leche líquida",
+      "variedad": "Chocolate",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida"
+    },
+    {
+      "id": "leche_frutilla",
+      "producto_base": "Leche líquida",
+      "variedad": "Frutilla",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida"
+    },
+    {
+      "id": "formula_frutilla",
+      "producto_base": "Fórmula láctea saborizada",
+      "variedad": "Frutilla",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida"
+    },
+    {
+      "id": "formula_vainilla",
+      "producto_base": "Fórmula láctea saborizada",
+      "variedad": "Vainilla",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida"
+    },
+    {
+      "id": "yogurt_vainilla",
+      "producto_base": "Yogurt batido",
+      "variedad": "Vainilla",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida",
+      "sinonimos": [
+        "yogurt vainilla",
+        "yogur vainilla",
+        "yoghurt vainilla",
+        "yogurt bat vainilla"
+      ]
+    },
+    {
+      "id": "yogurt_frutilla",
+      "producto_base": "Yogurt batido",
+      "variedad": "Frutilla",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida",
+      "sinonimos": [
+        "yogurt frutilla",
+        "yogur frutilla",
+        "yoghurt frutilla",
+        "yogurt bat frutilla"
+      ]
+    },
+    {
+      "id": "yogurt_damasco",
+      "producto_base": "Yogurt batido",
+      "variedad": "Damasco",
+      "tiempo": "desayuno",
+      "porcion": "porcion_liquida",
+      "sinonimos": [
+        "yogurt damasco",
+        "yogur damasco",
+        "yoghurt damasco",
+        "yogurt bat damasco"
+      ]
+    },
+
+    {
+      "id": "cereales_avena",
+      "producto_base": "Cereales",
+      "variedad": "Avena",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "pan_blanco_base",
+      "producto_base": "Pan blanco",
+      "variedad": "Base",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "pan_integral_base",
+      "producto_base": "Pan integral",
+      "variedad": "Base",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "cereales_hojuela",
+      "producto_base": "Cereales",
+      "variedad": "Cereal hojuela",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+
+    {
+      "id": "tomate_oregano",
+      "producto_base": "Tomate",
+      "variedad": "Tomate orégano",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "huevo_revuelto",
+      "producto_base": "Huevo",
+      "variedad": "Huevo revuelto",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "pasta_huevo",
+      "producto_base": "Huevo",
+      "variedad": "Pasta huevo",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "queso_laminado",
+      "producto_base": "Queso",
+      "variedad": "Queso laminado",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "pechuga_pavo_pollo",
+      "producto_base": "Pechuga de pavo o pollo",
+      "variedad": "Pechuga de pavo o pollo",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "palta",
+      "producto_base": "Palta",
+      "variedad": "Palta",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "miel",
+      "producto_base": "Miel",
+      "variedad": "Miel",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "mermelada_fruta",
+      "producto_base": "Mermelada con fruta o Dulce de membrillo",
+      "variedad": "Mermelada con fruta",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "dulce_membrillo",
+      "producto_base": "Mermelada con fruta o Dulce de membrillo",
+      "variedad": "Dulce de membrillo",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida"
+    },
+    {
+      "id": "fruta_pera_entera",
+      "producto_base": "Fruta",
+      "variedad": "Pera entera",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida",
+      "sinonimos": [
+        "pera entera nat",
+        "pera entera natural"
+      ]
+    },
+    {
+      "id": "fruta_manzana_entera",
+      "producto_base": "Fruta",
+      "variedad": "Manzana entera",
+      "tiempo": "desayuno",
+      "porcion": "porcion_solida",
+      "sinonimos": [
+        "manzana entera nat",
+        "manzana entera natural"
+      ]
+    }
+  ],
+  "patterns": [
+    { "producto_id": "leche_blanca", "patron": "leche liquida blanca" },
+    { "producto_id": "leche_blanca", "patron": "leche blanca" },
+    { "producto_id": "leche_chocolate", "patron": "leche liquida chocolate" },
+    { "producto_id": "leche_chocolate", "patron": "leche chocolate" },
+    { "producto_id": "leche_frutilla", "patron": "leche liquida frutilla" },
+    { "producto_id": "leche_frutilla", "patron": "leche frutilla" },
+    { "producto_id": "leche_vainilla", "patron": "leche blanca con esencia vainilla" },
+    { "producto_id": "leche_vainilla", "patron": "leche vainilla" },
+    { "producto_id": "leche_vainilla", "patron": "leche con esencia vainilla" },
+    { "producto_id": "formula_frutilla", "patron": "formula lactea sabor frutilla" },
+    { "producto_id": "formula_vainilla", "patron": "formula lactea sabor vainilla" },
+    { "producto_id": "formula_frutilla", "patron": "formula frutilla" },
+    { "producto_id": "yogurt_vainilla", "patron": "yogurt batido vainilla" },
+    { "producto_id": "yogurt_vainilla", "patron": "yogurt vainilla" },
+    { "producto_id": "yogurt_vainilla", "patron": "yogur vainilla" },
+    { "producto_id": "yogurt_vainilla", "patron": "yoghurt vainilla" },
+    { "producto_id": "yogurt_vainilla", "patron": "yogurt bat vainilla" },
+    { "producto_id": "yogurt_frutilla", "patron": "yogurt batido frutilla" },
+    { "producto_id": "yogurt_damasco", "patron": "yogurt batido damasco" },
+
+    { "producto_id": "cereales_avena", "patron": "avena" },
+    { "producto_id": "pan_blanco_base", "patron": "pan blanco" },
+    { "producto_id": "pan_integral_base", "patron": "pan integral" },
+    { "producto_id": "cereales_hojuela", "patron": "cereal hojuela" },
+    { "producto_id": "tomate_oregano", "patron": "tomate oregano" },
+    { "producto_id": "huevo_revuelto", "patron": "huevo revuelto" },
+    { "producto_id": "pasta_huevo", "patron": "pasta huevo" },
+    { "producto_id": "queso_laminado", "patron": "queso laminado" },
+    { "producto_id": "pechuga_pavo_pollo", "patron": "pechuga de pavo" },
+    { "producto_id": "pechuga_pavo_pollo", "patron": "pechuga de pollo" },
+    { "producto_id": "pechuga_pavo_pollo", "patron": "pechuga pavo" },
+    { "producto_id": "pechuga_pavo_pollo", "patron": "pechuga pollo" },
+    { "producto_id": "palta", "patron": "palta" },
+    { "producto_id": "miel", "patron": "miel" },
+    { "producto_id": "mermelada_fruta", "patron": "mermelada con fruta" },
+    { "producto_id": "mermelada_fruta", "patron": "mermelada frutilla" },
+    { "producto_id": "mermelada_fruta", "patron": "mermelada durazno" },
+    { "producto_id": "dulce_membrillo", "patron": "dulce de membrillo" },
+    { "producto_id": "dulce_membrillo", "patron": "membrillo" },
+    { "producto_id": "fruta_pera_entera", "patron": "pera entera nat" },
+    { "producto_id": "fruta_pera_entera", "patron": "pera entera natural" },
+    { "producto_id": "fruta_manzana_entera", "patron": "manzana entera nat" },
+    { "producto_id": "fruta_manzana_entera", "patron": "manzana entera natural" }
+  ]
+}

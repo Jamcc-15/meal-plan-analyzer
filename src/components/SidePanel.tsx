@@ -3,7 +3,9 @@ import type {
   LiquidSummary,
   UnrecognizedItem,
 } from '../types/liquid-analysis.types.ts'
+import type { ValidationResult } from '../features/breakfast/index.ts'
 import { APP_THEME } from '../themes/appTheme.ts'
+import { normalizeText } from '../utils/normalizeText.ts'
 
 type SidePanelProps = {
   summary: LiquidSummary
@@ -13,6 +15,8 @@ type SidePanelProps = {
   hoveredText: string | null
   hoveredCount: number
   hoveredDays: string[]
+  selectedProductBase?: string | null
+  failingRules?: ValidationResult[]
   unrecognizedItems: UnrecognizedItem[]
   selectedPortion: PortionType
   hasData: boolean
@@ -31,6 +35,8 @@ const SidePanel = ({
   hoveredText,
   hoveredCount,
   hoveredDays,
+  selectedProductBase = null,
+  failingRules = [],
   unrecognizedItems,
   selectedPortion,
   hasData,
@@ -40,9 +46,25 @@ const SidePanel = ({
   const byVariety = Object.entries(summary.byVariety)
   const showHoverCard = Boolean(hoveredText) && hoveredText !== selectedText
   const showSelectedCard = Boolean(selectedText)
+  const visibleFailingRules = failingRules.slice(0, 5)
+  const extraFailingRules = failingRules.slice(5)
+  const selectedIssue =
+    selectedProductBase
+      ? failingRules.find(
+          (rule) => normalizeText(rule.producto_base) === normalizeText(selectedProductBase),
+        )
+      : undefined
+
+  const formatRuleThreshold = (rule: ValidationResult) => {
+    if (rule.tipo === 'variedad') {
+      return `${rule.obtenido} / mínimo ${rule.meta.minima ?? '--'}`
+    }
+
+    return `${rule.obtenido} / ${rule.meta.limite === 'min' ? 'mín' : 'máx'} ${rule.meta.veces ?? '--'}`
+  }
 
   return (
-    <aside className={`p-4 sm:p-6 lg:sticky lg:top-6 ${APP_THEME.surface.aside}`}>
+    <aside className={`p-4 sm:p-5 lg:sticky lg:top-6 ${APP_THEME.surface.aside}`}>
       <div className="flex items-center justify-between">
         <h2 className={`text-lg font-semibold ${APP_THEME.text.title}`}>Resumen</h2>
         <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
@@ -68,11 +90,59 @@ const SidePanel = ({
       ) : null}
 
       <div className={`mt-6 space-y-4 ${!hasData ? 'opacity-60' : ''}`}>
+        {failingRules.length > 0 ? (
+          <div className={APP_THEME.block.info}>
+            <div className="flex items-center justify-between gap-2">
+              <p className={`text-xs uppercase tracking-wide ${APP_THEME.text.muted}`}>Incumplimientos</p>
+              <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[11px] font-semibold text-rose-700">
+                {failingRules.length}
+              </span>
+            </div>
+            <ul className="mt-3 space-y-1.5 text-xs text-slate-700">
+              {visibleFailingRules.map((rule) => (
+                <li
+                  key={rule.id}
+                  className="flex items-center justify-between rounded-lg border border-rose-200 bg-rose-50 px-2 py-1"
+                >
+                  <span>{rule.producto_base}</span>
+                  <strong className="text-rose-700">{formatRuleThreshold(rule)}</strong>
+                </li>
+              ))}
+            </ul>
+            {extraFailingRules.length > 0 ? (
+              <details className="mt-2">
+                <summary className="cursor-pointer select-none text-xs font-semibold text-slate-500 hover:text-slate-700">
+                  Ver {extraFailingRules.length} más
+                </summary>
+                <ul className="mt-2 space-y-1.5 text-xs text-slate-700">
+                  {extraFailingRules.map((rule) => (
+                    <li
+                      key={rule.id}
+                      className="flex items-center justify-between rounded-lg border border-rose-200 bg-rose-50 px-2 py-1"
+                    >
+                      <span>{rule.producto_base}</span>
+                      <strong className="text-rose-700">{formatRuleThreshold(rule)}</strong>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : null}
+          </div>
+        ) : null}
+
         {showSelectedCard ? (
           <div className={APP_THEME.block.info}>
             <p className={`text-xs uppercase tracking-wide ${APP_THEME.text.muted}`}>Seleccionado</p>
-            <p className={`mt-2 text-sm font-semibold ${APP_THEME.text.title}`}>{selectedText}</p>
-            <p className="mt-2 text-xs text-slate-600">Frecuencia: {selectedCount}</p>
+            <p className={`mt-2 text-sm font-semibold ${APP_THEME.text.title}`}>
+              {selectedText}
+              {selectedProductBase ? (
+                <span className="ml-1 text-xs font-medium text-slate-500">({selectedProductBase})</span>
+              ) : null}
+            </p>
+            <p className="mt-2 text-xs text-slate-600">Frecuencia: {selectedCount} local</p>
+            <p className={`mt-1 text-xs font-semibold ${selectedIssue ? 'text-rose-700' : 'text-emerald-700'}`}>
+              Estado: {selectedIssue ? `No cumple (${formatRuleThreshold(selectedIssue)})` : 'Sin incumplimiento detectado'}
+            </p>
             <p className="mt-1 text-xs text-slate-600">
               Días: {selectedDays.length > 0 ? selectedDays.join(', ') : '--'}
             </p>
@@ -93,9 +163,11 @@ const SidePanel = ({
         {!showSelectedCard && !showHoverCard ? (
           <div className={APP_THEME.block.info}>
             <p className={`text-xs uppercase tracking-wide ${APP_THEME.text.muted}`}>Interacción</p>
-            <p className={`mt-2 text-sm font-semibold ${APP_THEME.text.title}`}>Sin selección</p>
+            <p className={`mt-2 text-sm font-semibold ${APP_THEME.text.title}`}>
+              Selecciona una celda para ver análisis
+            </p>
             <p className="mt-2 text-xs text-slate-600">
-              Haz clic en una celda para ver frecuencia y días.
+              Aquí verás frecuencia local, estado de regla y días asociados.
             </p>
           </div>
         ) : null}

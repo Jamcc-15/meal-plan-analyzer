@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import AppHeader from './components/AppHeader.tsx'
-import ExplorationPage from './pages/ExplorationPage.tsx'
-import ResultsPage from './pages/ResultsPage.tsx'
+import ExcelUploader from './components/ExcelUploader.tsx'
+import BreakfastExplorationPage from './pages/breakfast/BreakfastExplorationPage.tsx'
+import BreakfastResultsPage from './pages/breakfast/BreakfastResultsPage.tsx'
+import LunchExplorationPage from './pages/lunch/LunchExplorationPage.tsx'
+import LunchResultsPage from './pages/lunch/LunchResultsPage.tsx'
 import useAppPreferences from './hooks/useAppPreferences.ts'
 import useAnalysisState from './hooks/useAnalysisState.ts'
 import useDictionary from './hooks/useDictionary.ts'
@@ -18,8 +21,9 @@ function App() {
     setSelectedPortion,
     selectedMeal,
     setSelectedMeal,
+    selectedNivel,
+    setSelectedNivel,
     tableDensity,
-    setTableDensity,
     clearStoredFilter,
   } = useAppPreferences()
   const [selectedText, setSelectedText] = useState<string | null>(null)
@@ -33,7 +37,7 @@ function App() {
     breakfastRawLiquid,
     breakfastRawSolid,
     unrecognizedItems,
-    focusHeader,
+    unrecognizedItemsCombined,
     productBaseByText,
     selectedProductBase,
     lunchCoverage,
@@ -43,22 +47,35 @@ function App() {
     filteredRowCount,
     selectedStats,
     hoveredStats,
+    breakfastValidation,
+    liquidDrilldown,
+    solidDrilldown,
   } = useAnalysisState({
     data,
     dictionary,
     selectedPortion,
     selectedMeal,
+    selectedNivel,
     tableFilter,
     selectedText,
     hoveredText,
   })
-  const { exportResultsCsv, exportResultsPdf, previewResultsPdf } = useReportExport({
+  const { exportResultsPdf, previewResultsPdf } = useReportExport({
     liquidSummary,
     solidSummary,
     breakfastRawLiquid,
     breakfastRawSolid,
+    breakfastValidation,
+    selectedNivel,
   })
   const currentStep = !data ? 1 : activeView === 'exploracion' ? 2 : 3
+
+  const handleInspectProduct = (productBase: string) => {
+    setSelectedMeal('desayuno')
+    setTableFilter(productBase)
+    setSelectedText(productBase)
+    setActiveView('exploracion')
+  }
 
   const handleClearAllData = () => {
     clearData()
@@ -70,6 +87,11 @@ function App() {
     setSelectedText(null)
     setHoveredText(null)
   }, [data])
+
+  useEffect(() => {
+    if (!data?.detectedNivel) return
+    setSelectedNivel(data.detectedNivel)
+  }, [data?.detectedNivel, setSelectedNivel])
 
   return (
     <div className={SYSTEM_THEME.layout.appShell}>
@@ -83,22 +105,32 @@ function App() {
           onChangeMeal={setSelectedMeal}
           selectedPortion={selectedPortion}
           onChangePortion={setSelectedPortion}
+          selectedNivel={selectedNivel}
+          onChangeNivel={setSelectedNivel}
+          detectedNivel={data?.detectedNivel ?? null}
           stats={{
             rowCount,
             analyzedCount,
             recognizedCount,
             unrecognizedCount: selectedMeal === 'desayuno' ? summary.unrecognizedCount : '--',
           }}
+          fileSection={
+            activeView === 'exploracion' ? (
+              <ExcelUploader
+                onFileSelected={parseFile}
+                onClearData={handleClearAllData}
+                hasData={Boolean(data)}
+                isLoading={isLoading}
+                error={error}
+              />
+            ) : null
+          }
         />
 
         <div key={activeView} className="view-switch">
-          {activeView === 'exploracion' ? (
-            <ExplorationPage
+          {activeView === 'exploracion' && selectedMeal === 'desayuno' ? (
+            <BreakfastExplorationPage
               data={data}
-              error={error}
-              isLoading={isLoading}
-              parseFile={parseFile}
-              onClearData={handleClearAllData}
               tableFilter={tableFilter}
               setTableFilter={setTableFilter}
               rowCount={rowCount}
@@ -108,36 +140,50 @@ function App() {
               hoveredText={hoveredText}
               setHoveredText={setHoveredText}
               selectedProductBase={selectedProductBase}
-              focusHeader={focusHeader}
               productBaseByText={productBaseByText}
               tableDensity={tableDensity}
-              setTableDensity={setTableDensity}
-              selectedMeal={selectedMeal}
-              lunchCoverage={lunchCoverage}
               summary={summary}
               selectedCount={selectedStats.count}
               selectedDays={selectedStats.days}
               hoveredCount={hoveredStats.count}
               hoveredDays={hoveredStats.days}
               unrecognizedItems={unrecognizedItems}
+              failingRules={
+                selectedPortion === 'porcion_liquida'
+                  ? breakfastValidation.porcion_liquida.filter((item) => item.estado === 'no_cumple')
+                  : breakfastValidation.porcion_solida.filter((item) => item.estado === 'no_cumple')
+              }
               selectedPortion={selectedPortion}
               onViewResults={() => setActiveView('resultados')}
             />
-          ) : (
-            <ResultsPage
+          ) : null}
+
+          {activeView === 'exploracion' && selectedMeal === 'almuerzo' ? (
+            <LunchExplorationPage data={data} lunchCoverage={lunchCoverage} />
+          ) : null}
+
+          {activeView === 'resultados' && selectedMeal === 'desayuno' ? (
+            <BreakfastResultsPage
               data={data}
-              selectedMeal={selectedMeal}
-              lunchCoverage={lunchCoverage}
               liquidSummary={liquidSummary}
               solidSummary={solidSummary}
               breakfastRawLiquid={breakfastRawLiquid}
               breakfastRawSolid={breakfastRawSolid}
-              onExportCsv={exportResultsCsv}
+              unrecognizedItems={unrecognizedItemsCombined}
+              selectedNivel={selectedNivel}
+              breakfastValidation={breakfastValidation}
+              liquidDrilldown={liquidDrilldown}
+              solidDrilldown={solidDrilldown}
               onExportPdf={exportResultsPdf}
               onPreviewPdf={previewResultsPdf}
               onBackToExploration={() => setActiveView('exploracion')}
+              onInspectProduct={handleInspectProduct}
             />
-          )}
+          ) : null}
+
+          {activeView === 'resultados' && selectedMeal === 'almuerzo' ? (
+            <LunchResultsPage data={data} lunchCoverage={lunchCoverage} />
+          ) : null}
         </div>
       </div>
     </div>

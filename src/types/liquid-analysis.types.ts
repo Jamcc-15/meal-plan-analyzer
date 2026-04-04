@@ -6,6 +6,7 @@ export type DictionaryProduct = {
   variedad: string
   tiempo: 'desayuno'
   porcion: PortionType
+  sinonimos?: string[]
 }
 
 export type DictionaryPattern = {
@@ -13,10 +14,13 @@ export type DictionaryPattern = {
   patron: string
 }
 
-export type LiquidDictionary = {
+export type BreakfastDictionary = {
   products: DictionaryProduct[]
   patterns: DictionaryPattern[]
 }
+
+// Legacy alias kept to avoid broad refactors in existing modules.
+export type LiquidDictionary = BreakfastDictionary
 
 export type LiquidAnalysisRow = {
   dia: string

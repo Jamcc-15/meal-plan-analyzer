@@ -1,5 +1,4 @@
 import DataTable from '../components/DataTable.tsx'
-import ExcelUploader from '../components/ExcelUploader.tsx'
 import LunchCoveragePanel from '../components/lunch/LunchCoveragePanel.tsx'
 import SidePanel from '../components/SidePanel.tsx'
 import EmptyStateCard from '../components/ui/EmptyStateCard.tsx'
@@ -11,10 +10,6 @@ import { normalizeText } from '../utils/normalizeText.ts'
 
 type ExplorationPageProps = {
   data: ExcelData | null
-  error: string | null
-  isLoading: boolean
-  parseFile: (file: File) => void
-  onClearData: () => void
   tableFilter: string
   setTableFilter: (value: string) => void
   rowCount: number
@@ -24,10 +19,8 @@ type ExplorationPageProps = {
   hoveredText: string | null
   setHoveredText: (value: string | null) => void
   selectedProductBase: string | null
-  focusHeader: string | null
   productBaseByText: Record<string, string>
   tableDensity: TableDensity
-  setTableDensity: (value: TableDensity) => void
   selectedMeal: MealScope
   lunchCoverage: LunchCoverageItem[]
   summary: LiquidSummary
@@ -42,10 +35,6 @@ type ExplorationPageProps = {
 
 const ExplorationPage = ({
   data,
-  error,
-  isLoading,
-  parseFile,
-  onClearData,
   tableFilter,
   setTableFilter,
   rowCount,
@@ -55,10 +44,8 @@ const ExplorationPage = ({
   hoveredText,
   setHoveredText,
   selectedProductBase,
-  focusHeader,
   productBaseByText,
   tableDensity,
-  setTableDensity,
   selectedMeal,
   lunchCoverage,
   summary,
@@ -75,32 +62,16 @@ const ExplorationPage = ({
       <main className="mx-auto w-full max-w-4xl">
         <EmptyStateCard
           title="Carga una minuta"
-          description="Sube un archivo Excel o CSV para comenzar el análisis."
+          description="Sube un archivo Excel para comenzar el análisis."
         />
-        <div className="mt-4">
-          <ExcelUploader
-            onFileSelected={parseFile}
-            onClearData={onClearData}
-            hasData={Boolean(data)}
-            isLoading={isLoading}
-            error={error}
-          />
-        </div>
       </main>
     )
   }
 
   return (
-    <main className="grid w-full gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <section className={`w-full p-4 sm:p-6 ${APP_THEME.surface.section}`}>
-        <ExcelUploader
-          onFileSelected={parseFile}
-          onClearData={onClearData}
-          hasData={Boolean(data)}
-          isLoading={isLoading}
-          error={error}
-        />
-
+    <main className="space-y-6">
+      <div className="grid w-full gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(250px,280px)] xl:grid-cols-[minmax(0,1.55fr)_minmax(260px,300px)]">
+        <section className={`w-full p-4 sm:p-6 ${APP_THEME.surface.section}`}>
         <div className={`mt-6 flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between ${APP_THEME.surface.panel}`}>
           <div className="w-full sm:max-w-md">
             <label htmlFor="table-filter" className={`text-xs font-semibold uppercase tracking-wide ${APP_THEME.text.muted}`}>
@@ -120,26 +91,6 @@ const ExplorationPage = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="inline-flex rounded-xl border border-slate-300 bg-white p-1">
-              <button
-                type="button"
-                onClick={() => setTableDensity('compacto')}
-                className={`rounded-lg px-2 py-1 text-xs font-semibold transition ${
-                  tableDensity === 'compacto' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                Compacto
-              </button>
-              <button
-                type="button"
-                onClick={() => setTableDensity('comodo')}
-                className={`rounded-lg px-2 py-1 text-xs font-semibold transition ${
-                  tableDensity === 'comodo' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                Cómodo
-              </button>
-            </div>
             <button
               type="button"
               onClick={() => {
@@ -166,7 +117,6 @@ const ExplorationPage = ({
             filterText={tableFilter}
             selectedValue={selectedText ? normalizeText(selectedText) : null}
             selectedProductBase={selectedProductBase}
-            focusHeader={focusHeader}
             productBaseByText={productBaseByText}
             tableDensity={tableDensity}
             onSelect={(value) => setSelectedText(value)}
@@ -174,30 +124,31 @@ const ExplorationPage = ({
             onHoverEnd={() => setHoveredText(null)}
           />
         </div>
-      </section>
+        </section>
 
-      {selectedMeal === 'desayuno' ? (
-        <SidePanel
-          summary={summary}
-          selectedText={selectedText}
-          selectedCount={selectedCount}
-          selectedDays={selectedDays}
-          hoveredText={hoveredText}
-          hoveredCount={hoveredCount}
-          hoveredDays={hoveredDays}
-          unrecognizedItems={unrecognizedItems}
-          selectedPortion={selectedPortion}
-          hasData={Boolean(data)}
-          onViewResults={onViewResults}
-        />
-      ) : (
-        <LunchCoveragePanel
-          title="Almuerzo en construcción"
-          description="Sección preparada para Entrada, Principal, Acompañamiento, Postre y Agua."
-          items={lunchCoverage}
-          showAction
-        />
-      )}
+        {selectedMeal === 'desayuno' ? (
+          <SidePanel
+            summary={summary}
+            selectedText={selectedText}
+            selectedCount={selectedCount}
+            selectedDays={selectedDays}
+            hoveredText={hoveredText}
+            hoveredCount={hoveredCount}
+            hoveredDays={hoveredDays}
+            unrecognizedItems={unrecognizedItems}
+            selectedPortion={selectedPortion}
+            hasData={Boolean(data)}
+            onViewResults={onViewResults}
+          />
+        ) : (
+          <LunchCoveragePanel
+            title="Almuerzo en construcción"
+            description="Sección preparada para Entrada, Principal, Acompañamiento, Postre y Agua."
+            items={lunchCoverage}
+            showAction
+          />
+        )}
+      </div>
     </main>
   )
 }

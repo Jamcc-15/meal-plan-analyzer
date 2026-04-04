@@ -28,24 +28,47 @@ const buildNormalizedDictionary = (
   )
   const productById = new Map(filteredProducts.map((item) => [item.id, item]))
 
-  return dictionary.patterns
-    .map((pattern) => {
-      const product = productById.get(pattern.producto_id)
-      if (!product) return null
-
-      return {
-        productId: product.id,
-        productoBase: product.producto_base,
-        variedad: product.variedad,
-        normalizedPattern: normalizeText(pattern.patron),
-      }
-    })
-    .filter((item): item is {
+  const entryByKey = new Map<
+    string,
+    {
       productId: string
       productoBase: string
       variedad: string
       normalizedPattern: string
-    } => item !== null)
+    }
+  >()
+
+  const appendEntry = (product: DictionaryProduct, sourcePattern: string) => {
+    const normalizedPattern = normalizeText(sourcePattern)
+    if (!normalizedPattern) return
+
+    const key = `${product.id}::${normalizedPattern}`
+    if (entryByKey.has(key)) return
+
+    entryByKey.set(key, {
+      productId: product.id,
+      productoBase: product.producto_base,
+      variedad: product.variedad,
+      normalizedPattern,
+    })
+  }
+
+  dictionary.patterns.forEach((pattern) => {
+    const product = productById.get(pattern.producto_id)
+    if (!product) return
+    appendEntry(product, pattern.patron)
+  })
+
+  filteredProducts.forEach((product) => {
+    if (!Array.isArray(product.sinonimos)) return
+
+    product.sinonimos.forEach((synonym) => {
+      if (typeof synonym !== 'string') return
+      appendEntry(product, synonym)
+    })
+  })
+
+  return Array.from(entryByKey.values())
 }
 
 const matchDictionary = (
@@ -68,40 +91,98 @@ const toDisplayCase = (value: string) =>
     .map((token) => token.charAt(0).toUpperCase() + token.slice(1))
     .join(' ')
 
-const canonicalizeSolidAddon = (addon: string) => {
-  const normalized = normalizeText(addon)
+const SOLID_ADDON_BASES = new Set([
+  'Tomate',
+  'Queso',
+  'Huevo',
+  'Pechuga de pavo o pollo',
+  'Palta',
+  'Miel',
+  'Mermelada con fruta o Dulce de membrillo',
+])
 
-  if (normalized.includes('mermelad')) {
-    return 'Mermelada con fruta'
-  }
+const buildSolidAddonDictionary = (dictionary: LiquidDictionary) => {
+  const addonProducts = dictionary.products.filter(
+    (item) => item.porcion === 'porcion_solida' && SOLID_ADDON_BASES.has(item.producto_base),
+  )
 
-  if (normalized.includes('membrillo')) {
-    return 'Dulce de membrillo'
-  }
+  const productById = new Map(addonProducts.map((item) => [item.id, item]))
+  const entries: Array<{ normalizedPattern: string; variedad: string; productoBase: string }> = []
 
-  if (
-    normalized.includes('pechuga de pavo') ||
-    normalized.includes('pechuga de pollo') ||
-    (normalized.includes('pechuga') &&
-      (normalized.includes('pavo') || normalized.includes('pollo')))
-  ) {
-    return 'Pechuga de pavo o pollo'
-  }
+  dictionary.patterns.forEach((pattern) => {
+    const product = productById.get(pattern.producto_id)
+    if (!product) return
+    const normalizedPattern = normalizeText(pattern.patron)
+    if (!normalizedPattern) return
+    entries.push({
+      normalizedPattern,
+      variedad: product.variedad,
+      productoBase: product.producto_base,
+    })
+  })
 
-  return toDisplayCase(normalized)
+  addonProducts.forEach((product) => {
+    if (!Array.isArray(product.sinonimos)) return
+    product.sinonimos.forEach((synonym) => {
+      const normalizedPattern = normalizeText(String(synonym))
+      if (!normalizedPattern) return
+      entries.push({
+        normalizedPattern,
+        variedad: product.variedad,
+        productoBase: product.producto_base,
+      })
+    })
+  })
+
+  return entries
 }
 
-const extractSolidAddon = (text: string) => {
+const extractSolidAddon = (
+  text: string,
+  solidAddonDictionary: ReturnType<typeof buildSolidAddonDictionary>,
+) => {
   const normalized = normalizeText(text)
 
   const withCon = normalized.match(/\bcon\s+(.+)$/)
   if (withCon?.[1]) {
-    return canonicalizeSolidAddon(withCon[1].trim())
+    const addon = withCon[1].trim()
+    const match = solidAddonDictionary.find((entry) => {
+      const pattern = entry.normalizedPattern
+      return addon === pattern || addon.includes(pattern) || pattern.includes(addon)
+    })
+    if (match) {
+      const isMermeladaBase = normalizeText(match.productoBase).includes('mermelada con fruta')
+      const isFlavorMermelada = addon.startsWith('mermelada ') && !addon.includes('con fruta')
+
+      // Keep flavor labels (e.g., mermelada frutilla/durazno) as distinct varieties.
+      if (isMermeladaBase && isFlavorMermelada) {
+        return toDisplayCase(addon)
+      }
+
+      return match.variedad
+    }
+    return toDisplayCase(addon)
   }
 
   const withSlash = normalized.match(/\bc\/(.+)$/)
   if (withSlash?.[1]) {
-    return canonicalizeSolidAddon(withSlash[1].trim())
+    const addon = withSlash[1].trim()
+    const match = solidAddonDictionary.find((entry) => {
+      const pattern = entry.normalizedPattern
+      return addon === pattern || addon.includes(pattern) || pattern.includes(addon)
+    })
+    if (match) {
+      const isMermeladaBase = normalizeText(match.productoBase).includes('mermelada con fruta')
+      const isFlavorMermelada = addon.startsWith('mermelada ') && !addon.includes('con fruta')
+
+      // Keep flavor labels (e.g., mermelada frutilla/durazno) as distinct varieties.
+      if (isMermeladaBase && isFlavorMermelada) {
+        return toDisplayCase(addon)
+      }
+
+      return match.variedad
+    }
+    return toDisplayCase(addon)
   }
 
   return null
@@ -122,6 +203,8 @@ export const extractBreakfastLiquidRows = (
   if (!dayHeader || !portionHeader) return []
 
   const normalizedDictionary = buildNormalizedDictionary(dictionary, portion)
+  const solidAddonDictionary =
+    portion === 'porcion_solida' ? buildSolidAddonDictionary(dictionary) : []
 
   return data.rows
     .map((row) => {
@@ -138,7 +221,7 @@ export const extractBreakfastLiquidRows = (
       const solidAddon =
         portion === 'porcion_solida' &&
         (match?.productoBase === 'Pan blanco' || match?.productoBase === 'Pan integral')
-          ? extractSolidAddon(porcionTexto)
+          ? extractSolidAddon(porcionTexto, solidAddonDictionary)
           : null
 
       return {

@@ -1,55 +1,64 @@
 import type { LiquidSummary } from '../types/liquid-analysis.types.ts'
+import type { UnrecognizedItem } from '../types/liquid-analysis.types.ts'
+import type { BreakfastValidation, Nivel, ProductDrilldownMap, ValidationResult } from '../features/breakfast/index.ts'
+import {
+  canonicalizeAddonVarieties,
+  splitSolidVarieties,
+  summarizeVarietiesTotals,
+} from '../features/breakfast/utils/addonAggregation.ts'
+import { normalizeText } from '../utils/normalizeText.ts'
 import ResultsActions from './results/ResultsActions.tsx'
 import ResultsColumn from './results/ResultsColumn.tsx'
 import ResultsInsights from './results/ResultsInsights.tsx'
+import { PendingSection } from './results/PendingSection.tsx'
 
 type ResultsViewProps = {
   liquidSummary: LiquidSummary
   solidSummary: LiquidSummary
   liquidRaw: Record<string, number>
   solidRaw: Record<string, number>
-  onExportCsv: () => Promise<void> | void
+  unrecognizedItems?: UnrecognizedItem[]
+  selectedNivel: Nivel
+  breakfastValidation: BreakfastValidation
+  liquidDrilldown: ProductDrilldownMap
+  solidDrilldown: ProductDrilldownMap
+  onInspectProduct: (productBase: string) => void
   onExportPdf: () => Promise<void> | void
   onPreviewPdf: () => Promise<void> | void
 }
 
-const normalize = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+const separatePendingProducts = (
+  varieties: Record<string, Record<string, number>>,
+  rules: ValidationResult[],
+) => {
+  const ruleNames = rules.map((r) => normalizeText(r.producto_base))
 
-const toSortedEntries = (input: Record<string, number>) =>
-  Object.entries(input).sort((a, b) => b[1] - a[1])
+  // Accept exact match and close textual matches (contains either way).
+  // This avoids sending obvious variants like "yogurt batido" to pending.
+  const hasRuleMatch = (normalizedProduct: string) =>
+    ruleNames.some(
+      (ruleName) =>
+        normalizedProduct === ruleName ||
+        normalizedProduct.includes(ruleName) ||
+        ruleName.includes(normalizedProduct),
+    )
 
-const getTopEntry = (input: Record<string, number>) => {
-  const [name, value] = toSortedEntries(input)[0] ?? ['--', 0]
-  return { name, value }
-}
+  const validated: Record<string, Record<string, number>> = {}
+  const pending: Array<{ name: string; count: number }> = []
 
+  Object.entries(varieties).forEach(([productBase, varietyData]) => {
+    const normalized = normalizeText(productBase)
+    const hasRule = hasRuleMatch(normalized)
 
-const extractPanAddons = (raw: Record<string, number>) => {
-  const addons: Record<string, number> = {}
-
-  Object.entries(raw).forEach(([literal, count]) => {
-    const normalized = normalize(literal)
-    if (!normalized.includes('pan')) return
-
-    let addon = ''
-    const withCon = literal.match(/\bcon\s+(.+)$/i)
-    const withShort = literal.match(/\bc\/(.+)$/i)
-
-    if (withCon?.[1]) {
-      addon = withCon[1].trim()
-    } else if (withShort?.[1]) {
-      addon = withShort[1].trim()
+    if (hasRule) {
+      validated[productBase] = varietyData
+    } else {
+      const total = Object.values(varietyData).reduce((sum, count) => sum + count, 0)
+      pending.push({ name: productBase, count: total })
     }
-
-    if (!addon) return
-    addons[addon] = (addons[addon] ?? 0) + count
   })
 
-  return addons
+  return { validated, pending }
 }
 
 const ResultsView = ({
@@ -57,58 +66,102 @@ const ResultsView = ({
   solidSummary,
   liquidRaw,
   solidRaw,
-  onExportCsv,
+  unrecognizedItems = [],
+  selectedNivel,
+  breakfastValidation,
+  liquidDrilldown,
+  solidDrilldown,
+  onInspectProduct,
   onExportPdf,
   onPreviewPdf,
 }: ResultsViewProps) => {
-  const panAddons = extractPanAddons(solidRaw)
-  const combinedProductBase: Record<string, number> = {}
-
-  Object.entries(liquidSummary.byProductBase).forEach(([name, value]) => {
-    combinedProductBase[name] = (combinedProductBase[name] ?? 0) + value
-  })
-  Object.entries(solidSummary.byProductBase).forEach(([name, value]) => {
-    combinedProductBase[name] = (combinedProductBase[name] ?? 0) + value
-  })
-
-  const topProduct = getTopEntry(combinedProductBase)
-  const topPanAddon = getTopEntry(panAddons)
+  const solidVarietySections = splitSolidVarieties(solidSummary.byVariety)
+  const canonicalSolidAddons = canonicalizeAddonVarieties(
+    solidVarietySections.addons,
+    breakfastValidation.porcion_solida,
+  )
+  const panAddons = summarizeVarietiesTotals(canonicalSolidAddons)
   const unrecognizedTotal = liquidSummary.unrecognizedCount + solidSummary.unrecognizedCount
+
+  // Separar validados vs pendientes
+  const liquidSeparated = separatePendingProducts(liquidSummary.byVariety, breakfastValidation.porcion_liquida)
+  const solidSeparated = separatePendingProducts(solidVarietySections.structure, breakfastValidation.porcion_solida)
+  const allPending = [...liquidSeparated.pending, ...solidSeparated.pending].sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )
 
   return (
     <main className="space-y-6">
-      <ResultsActions
-        onExportCsv={onExportCsv}
-        onExportPdf={onExportPdf}
-        onPreviewPdf={onPreviewPdf}
-      />
+      <ResultsActions onExportPdf={onExportPdf} onPreviewPdf={onPreviewPdf} />
       <ResultsInsights
-        topProduct={topProduct}
-        topPanAddon={topPanAddon}
         unrecognizedTotal={unrecognizedTotal}
+        selectedNivel={selectedNivel}
+        breakfastValidation={breakfastValidation}
       />
 
-      <section className="grid gap-6 lg:grid-cols-2">
-        <ResultsColumn
-          title="Resultados análisis - Desayuno"
-          productTitle="Porción líquida (producto base)"
-          productData={liquidSummary.byProductBase}
-          varietyTitle="Por variedad (porción líquida)"
-          varietyData={liquidSummary.byVariety}
-          literalTitle="Recuento literal completo (porción líquida)"
-          literalData={liquidRaw}
-        />
-        <ResultsColumn
-          title="Resultados análisis - Desayuno"
-          productTitle="Porción sólida (producto base)"
-          productData={solidSummary.byProductBase}
-          varietyTitle="Por variedad / agregados (porción sólida)"
-          varietyData={solidSummary.byVariety}
-          extraLiteralTitle="Agregados de Pan (porción sólida)"
-          extraLiteralData={panAddons}
-          literalTitle="Recuento literal completo (porción sólida)"
-          literalData={solidRaw}
-        />
+      {unrecognizedItems.length > 0 ? (
+        <section className="rounded-2xl border border-rose-200 bg-rose-50/50 p-4 shadow-sm">
+          <h3 className="text-sm font-semibold text-rose-800">No reconocidos (diccionario)</h3>
+          <p className="mt-1 text-xs text-rose-700">
+            Estos textos no tienen mapeo automático en el diccionario actual:
+          </p>
+          <ul className="mt-3 divide-y divide-rose-200 border-t border-rose-200">
+            {unrecognizedItems.map((item) => (
+              <li
+                key={item.text}
+                className="grid grid-cols-[1fr_auto] items-center gap-3 py-2 text-sm"
+              >
+                <span className="text-slate-800">{item.text}</span>
+                <strong className="font-semibold text-rose-700">{item.count}</strong>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold text-slate-900">Resumen de analisis</h2>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <ResultsColumn
+            title="Porción líquida"
+            productTitle="Producto base"
+            productData={liquidSummary.byProductBase}
+            productRules={breakfastValidation.porcion_liquida}
+            productDrilldown={liquidDrilldown}
+            accent="liquid"
+            varietyTitle="Variedades"
+            varietyData={liquidSeparated.validated}
+            varietyRuleType="variedad"
+            varietyStrictPreferredRuleType
+            literalTitle="Detalle literal"
+            literalData={liquidRaw}
+            onInspectProduct={onInspectProduct}
+          />
+          <ResultsColumn
+            title="Porción sólida"
+            productTitle="Producto base"
+            productData={solidSummary.byProductBase}
+            productRules={breakfastValidation.porcion_solida}
+            productDrilldown={solidDrilldown}
+            accent="solid"
+            varietyTitle="Estructura (variedades)"
+            varietyData={solidSeparated.validated}
+            varietyRuleType="variedad"
+            varietyStrictPreferredRuleType
+            detailVarietyTitle="Detalle por pan (informativo)"
+            detailVarietyData={canonicalSolidAddons}
+            detailVarietyRuleType="frecuencia"
+            detailVarietyShowRowStatus
+            detailVarietyShowGroupStatus={false}
+            detailVarietyShowGroupRuleSummary={false}
+            extraLiteralTitle="Agregados globales (decisión)"
+            extraLiteralData={panAddons}
+            literalTitle="Detalle literal"
+            literalData={solidRaw}
+            onInspectProduct={onInspectProduct}
+          />
+        </div>
+        {allPending.length > 0 && <PendingSection products={allPending} />}
       </section>
     </main>
   )

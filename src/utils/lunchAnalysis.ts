@@ -5,7 +5,7 @@ import { normalizeText } from './normalizeText.ts'
 export const LUNCH_SECTIONS: LunchSection[] = [
   { key: 'entrada', label: 'Entrada' },
   { key: 'principal', label: 'Principal' },
-  { key: 'acompanamiento', label: 'Acompanamiento' },
+  { key: 'acompanamiento', label: 'Acompañamiento' },
   { key: 'postre', label: 'Postre' },
   { key: 'agua', label: 'Agua' },
 ]

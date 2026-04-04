@@ -1,7 +1,16 @@
 import { useMemo } from 'react'
 import type { MealScope } from '../types/app.types.ts'
+import type {
+  BreakfastValidation,
+  DesayunoRules,
+  Nivel,
+  ProductDrilldownMap,
+  SummaryData,
+} from '../types/breakfast-rules.types.ts'
 import type { ExcelData } from '../types/excel.types.ts'
 import type { LiquidDictionary, PortionType } from '../types/liquid-analysis.types.ts'
+import breakfastRulesData from '../features/breakfast/data/desayuno.rules.json'
+import { validateRules } from '../features/breakfast/rules/validation.ts'
 import { buildLunchCoverage } from '../utils/lunchAnalysis.ts'
 import {
   countBreakfastLiquidsRaw,
@@ -16,6 +25,7 @@ type UseAnalysisStateInput = {
   dictionary: LiquidDictionary
   selectedPortion: PortionType
   selectedMeal: MealScope
+  selectedNivel: Nivel
   tableFilter: string
   selectedText: string | null
   hoveredText: string | null
@@ -26,10 +36,52 @@ export const useAnalysisState = ({
   dictionary,
   selectedPortion,
   selectedMeal,
+  selectedNivel,
   tableFilter,
   selectedText,
   hoveredText,
 }: UseAnalysisStateInput) => {
+  const buildProductDrilldown = (
+    rows: ReturnType<typeof extractBreakfastLiquidRows>,
+  ): ProductDrilldownMap => {
+    const map: ProductDrilldownMap = {}
+
+    rows.forEach((row) => {
+      if (!row.reconocido || !row.productoBase) return
+
+      if (!map[row.productoBase]) {
+        map[row.productoBase] = {
+          total: 0,
+          days: [],
+          varieties: [],
+        }
+      }
+
+      const target = map[row.productoBase]
+      target.total += 1
+
+      if (row.dia && !target.days.includes(row.dia)) {
+        target.days.push(row.dia)
+      }
+
+      if (row.variedad) {
+        const existingVariety = target.varieties.find((item) => item.name === row.variedad)
+        if (existingVariety) {
+          existingVariety.count += 1
+        } else {
+          target.varieties.push({ name: row.variedad, count: 1 })
+        }
+      }
+    })
+
+    Object.values(map).forEach((item) => {
+      item.days.sort((a, b) => a.localeCompare(b, 'es'))
+      item.varieties.sort((a, b) => b.count - a.count)
+    })
+
+    return map
+  }
+
   const liquidRows = useMemo(
     () => extractBreakfastLiquidRows(data, dictionary, 'porcion_liquida'),
     [data, dictionary],
@@ -47,6 +99,86 @@ export const useAnalysisState = ({
   const summary = useMemo(() => countLiquidSummary(analyzedRows), [analyzedRows])
   const liquidSummary = useMemo(() => countLiquidSummary(liquidRows), [liquidRows])
   const solidSummary = useMemo(() => countLiquidSummary(solidRows), [solidRows])
+  const liquidDrilldown = useMemo(() => buildProductDrilldown(liquidRows), [liquidRows])
+  const solidDrilldown = useMemo(() => buildProductDrilldown(solidRows), [solidRows])
+
+  const breakfastValidation = useMemo<BreakfastValidation>(() => {
+    const toSummary = (source: typeof liquidSummary): SummaryData => ({
+      productoBase: source.byProductBase,
+      variedades: source.byVariety,
+    })
+
+    const mergeProductBase = (
+      left: Record<string, number>,
+      right: Record<string, number>,
+    ): Record<string, number> => {
+      const merged: Record<string, number> = { ...left }
+      Object.entries(right).forEach(([key, value]) => {
+        merged[key] = (merged[key] ?? 0) + value
+      })
+      return merged
+    }
+
+    const mergeVarieties = (
+      left: Record<string, Record<string, number>>,
+      right: Record<string, Record<string, number>>,
+    ): Record<string, Record<string, number>> => {
+      const merged: Record<string, Record<string, number>> = { ...left }
+      Object.entries(right).forEach(([productBase, varieties]) => {
+        if (!merged[productBase]) {
+          merged[productBase] = { ...varieties }
+          return
+        }
+
+        Object.entries(varieties).forEach(([variety, count]) => {
+          merged[productBase][variety] = (merged[productBase][variety] ?? 0) + count
+        })
+      })
+      return merged
+    }
+
+    const liquidSummaryData = toSummary(liquidSummary)
+    const solidSummaryData = toSummary(solidSummary)
+    const mergedSummary: SummaryData = {
+      productoBase: mergeProductBase(
+        liquidSummaryData.productoBase ?? {},
+        solidSummaryData.productoBase ?? {},
+      ),
+      variedades: mergeVarieties(
+        liquidSummaryData.variedades ?? {},
+        solidSummaryData.variedades ?? {},
+      ),
+    }
+
+    const rules = breakfastRulesData as DesayunoRules
+    const porcionLiquida = validateRules(
+      rules.desayuno.porcion_liquida,
+      selectedNivel,
+      liquidSummaryData,
+    )
+    const porcionSolida = validateRules(
+      rules.desayuno.porcion_solida,
+      selectedNivel,
+      solidSummaryData,
+    )
+    const adicionales = validateRules(rules.desayuno.adicionales, selectedNivel, mergedSummary).filter(
+      (item) => {
+        if (typeof item.obtenido === 'number') {
+          return item.obtenido > 0
+        }
+
+        const parsed = Number(item.obtenido)
+        return Number.isFinite(parsed) && parsed > 0
+      },
+    )
+
+    return {
+      porcion_liquida: porcionLiquida,
+      porcion_solida: porcionSolida,
+      adicionales,
+      all: [...porcionLiquida, ...porcionSolida, ...adicionales],
+    }
+  }, [liquidSummary, solidSummary, selectedNivel])
 
   const breakfastRawLiquid = useMemo(
     () => countBreakfastLiquidsRaw(liquidRows),
@@ -62,27 +194,27 @@ export const useAnalysisState = ({
     [analyzedRows],
   )
 
+  const unrecognizedItemsCombined = useMemo(
+    () => getUnrecognizedItems([...liquidRows, ...solidRows]),
+    [liquidRows, solidRows],
+  )
+
   const dayHeader = useMemo(() => {
     if (!data) return null
     return data.headers.find((header) => normalizeText(header) === 'dia') ?? null
   }, [data])
 
-  const focusHeader = useMemo(() => {
-    if (selectedMeal === 'almuerzo') return null
-    if (!data) return null
-    return selectedPortion === 'porcion_liquida'
-      ? data.headers.find((header) => normalizeText(header).includes('porcion liquida')) ?? null
-      : data.headers.find((header) => normalizeText(header).includes('porcion solida')) ?? null
-  }, [data, selectedMeal, selectedPortion])
-
   const productBaseByText = useMemo(() => {
     const map: Record<string, string> = {}
-    analyzedRows.forEach((row) => {
+    const breakfastRows = [...liquidRows, ...solidRows]
+    breakfastRows.forEach((row) => {
       if (!row.productoBase) return
-      map[row.textoNormalizado] = row.productoBase
+      if (!map[row.textoNormalizado]) {
+        map[row.textoNormalizado] = row.productoBase
+      }
     })
     return map
-  }, [analyzedRows])
+  }, [liquidRows, solidRows])
 
   const getTextStats = (value: string | null) => {
     if (!data || !value) {
@@ -148,7 +280,7 @@ export const useAnalysisState = ({
     breakfastRawLiquid,
     breakfastRawSolid,
     unrecognizedItems,
-    focusHeader,
+    unrecognizedItemsCombined,
     productBaseByText,
     selectedProductBase,
     lunchCoverage,
@@ -158,6 +290,9 @@ export const useAnalysisState = ({
     filteredRowCount,
     selectedStats,
     hoveredStats,
+    breakfastValidation,
+    liquidDrilldown,
+    solidDrilldown,
   }
 }
 

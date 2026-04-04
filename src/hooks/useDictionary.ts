@@ -1,18 +1,45 @@
 import { useMemo } from 'react'
-import liquidDictionary from '../data/liquidDictionary.json'
-import type { LiquidDictionary } from '../types/liquid-analysis.types.ts'
+import desayunoDictionary from '../features/breakfast/data/desayunoDictionary.json'
+import type { BreakfastDictionary } from '../types/liquid-analysis.types.ts'
 import { normalizeText } from '../utils/normalizeText.ts'
 
-const DICTIONARY_STORAGE_KEY = 'minuta-analyzer:liquid-dictionary'
-const dictionarySeed = liquidDictionary as LiquidDictionary
+const DICTIONARY_STORAGE_KEY = 'minuta-analyzer:desayuno-dictionary'
+const LEGACY_DICTIONARY_STORAGE_KEY = 'minuta-analyzer:liquid-dictionary'
+const dictionarySeed = desayunoDictionary as BreakfastDictionary
 
-const isDictionaryShape = (value: unknown): value is LiquidDictionary => {
+const PRODUCT_BASE_MIGRATIONS: Record<string, string> = {
+  'leche liquida': 'Leche líquida',
+  'formula lactea saborizada': 'Fórmula láctea saborizada',
+  avena: 'Cereales',
+}
+
+const normalizeProductBaseLabel = (value: string): string => {
+  const normalized = normalizeText(value)
+  return PRODUCT_BASE_MIGRATIONS[normalized] ?? value
+}
+
+const applyProductBaseMigrations = (
+  dictionary: BreakfastDictionary,
+): BreakfastDictionary => {
+  return {
+    ...dictionary,
+    products: dictionary.products.map((item) => ({
+      ...item,
+      producto_base: normalizeProductBaseLabel(item.producto_base),
+    })),
+  }
+}
+
+const isDictionaryShape = (value: unknown): value is BreakfastDictionary => {
   if (!value || typeof value !== 'object') return false
   const candidate = value as Record<string, unknown>
   return Array.isArray(candidate.products) && Array.isArray(candidate.patterns)
 }
 
-const mergeWithSeed = (stored: LiquidDictionary, seed: LiquidDictionary): LiquidDictionary => {
+const mergeWithSeed = (
+  stored: BreakfastDictionary,
+  seed: BreakfastDictionary,
+): BreakfastDictionary => {
   const productMap = new Map(stored.products.map((item) => [item.id, item]))
   seed.products.forEach((item) => {
     if (!productMap.has(item.id)) {
@@ -39,18 +66,29 @@ const mergeWithSeed = (stored: LiquidDictionary, seed: LiquidDictionary): Liquid
 }
 
 export const useDictionary = () => {
-  return useMemo<LiquidDictionary>(() => {
-    const stored = localStorage.getItem(DICTIONARY_STORAGE_KEY)
-    if (!stored) return dictionarySeed
+  return useMemo<BreakfastDictionary>(() => {
+    const stored =
+      localStorage.getItem(DICTIONARY_STORAGE_KEY) ??
+      localStorage.getItem(LEGACY_DICTIONARY_STORAGE_KEY)
+
+    if (!stored) {
+      return applyProductBaseMigrations(dictionarySeed)
+    }
 
     try {
       const parsed = JSON.parse(stored)
       if (!isDictionaryShape(parsed)) {
-        return dictionarySeed
+        return applyProductBaseMigrations(dictionarySeed)
       }
-      return mergeWithSeed(parsed, dictionarySeed)
+      const merged = mergeWithSeed(
+        parsed,
+        dictionarySeed,
+      )
+      localStorage.setItem(DICTIONARY_STORAGE_KEY, JSON.stringify(merged))
+      localStorage.removeItem(LEGACY_DICTIONARY_STORAGE_KEY)
+      return applyProductBaseMigrations(merged)
     } catch {
-      return dictionarySeed
+      return applyProductBaseMigrations(dictionarySeed)
     }
   }, [])
 }

@@ -150,6 +150,95 @@ body {
 	color: rgb(159, 18, 57);
 }
 
+.block-breakfast-panel {
+	position: relative;
+	border: 1px solid rgba(251, 146, 60, 0.18);
+	background:
+		radial-gradient(500px 180px at 0% -20%, rgba(255, 186, 120, 0.14) 0%, transparent 60%),
+		linear-gradient(180deg, rgba(255, 252, 248, 0.9) 0%, rgba(255, 247, 237, 0.8) 100%);
+	box-shadow: 0 12px 22px -22px rgba(217, 119, 6, 0.35);
+}
+
+.portion-option {
+	position: relative;
+	overflow: hidden;
+	min-height: 3.15rem;
+	transition: border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease,
+		transform 220ms ease;
+}
+
+.portion-option:hover {
+	box-shadow: 0 14px 24px -22px rgba(15, 23, 42, 0.55);
+}
+
+.portion-option--active {
+	box-shadow: 0 16px 24px -24px rgba(234, 88, 12, 0.68);
+}
+
+.portion-option--active::after {
+	content: "";
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 9999px;
+	top: 0.75rem;
+	right: 0.75rem;
+	background: rgba(255, 255, 255, 0.95);
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+@keyframes rulebar-progress-in {
+	from {
+		width: 0;
+	}
+	to {
+		width: var(--target-width, 100%);
+	}
+}
+
+@keyframes rulebar-glow-ok {
+	0% {
+		box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.0);
+	}
+	40% {
+		box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.0);
+	}
+}
+
+@keyframes rulebar-shake-fail {
+	0%,
+	100% {
+		transform: translateX(-50%);
+	}
+	20% {
+		transform: translateX(calc(-50% - 1px));
+	}
+	40% {
+		transform: translateX(calc(-50% + 1px));
+	}
+	60% {
+		transform: translateX(calc(-50% - 0.7px));
+	}
+	80% {
+		transform: translateX(calc(-50% + 0.7px));
+	}
+}
+
+.rulebar-progress {
+	transition: width 420ms ease-out, background-color 220ms ease;
+}
+
+.rulebar-glow-ok {
+	animation: rulebar-glow-ok 850ms ease-out;
+}
+
+.rulebar-shake-fail {
+	animation: rulebar-shake-fail 240ms ease-out;
+}
+
 @keyframes spin {
 	to {
 		transform: rotate(360deg);
@@ -163,6 +252,13 @@ body {
 	.loading-dot,
 	.result-toast {
 		animation: none;
+	}
+
+	.rulebar-progress,
+	.rulebar-glow-ok,
+	.rulebar-shake-fail {
+		animation: none;
+		transition: none;
 	}
 
 	.motion-lift,

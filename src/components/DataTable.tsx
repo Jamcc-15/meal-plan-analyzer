@@ -15,7 +15,7 @@ type DataTableProps = {
   filterText: string
   selectedValue: string | null
   selectedProductBase: string | null
-  focusHeader: string | null
+  problematicProductBases?: string[]
   productBaseByText: Record<string, string>
   tableDensity: TableDensity
   onSelect: (value: string) => void
@@ -28,7 +28,7 @@ const DataTable = ({
   filterText,
   selectedValue,
   selectedProductBase,
-  focusHeader,
+  problematicProductBases = [],
   productBaseByText,
   tableDensity,
   onSelect,
@@ -57,6 +57,7 @@ const DataTable = ({
         )
 
   const densityTheme = APP_THEME.table.density[tableDensity]
+  const problematicSet = new Set(problematicProductBases.map((item) => normalizeText(item)))
 
   return (
     <div className={APP_THEME.table.container}>
@@ -97,17 +98,19 @@ const DataTable = ({
             {filteredRows.map((row, rowIndex) => (
               <tr
                 key={`${rowIndex}-${data.headers[0] ?? 'row'}`}
-                className={rowIndex % 2 === 0 ? APP_THEME.table.rowEven : APP_THEME.table.rowOdd}
+                className={`${rowIndex % 2 === 0 ? APP_THEME.table.rowEven : APP_THEME.table.rowOdd} hover:bg-slate-50`}
               >
                 {data.headers.map((header, columnIndex) => {
                   const cellValue = row[header] || '-'
                   const normalizedCell = normalizeText(cellValue)
+                  const cellProductBase = productBaseByText[normalizedCell]
+                  const hasRuleIssue =
+                    Boolean(cellProductBase) && problematicSet.has(normalizeText(cellProductBase))
                   const isHighlighted =
                     selectedValue && normalizedCell === selectedValue
                   const sameProductBase =
-                    focusHeader === header &&
                     Boolean(selectedProductBase) &&
-                    productBaseByText[normalizedCell] === selectedProductBase
+                    cellProductBase === selectedProductBase
 
                   return (
                   <td
@@ -121,6 +124,8 @@ const DataTable = ({
                     } ${
                       sameProductBase ? TABLE_THEME.cell.sameBase : ''
                     } ${
+                      hasRuleIssue ? 'bg-rose-50 border-l-4 border-l-rose-400' : ''
+                    } ${
                       isLunchStart(header) ? TABLE_THEME.divider.lunchCell : ''
                     } ${
                       columnIndex === 0
@@ -128,7 +133,14 @@ const DataTable = ({
                         : ''
                     }`}
                   >
-                    {cellValue}
+                    <span className="inline-flex items-center gap-1">
+                      <span>{cellValue}</span>
+                      {hasRuleIssue ? (
+                        <span className="rounded-full bg-rose-100 px-1 text-[10px] font-bold text-rose-700" title="Relacionado a producto con incumplimiento">
+                          !
+                        </span>
+                      ) : null}
+                    </span>
                   </td>
                   )
                 })}

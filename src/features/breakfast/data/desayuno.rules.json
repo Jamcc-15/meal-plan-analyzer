@@ -1,0 +1,341 @@
+{
+  "desayuno": {
+    "porcion_liquida": {
+      "transicion": [
+        {
+          "id": "liq_leche_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Leche líquida",
+          "limite": "min",
+          "veces": 9
+        },
+        {
+          "id": "liq_formula_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Fórmula láctea saborizada",
+          "limite": "max",
+          "veces": 11
+        }
+      ],
+      "basica": [
+        {
+          "id": "liq_leche_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Leche líquida",
+          "limite": "min",
+          "veces": 9
+        },
+        {
+          "id": "liq_leche_variedad_basica",
+          "tipo": "variedad",
+          "producto_base": "Leche líquida",
+          "minima": 3
+        },
+        {
+          "id": "liq_formula_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Fórmula láctea saborizada",
+          "limite": "max",
+          "veces": 11
+        },
+        {
+          "id": "liq_formula_variedad_basica",
+          "tipo": "variedad",
+          "producto_base": "Fórmula láctea saborizada",
+          "minima": 2
+        }
+      ],
+      "media": [
+        {
+          "id": "liq_leche_media",
+          "tipo": "frecuencia",
+          "producto_base": "Leche líquida",
+          "limite": "min",
+          "veces": 6
+        },
+        {
+          "id": "liq_formula_media",
+          "tipo": "frecuencia",
+          "producto_base": "Fórmula láctea saborizada",
+          "limite": "max",
+          "veces": 7
+        },
+        {
+          "id": "liq_infusion_media",
+          "tipo": "frecuencia",
+          "producto_base": "Infusión, Té o Café descafeinado",
+          "limite": "max",
+          "veces": 7
+        },
+        {
+          "id": "liq_infusion_variedad_media",
+          "tipo": "variedad",
+          "producto_base": "Infusión, Té o Café descafeinado",
+          "minima": 2
+        }
+      ],
+      "pendientes": [
+        "Yogurt batido"
+      ]
+    },
+
+    "porcion_solida": {
+      "transicion": [
+        {
+          "id": "sol_pan_blanco_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Pan blanco",
+          "limite": "max",
+          "veces": 10
+        },
+        {
+          "id": "sol_pan_integral_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Pan integral",
+          "limite": "min",
+          "veces": 6
+        },
+        {
+          "id": "sol_cereales_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Cereales",
+          "limite": "min",
+          "veces": 4
+        },
+        {
+          "id": "sol_cereales_variedad_transicion",
+          "tipo": "variedad",
+          "producto_base": "Cereales",
+          "minima": 3
+        },
+        {
+          "id": "sol_huevo_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Huevo",
+          "limite": "min",
+          "veces": 4
+        },
+        {
+          "id": "sol_tomate_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Tomate",
+          "limite": "max",
+          "veces": 2
+        },
+        {
+          "id": "sol_queso_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Queso",
+          "limite": "min",
+          "veces": 3
+        },
+        {
+          "id": "sol_pechuga_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Pechuga de pavo o pollo",
+          "limite": "min",
+          "veces": 2
+        },
+        {
+          "id": "sol_palta_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Palta",
+          "limite": "min",
+          "veces": 1
+        },
+        {
+          "id": "sol_miel_transicion",
+          "tipo": "frecuencia",
+          "producto_base": "Miel",
+          "limite": "max",
+          "veces": 4
+        }
+      ],
+      "basica": [
+        {
+          "id": "sol_pan_blanco_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Pan blanco",
+          "limite": "max",
+          "veces": 10
+        },
+        {
+          "id": "sol_pan_integral_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Pan integral",
+          "limite": "min",
+          "veces": 6
+        },
+        {
+          "id": "sol_cereales_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Cereales",
+          "limite": "min",
+          "veces": 4
+        },
+        {
+          "id": "sol_cereales_variedad_basica",
+          "tipo": "variedad",
+          "producto_base": "Cereales",
+          "minima": 3
+        },
+        {
+          "id": "sol_huevo_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Huevo",
+          "limite": "min",
+          "veces": 4
+        },
+        {
+          "id": "sol_tomate_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Tomate",
+          "limite": "max",
+          "veces": 2
+        },
+        {
+          "id": "sol_queso_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Queso",
+          "limite": "min",
+          "veces": 3
+        },
+        {
+          "id": "sol_pechuga_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Pechuga de pavo o pollo",
+          "limite": "min",
+          "veces": 2
+        },
+        {
+          "id": "sol_palta_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Palta",
+          "limite": "min",
+          "veces": 1
+        },
+        {
+          "id": "sol_miel_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Miel",
+          "limite": "max",
+          "veces": 1
+        },
+        {
+          "id": "sol_mermelada_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Mermelada con fruta o Dulce de membrillo",
+          "limite": "max",
+          "veces": 3
+        },
+        {
+          "id": "sol_mermelada_variedad_basica",
+          "tipo": "variedad",
+          "producto_base": "Mermelada con fruta o Dulce de membrillo",
+          "minima": 2
+        }
+      ],
+      "media": [
+        {
+          "id": "sol_pan_blanco_media",
+          "tipo": "frecuencia",
+          "producto_base": "Pan blanco",
+          "limite": "max",
+          "veces": 10
+        },
+        {
+          "id": "sol_pan_integral_media",
+          "tipo": "frecuencia",
+          "producto_base": "Pan integral",
+          "limite": "min",
+          "veces": 6
+        },
+        {
+          "id": "sol_cereales_media",
+          "tipo": "frecuencia",
+          "producto_base": "Cereales",
+          "limite": "min",
+          "veces": 4
+        },
+        {
+          "id": "sol_cereales_variedad_media",
+          "tipo": "variedad",
+          "producto_base": "Cereales",
+          "minima": 3
+        },
+        {
+          "id": "sol_huevo_media",
+          "tipo": "frecuencia",
+          "producto_base": "Huevo",
+          "limite": "min",
+          "veces": 4
+        },
+        {
+          "id": "sol_tomate_media",
+          "tipo": "frecuencia",
+          "producto_base": "Tomate",
+          "limite": "max",
+          "veces": 2
+        },
+        {
+          "id": "sol_queso_media",
+          "tipo": "frecuencia",
+          "producto_base": "Queso",
+          "limite": "min",
+          "veces": 3
+        },
+        {
+          "id": "sol_pechuga_media",
+          "tipo": "frecuencia",
+          "producto_base": "Pechuga de pavo o pollo",
+          "limite": "min",
+          "veces": 2
+        },
+        {
+          "id": "sol_palta_media",
+          "tipo": "frecuencia",
+          "producto_base": "Palta",
+          "limite": "min",
+          "veces": 1
+        },
+        {
+          "id": "sol_miel_media",
+          "tipo": "frecuencia",
+          "producto_base": "Miel",
+          "limite": "max",
+          "veces": 1
+        },
+        {
+          "id": "sol_mermelada_media",
+          "tipo": "frecuencia",
+          "producto_base": "Mermelada con fruta o Dulce de membrillo",
+          "limite": "max",
+          "veces": 3
+        }
+      ],
+      "pendientes": []
+    },
+
+    "adicionales": {
+      "basica": [
+        {
+          "id": "adic_probioticos_basica",
+          "tipo": "frecuencia",
+          "producto_base": "Probióticos",
+          "limite": "min",
+          "veces": 12
+        }
+      ],
+      "media": [
+        {
+          "id": "adic_probioticos_media",
+          "tipo": "frecuencia",
+          "producto_base": "Probióticos",
+          "limite": "min",
+          "veces": 12
+        }
+      ],
+      "pendientes": []
+    }
+  }
+}

@@ -36,6 +36,51 @@ const normalizeCell = (value: string) =>
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, ' ')
 
+const toNivel = (value: string): ExcelData['detectedNivel'] | undefined => {
+  const normalized = normalizeCell(value)
+  if (!normalized) return undefined
+
+  if (normalized.includes('transicion')) return 'transicion'
+  if (normalized.includes('basica')) return 'basica'
+  if (normalized.includes('media')) return 'media'
+
+  return undefined
+}
+
+const detectNivelFromRawRows = (
+  rows: (string | number | boolean | null)[][],
+): ExcelData['detectedNivel'] | undefined => {
+  const scanLimit = Math.min(rows.length, 15)
+
+  // Prefer explicit metadata pattern: col C = "Nivel/Programa" and col D = value.
+  for (let i = 0; i < scanLimit; i += 1) {
+    const row = rows[i] ?? []
+    const colC = String(row[2] ?? '')
+    const colD = String(row[3] ?? '')
+    const label = normalizeCell(colC)
+
+    if (label.includes('nivel/programa') || (label.includes('nivel') && label.includes('programa'))) {
+      const nivel = toNivel(colD)
+      if (nivel) return nivel
+    }
+  }
+
+  // Fallback: search any cell with "nivel" and use adjacent right cell as value.
+  for (let i = 0; i < scanLimit; i += 1) {
+    const row = rows[i] ?? []
+    for (let j = 0; j < row.length; j += 1) {
+      const cell = normalizeCell(String(row[j] ?? ''))
+      if (!cell.includes('nivel')) continue
+
+      const rightValue = String(row[j + 1] ?? '')
+      const nivel = toNivel(rightValue)
+      if (nivel) return nivel
+    }
+  }
+
+  return undefined
+}
+
 const formatSimpleDate = (date: Date) => {
   const day = String(date.getDate()).padStart(2, '0')
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -228,6 +273,8 @@ export const parseExcelFile = async (file: File): Promise<ExcelData> => {
     return { headers: [], rows: [] }
   }
 
+  const detectedNivel = detectNivelFromRawRows(rawRows)
+
   const headerRowIndex = findHeaderRowIndex(rawRows)
   const rawHeaders = rawRows[headerRowIndex]
   const rawBody = rawRows.slice(headerRowIndex + 1)
@@ -301,5 +348,5 @@ export const parseExcelFile = async (file: File): Promise<ExcelData> => {
     return true
   })
 
-  return { headers: keptHeaders, rows: sanitizedRows, headerGroups }
+  return { headers: keptHeaders, rows: sanitizedRows, headerGroups, detectedNivel }
 }
