@@ -1,4 +1,4 @@
-import ResultsView from '../../components/ResultsView.tsx'
+import BreakfastResultsCompliancePage from './BreakfastResultsCompliancePage.tsx'
 import EmptyStateCard from '../../components/ui/EmptyStateCard.tsx'
 import type { BreakfastValidation, Nivel, ProductDrilldownMap } from '../../features/breakfast/index.ts'
 import type { ExcelData } from '../../types/excel.types.ts'
@@ -52,11 +52,11 @@ const BreakfastResultsPage = ({
   }
 
   return (
-    <ResultsView
+    <BreakfastResultsCompliancePage
       liquidSummary={liquidSummary}
       solidSummary={solidSummary}
-      liquidRaw={breakfastRawLiquid}
-      solidRaw={breakfastRawSolid}
+      breakfastRawLiquid={breakfastRawLiquid}
+      breakfastRawSolid={breakfastRawSolid}
       unrecognizedItems={unrecognizedItems}
       selectedNivel={selectedNivel}
       breakfastValidation={breakfastValidation}
@@ -64,7 +64,9 @@ const BreakfastResultsPage = ({
       solidDrilldown={solidDrilldown}
       onExportPdf={onExportPdf}
       onPreviewPdf={onPreviewPdf}
+      onBackToExploration={onBackToExploration}
       onInspectProduct={onInspectProduct}
+      data={data}
     />
   )
 }

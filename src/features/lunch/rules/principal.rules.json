@@ -1,0 +1,167 @@
+{
+  "grupo": "principal",
+  "transicion": [
+    {
+      "id": "principal_carne_vacuno_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de vacuno",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Trozo o cubo congelado o conserva (pouch)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Churrasco congelado", "limite": "min", "veces": 2 }
+      ]
+    },
+    { "id": "principal_carne_ave_filetillo_transicion", "tipo": "frecuencia", "producto_base": "Carne de ave", "variedad": "Filetillo entero, congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 3 },
+    {
+      "id": "principal_carne_cerdo_transicion",
+      "tipo": "compuesta",
+      "operador": "OR",
+      "producto_base": "Carne de cerdo",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de cerdo", "variedad": "Pulpa de cerdo cubo o trozo, congelada o refrigerada", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de cerdo", "variedad": "Lomo de cerdo congelado o refrigerado", "limite": "min", "veces": 1 }
+      ]
+    },
+    { "id": "principal_huevo_transicion", "tipo": "frecuencia", "producto_base": "Huevo", "limite": "max", "veces": 2 },
+    {
+      "id": "principal_pescados_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Pescados",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Filete congelado", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Trozo, lomo o pulpa congelado o conserva (enlatado)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Preelaborado o listo para el consumo", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Lomito de atún congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 2 }
+      ]
+    },
+    { "id": "principal_mariscos_algas_transicion", "tipo": "frecuencia", "producto_base": "Mariscos o algas", "limite": "max", "veces": 1 },
+    {
+      "id": "principal_leguminosas_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Leguminosas",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Leguminosas", "limite": "max", "veces": 5 },
+        { "tipo": "variedad", "producto_base": "Leguminosas", "minima": 2 }
+      ]
+    }
+  ],
+  "basica": [
+    {
+      "id": "principal_carne_vacuno_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de vacuno",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Trozo o cubo congelado o conserva (pouch)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Churrasco congelado", "limite": "min", "veces": 2 }
+      ]
+    },
+    {
+      "id": "principal_carne_ave_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de ave",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de ave", "variedad": "Trutro pierna corto o largo", "limite": "min", "veces": 2 },
+        { "tipo": "frecuencia", "producto_base": "Carne de ave", "variedad": "Filetillo entero, congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 1 }
+      ]
+    },
+    {
+      "id": "principal_carne_cerdo_basica",
+      "tipo": "compuesta",
+      "operador": "OR",
+      "producto_base": "Carne de cerdo",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de cerdo", "variedad": "Pulpa de cerdo cubo o trozo, congelada o refrigerada", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de cerdo", "variedad": "Lomo de cerdo congelado o refrigerado", "limite": "min", "veces": 1 }
+      ]
+    },
+    { "id": "principal_huevo_basica", "tipo": "frecuencia", "producto_base": "Huevo", "limite": "max", "veces": 2 },
+    {
+      "id": "principal_pescados_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Pescados",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Filete congelado", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Trozo, lomo o pulpa congelado o conserva (enlatado)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Preelaborado o listo para el consumo", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Lomito de atún congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 2 }
+      ]
+    },
+    { "id": "principal_mariscos_algas_basica", "tipo": "frecuencia", "producto_base": "Mariscos o algas", "limite": "max", "veces": 1 },
+    {
+      "id": "principal_leguminosas_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Leguminosas",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Leguminosas", "limite": "max", "veces": 5 },
+        { "tipo": "variedad", "producto_base": "Leguminosas", "minima": 2 }
+      ]
+    }
+  ],
+  "media": [
+    {
+      "id": "principal_carne_vacuno_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de vacuno",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Trozo o cubo congelado o conserva (pouch)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Churrasco congelado", "limite": "min", "veces": 2 }
+      ]
+    },
+    {
+      "id": "principal_carne_ave_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de ave",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de ave", "variedad": "Trutro pierna corto o largo", "limite": "min", "veces": 2 },
+        { "tipo": "frecuencia", "producto_base": "Carne de ave", "variedad": "Filetillo entero, congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 1 }
+      ]
+    },
+    {
+      "id": "principal_carne_cerdo_media",
+      "tipo": "compuesta",
+      "operador": "OR",
+      "producto_base": "Carne de cerdo",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de cerdo", "variedad": "Pulpa de cerdo cubo o trozo, congelada o refrigerada", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de cerdo", "variedad": "Lomo de cerdo congelado o refrigerado", "limite": "min", "veces": 1 }
+      ]
+    },
+    { "id": "principal_huevo_media", "tipo": "frecuencia", "producto_base": "Huevo", "limite": "max", "veces": 2 },
+    {
+      "id": "principal_pescados_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Pescados",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Filete congelado", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Trozo, lomo o pulpa congelado o conserva (enlatado)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Preelaborado o listo para el consumo", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Pescados", "variedad": "Lomito de atún congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 2 }
+      ]
+    },
+    { "id": "principal_mariscos_algas_media", "tipo": "frecuencia", "producto_base": "Mariscos o algas", "limite": "max", "veces": 1 },
+    {
+      "id": "principal_leguminosas_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Leguminosas",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Leguminosas", "limite": "max", "veces": 5 },
+        { "tipo": "variedad", "producto_base": "Leguminosas", "minima": 2 }
+      ]
+    }
+  ],
+  "pendientes": [
+    "Carne de ave en Transición: variedad mínima 2 por formato de preparación y entrega; faltan patrones para picado, salteado y guiso.",
+    "Huevo: variedad mínima 2 por formato de preparación y entrega; el patrón actual no distingue preparaciones.",
+    "Lomito de atún: variedad mínima 2 por formato de preparación y entrega; faltan patrones específicos."
+  ]
+}

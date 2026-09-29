@@ -3,6 +3,7 @@ import type {
   DictionaryProduct,
   LiquidDictionary,
   PortionType,
+  ProductGroup,
 } from '../types/liquid-analysis.types.ts'
 import {
   addPattern,
@@ -20,10 +21,25 @@ type DictionaryManagerProps = {
   onChange: (next: LiquidDictionary) => void
 }
 
+const portionToDefaultGroup = (portion: PortionType): ProductGroup =>
+  portion === 'porcion_liquida' ? 'liquida' : 'solida'
+
+const productBelongsToPortion = (product: DictionaryProduct, portion: PortionType) => {
+  if (portion === 'porcion_liquida') {
+    return product.grupo === 'liquida' || product.porcion === 'porcion_liquida'
+  }
+
+  return (
+    product.grupo === 'solida' ||
+    product.grupo === 'agregado_pan' ||
+    product.porcion === 'porcion_solida'
+  )
+}
+
 const DictionaryManager = ({ dictionary, selectedPortion, onChange }: DictionaryManagerProps) => {
   const [newBase, setNewBase] = useState('')
   const [newVariety, setNewVariety] = useState('')
-  const [newPortion, setNewPortion] = useState<PortionType>(selectedPortion)
+  const [newGroup, setNewGroup] = useState<ProductGroup>(portionToDefaultGroup(selectedPortion))
   const [newPatternByProduct, setNewPatternByProduct] = useState<Record<string, string>>({})
 
   const groupedPatterns = useMemo(
@@ -40,13 +56,13 @@ const DictionaryManager = ({ dictionary, selectedPortion, onChange }: Dictionary
       producto_base: base,
       variedad: variety,
       tiempo: 'desayuno',
-      porcion: newPortion,
+      grupo: newGroup,
     })
 
     onChange(next)
     setNewBase('')
     setNewVariety('')
-    setNewPortion(selectedPortion)
+    setNewGroup(portionToDefaultGroup(selectedPortion))
   }
 
   const handleAddPattern = (productId: string) => {
@@ -61,7 +77,7 @@ const DictionaryManager = ({ dictionary, selectedPortion, onChange }: Dictionary
     <section className="rounded-2xl border border-slate-200 bg-white p-4">
       <h3 className="text-sm font-semibold text-slate-900">Diccionario editable</h3>
       <p className="mt-1 text-xs text-slate-600">
-        Cada producto esta ligado a una variedad y a una porcion especifica.
+        Cada producto esta ligado a una variedad y a un grupo especifico.
       </p>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_180px_auto]">
@@ -78,12 +94,13 @@ const DictionaryManager = ({ dictionary, selectedPortion, onChange }: Dictionary
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
         />
         <select
-          value={newPortion}
-          onChange={(event) => setNewPortion(event.target.value as PortionType)}
+          value={newGroup}
+          onChange={(event) => setNewGroup(event.target.value as ProductGroup)}
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
         >
-          <option value="porcion_liquida">Porcion liquida</option>
-          <option value="porcion_solida">Porcion solida</option>
+          <option value="liquida">Liquida</option>
+          <option value="solida">Solida</option>
+          <option value="agregado_pan">Agregado pan</option>
         </select>
         <button
           type="button"
@@ -96,7 +113,7 @@ const DictionaryManager = ({ dictionary, selectedPortion, onChange }: Dictionary
 
       <div className="mt-4 space-y-3">
         {dictionary.products
-          .filter((product) => product.porcion === selectedPortion)
+          .filter((product) => productBelongsToPortion(product, selectedPortion))
           .map((product: DictionaryProduct) => {
           const productPatterns = groupedPatterns[product.id] ?? []
 
@@ -105,14 +122,9 @@ const DictionaryManager = ({ dictionary, selectedPortion, onChange }: Dictionary
               <div className="grid gap-2 sm:grid-cols-[1fr_1fr_170px_auto]">
                 <input
                   value={product.producto_base}
-                  onChange={(event) =>
-                    onChange(
-                      updateProduct(dictionary, product.id, {
-                        producto_base: event.target.value,
-                      }),
-                    )
-                  }
-                  className="rounded-lg border border-slate-300 px-2 py-1 text-sm"
+                  readOnly
+                  title="Producto base (no modificable)"
+                  className="rounded-lg border border-slate-300 bg-slate-50 px-2 py-1 text-sm text-slate-700"
                 />
                 <input
                   value={product.variedad}
@@ -126,18 +138,19 @@ const DictionaryManager = ({ dictionary, selectedPortion, onChange }: Dictionary
                   className="rounded-lg border border-slate-300 px-2 py-1 text-sm"
                 />
                 <select
-                  value={product.porcion}
+                  value={product.grupo ?? (product.porcion === 'porcion_liquida' ? 'liquida' : 'solida')}
                   onChange={(event) =>
                     onChange(
                       updateProduct(dictionary, product.id, {
-                        porcion: event.target.value as PortionType,
+                        grupo: event.target.value as ProductGroup,
                       }),
                     )
                   }
                   className="rounded-lg border border-slate-300 px-2 py-1 text-sm"
                 >
-                  <option value="porcion_liquida">Porcion liquida</option>
-                  <option value="porcion_solida">Porcion solida</option>
+                  <option value="liquida">Liquida</option>
+                  <option value="solida">Solida</option>
+                  <option value="agregado_pan">Agregado pan</option>
                 </select>
                 <button
                   type="button"

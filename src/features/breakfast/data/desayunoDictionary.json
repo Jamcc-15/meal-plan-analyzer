@@ -5,49 +5,49 @@
       "producto_base": "Leche líquida",
       "variedad": "Blanca",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida"
+      "grupo": "liquida"
     },
     {
       "id": "leche_vainilla",
       "producto_base": "Leche líquida",
       "variedad": "Vainilla",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida"
+      "grupo": "liquida"
     },
     {
       "id": "leche_chocolate",
       "producto_base": "Leche líquida",
       "variedad": "Chocolate",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida"
+      "grupo": "liquida"
     },
     {
       "id": "leche_frutilla",
       "producto_base": "Leche líquida",
       "variedad": "Frutilla",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida"
+      "grupo": "liquida"
     },
     {
       "id": "formula_frutilla",
       "producto_base": "Fórmula láctea saborizada",
       "variedad": "Frutilla",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida"
+      "grupo": "liquida"
     },
     {
       "id": "formula_vainilla",
       "producto_base": "Fórmula láctea saborizada",
       "variedad": "Vainilla",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida"
+      "grupo": "liquida"
     },
     {
       "id": "yogurt_vainilla",
       "producto_base": "Yogurt batido",
       "variedad": "Vainilla",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida",
+      "grupo": "liquida",
       "sinonimos": [
         "yogurt vainilla",
         "yogur vainilla",
@@ -60,7 +60,7 @@
       "producto_base": "Yogurt batido",
       "variedad": "Frutilla",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida",
+      "grupo": "liquida",
       "sinonimos": [
         "yogurt frutilla",
         "yogur frutilla",
@@ -73,7 +73,7 @@
       "producto_base": "Yogurt batido",
       "variedad": "Damasco",
       "tiempo": "desayuno",
-      "porcion": "porcion_liquida",
+      "grupo": "liquida",
       "sinonimos": [
         "yogurt damasco",
         "yogur damasco",
@@ -87,99 +87,84 @@
       "producto_base": "Cereales",
       "variedad": "Avena",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
-    },
-    {
-      "id": "pan_blanco_base",
-      "producto_base": "Pan blanco",
-      "variedad": "Base",
-      "tiempo": "desayuno",
-      "porcion": "porcion_solida"
-    },
-    {
-      "id": "pan_integral_base",
-      "producto_base": "Pan integral",
-      "variedad": "Base",
-      "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "cereales_hojuela",
       "producto_base": "Cereales",
       "variedad": "Cereal hojuela",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
-
     {
       "id": "tomate_oregano",
       "producto_base": "Tomate",
       "variedad": "Tomate orégano",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "huevo_revuelto",
       "producto_base": "Huevo",
       "variedad": "Huevo revuelto",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "pasta_huevo",
       "producto_base": "Huevo",
       "variedad": "Pasta huevo",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "queso_laminado",
       "producto_base": "Queso",
       "variedad": "Queso laminado",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "pechuga_pavo_pollo",
       "producto_base": "Pechuga de pavo o pollo",
       "variedad": "Pechuga de pavo o pollo",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "palta",
       "producto_base": "Palta",
       "variedad": "Palta",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "miel",
       "producto_base": "Miel",
       "variedad": "Miel",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "mermelada_fruta",
       "producto_base": "Mermelada con fruta o Dulce de membrillo",
       "variedad": "Mermelada con fruta",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "dulce_membrillo",
       "producto_base": "Mermelada con fruta o Dulce de membrillo",
       "variedad": "Dulce de membrillo",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida"
+      "grupo": "solida"
     },
     {
       "id": "fruta_pera_entera",
       "producto_base": "Fruta",
       "variedad": "Pera entera",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida",
+      "grupo": "solida",
       "sinonimos": [
         "pera entera nat",
         "pera entera natural"
@@ -190,11 +175,26 @@
       "producto_base": "Fruta",
       "variedad": "Manzana entera",
       "tiempo": "desayuno",
-      "porcion": "porcion_solida",
+      "grupo": "solida",
       "sinonimos": [
         "manzana entera nat",
         "manzana entera natural"
       ]
+    },
+
+    {
+      "id": "pan_blanco_base",
+      "producto_base": "Pan blanco",
+      "variedad": "Base",
+      "tiempo": "desayuno",
+      "grupo": "agregado_pan"
+    },
+    {
+      "id": "pan_integral_base",
+      "producto_base": "Pan integral",
+      "variedad": "Base",
+      "tiempo": "desayuno",
+      "grupo": "agregado_pan"
     }
   ],
   "patterns": [

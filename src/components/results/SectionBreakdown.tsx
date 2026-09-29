@@ -172,7 +172,7 @@ export const SectionBreakdown = ({
                               <li
                                 key={`${productBase}-${variety}`}
                                 className="py-2 text-sm text-slate-700"
-                                title={rowRule ? `${rowRule.obtenido} / ${rowRule.esperado}` : 'Sin regla normativa'}
+                                title={rowRule ? `${rowRule.obtenido} / ${rowRule.esperado}` : 'Sin regla configurada'}
                               >
                                 <div className="grid grid-cols-[1fr_auto_auto] items-center gap-2">
                                   <span>{variety}</span>

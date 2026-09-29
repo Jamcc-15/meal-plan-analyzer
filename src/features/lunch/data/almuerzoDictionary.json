@@ -1,0 +1,530 @@
+{
+  "products": [
+    {
+      "id": "verduras_general_lechuga",
+      "producto_base": "Verduras en general",
+      "variedad": "Lechuga",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_betarraga",
+      "producto_base": "Verduras en general",
+      "variedad": "Betarraga",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_zanahoria",
+      "producto_base": "Verduras en general",
+      "variedad": "Zanahoria",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_pepino",
+      "producto_base": "Verduras en general",
+      "variedad": "Pepino",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_zapallo_italiano",
+      "producto_base": "Verduras en general",
+      "variedad": "Zapallo italiano",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_choclo_arvejas",
+      "producto_base": "Verduras en general",
+      "variedad": "Choclo con arvejas",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_coliflor",
+      "producto_base": "Verduras en general",
+      "variedad": "Coliflor",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_porotos_verdes",
+      "producto_base": "Verduras en general",
+      "variedad": "Porotos verdes",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_choclo",
+      "producto_base": "Verduras en general",
+      "variedad": "Choclo",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "tomate",
+      "producto_base": "Tomate",
+      "variedad": "Tomate",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_hoja_repollo",
+      "producto_base": "Verduras de hoja",
+      "variedad": "Repollo",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_hoja_apio",
+      "producto_base": "Verduras de hoja",
+      "variedad": "Apio",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "limon",
+      "producto_base": "Limón",
+      "variedad": "Limón",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+
+    {
+      "id": "carne_vacuno_trozo",
+      "producto_base": "Carne de vacuno",
+      "variedad": "Trozo o cubo congelado o conserva (pouch)",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "carne_vacuno_churrasco",
+      "producto_base": "Carne de vacuno",
+      "variedad": "Churrasco congelado",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "carne_ave_filetillo",
+      "producto_base": "Carne de ave",
+      "variedad": "Filetillo entero, congelado o conserva (pouch o enlatado)",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "carne_ave_trutro",
+      "producto_base": "Carne de ave",
+      "variedad": "Trutro pierna corto o largo",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "carne_cerdo_pulpa",
+      "producto_base": "Carne de cerdo",
+      "variedad": "Pulpa de cerdo cubo o trozo, congelada o refrigerada",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "carne_cerdo_lomo",
+      "producto_base": "Carne de cerdo",
+      "variedad": "Lomo de cerdo congelado o refrigerado",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "huevo",
+      "producto_base": "Huevo",
+      "variedad": "Huevo",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "pescado_filete",
+      "producto_base": "Pescados",
+      "variedad": "Filete congelado",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "pescado_trozo",
+      "producto_base": "Pescados",
+      "variedad": "Trozo, lomo o pulpa congelado o conserva (enlatado)",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "pescado_apanado",
+      "producto_base": "Pescados",
+      "variedad": "Preelaborado o listo para el consumo",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "pescado_lomito_atun",
+      "producto_base": "Pescados",
+      "variedad": "Lomito de atún congelado o conserva (pouch o enlatado)",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "mariscos_algas",
+      "producto_base": "Mariscos o algas",
+      "variedad": "Mariscos o algas",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "leguminosas_lentejas",
+      "producto_base": "Leguminosas",
+      "variedad": "Lentejas",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "leguminosas_porotos",
+      "producto_base": "Leguminosas",
+      "variedad": "Porotos",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "leguminosas_garbanzos",
+      "producto_base": "Leguminosas",
+      "variedad": "Garbanzos",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "leguminosas_arvejas",
+      "producto_base": "Leguminosas",
+      "variedad": "Arvejas",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+
+    {
+      "id": "arroz",
+      "producto_base": "Arroz blanco o integral",
+      "variedad": "Arroz blanco o integral",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "pasta_fideos",
+      "producto_base": "Pasta blanca o integral",
+      "variedad": "Fideos o tallarines",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "pasta_espirales",
+      "producto_base": "Pasta blanca o integral",
+      "variedad": "Espirales",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "pasta_mostaccioli",
+      "producto_base": "Pasta blanca o integral",
+      "variedad": "Mostaccioli",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "pasta_tricolor",
+      "producto_base": "Pasta tricolor",
+      "variedad": "Pasta tricolor",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "papas",
+      "producto_base": "Papas",
+      "variedad": "Papas",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "verduras",
+      "producto_base": "Verduras",
+      "variedad": "Verduras",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+    {
+      "id": "mantequilla",
+      "producto_base": "Mantequilla",
+      "variedad": "Mantequilla",
+      "tiempo": "almuerzo",
+      "grupo": "acompanamiento"
+    },
+
+    {
+      "id": "fruta_natural_manzana",
+      "producto_base": "Fruta natural",
+      "variedad": "Manzana",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_durazno",
+      "producto_base": "Fruta natural",
+      "variedad": "Durazno",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_melon",
+      "producto_base": "Fruta natural",
+      "variedad": "Melón",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_platano",
+      "producto_base": "Fruta natural",
+      "variedad": "Plátano",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_pera",
+      "producto_base": "Fruta natural",
+      "variedad": "Pera",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_ciruela",
+      "producto_base": "Fruta natural",
+      "variedad": "Ciruela",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_mandarina",
+      "producto_base": "Fruta natural",
+      "variedad": "Mandarina",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_naranja",
+      "producto_base": "Fruta natural",
+      "variedad": "Naranja",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_sandia",
+      "producto_base": "Fruta natural",
+      "variedad": "Sandía",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_natural_kiwi",
+      "producto_base": "Fruta natural",
+      "variedad": "Kiwi",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "pure_fruta",
+      "producto_base": "Puré de fruta",
+      "variedad": "Puré de fruta",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "postre_leche_flan",
+      "producto_base": "De leche",
+      "variedad": "Flan",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "postre_leche_semola",
+      "producto_base": "De leche",
+      "variedad": "Sémola con leche",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "postre_leche_asada",
+      "producto_base": "De leche",
+      "variedad": "Leche asada",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "yogurt",
+      "producto_base": "Yogurt",
+      "variedad": "Yogurt",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "fruta_conserva",
+      "producto_base": "Fruta en conserva",
+      "variedad": "Fruta en conserva",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+    {
+      "id": "gelatina_lacteos",
+      "producto_base": "Gelatina o jalea con lácteos",
+      "variedad": "Gelatina o jalea con lácteos",
+      "tiempo": "almuerzo",
+      "grupo": "postre"
+    },
+
+    {
+      "id": "agua",
+      "producto_base": "Agua",
+      "variedad": "Porción de agua",
+      "tiempo": "almuerzo",
+      "grupo": "bebida"
+    }
+  ],
+
+  "patterns": [
+    { "producto_id": "verduras_general_lechuga", "patron": "lechuga" },
+    { "producto_id": "verduras_general_betarraga", "patron": "betarraga" },
+    { "producto_id": "verduras_general_zanahoria", "patron": "zanahoria" },
+    { "producto_id": "verduras_general_pepino", "patron": "pepino" },
+    { "producto_id": "verduras_general_zapallo_italiano", "patron": "ensalada zapallo italiano" },
+    { "producto_id": "verduras_general_choclo_arvejas", "patron": "ensalada choclo arvejas" },
+    { "producto_id": "verduras_general_zapallo_italiano", "patron": "zapallo italiano" },
+    { "producto_id": "verduras_general_choclo_arvejas", "patron": "choclo arvejas" },
+    { "producto_id": "verduras_general_coliflor", "patron": "coliflor zanahoria" },
+    { "producto_id": "verduras_general_coliflor", "patron": "coliflor choclo" },
+    { "producto_id": "verduras_general_porotos_verdes", "patron": "porotos verdes tomate" },
+    { "producto_id": "verduras_general_choclo", "patron": "choclo repollo" },
+
+    { "producto_id": "tomate", "patron": "tomate" },
+    { "producto_id": "tomate", "patron": "tomate cebolla" },
+    { "producto_id": "tomate", "patron": "tomate pepino" },
+    { "producto_id": "tomate", "patron": "tomate choclo" },
+    { "producto_id": "tomate", "patron": "tomate repollo" },
+
+    { "producto_id": "verduras_hoja_repollo", "patron": "repollo" },
+    { "producto_id": "verduras_hoja_repollo", "patron": "repollo zanahoria" },
+    { "producto_id": "verduras_hoja_repollo", "patron": "repollo choclo" },
+    { "producto_id": "verduras_hoja_apio", "patron": "apio" },
+    { "producto_id": "verduras_hoja_apio", "patron": "apio choclo" },
+
+    { "producto_id": "limon", "patron": "limon" },
+    { "producto_id": "limon", "patron": "1 4 limon" },
+
+    { "producto_id": "carne_vacuno_trozo", "patron": "charquican con carne" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "carbonada de vacuno" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "estofado de vacuno" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "carne al jugo" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "tomatican" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "carbonada" },
+
+    { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco vacuno" },
+    { "producto_id": "carne_vacuno_churrasco", "patron": "charrasco vacuno" },
+
+    { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo" },
+    { "producto_id": "carne_ave_filetillo", "patron": "estofado de ave" },
+    { "producto_id": "carne_ave_trutro", "patron": "trutro de pollo" },
+
+    { "producto_id": "carne_cerdo_pulpa", "patron": "cerdo al jugo" },
+    { "producto_id": "carne_cerdo_pulpa", "patron": "cerdo al curry" },
+    { "producto_id": "carne_cerdo_pulpa", "patron": "estofado de cerdo" },
+    { "producto_id": "carne_cerdo_lomo", "patron": "lomito de cerdo" },
+    { "producto_id": "carne_cerdo_lomo", "patron": "lomito cerdo" },
+    { "producto_id": "carne_cerdo_lomo", "patron": "churrasco cerdo" },
+    { "producto_id": "carne_cerdo_lomo", "patron": "churrasco de cerdo" },
+    { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco de vacuno" },
+
+    { "producto_id": "huevo", "patron": "huevo" },
+
+    { "producto_id": "pescado_filete", "patron": "filete de pescado" },
+    { "producto_id": "pescado_filete", "patron": "budin de pescado" },
+    { "producto_id": "pescado_filete", "patron": "salmon al horno" },
+    { "producto_id": "pescado_trozo", "patron": "croquetas de pescado" },
+    { "producto_id": "pescado_trozo", "patron": "budin de jurel" },
+    { "producto_id": "pescado_apanado", "patron": "nuggets de pescado" },
+    { "producto_id": "pescado_apanado", "patron": "nugget de pescado" },
+    { "producto_id": "pescado_lomito_atun", "patron": "atun" },
+    { "producto_id": "pescado_lomito_atun", "patron": "pino de atun frio" },
+    { "producto_id": "pescado_lomito_atun", "patron": "atun en sala blanca" },
+    { "producto_id": "pescado_lomito_atun", "patron": "salsa en atun" },
+
+    { "producto_id": "mariscos_algas", "patron": "choritos" },
+    { "producto_id": "mariscos_algas", "patron": "mejillones con fideos blancos o tricolor" },
+    { "producto_id": "mariscos_algas", "patron": "arroz con choritos" },
+    { "producto_id": "mariscos_algas", "patron": "bolonesa mar y tierra" },
+    { "producto_id": "mariscos_algas", "patron": "charquican mar y tierra" },
+
+    { "producto_id": "leguminosas_lentejas", "patron": "lentejas" },
+    { "producto_id": "leguminosas_porotos", "patron": "porotos" },
+    { "producto_id": "leguminosas_garbanzos", "patron": "garbanzos" },
+    { "producto_id": "leguminosas_garbanzos", "patron": "garbanzos guisados" },
+    { "producto_id": "leguminosas_garbanzos", "patron": "garbanzos guisadas" },
+    { "producto_id": "leguminosas_arvejas", "patron": "arvejas guisadas" },
+
+    { "producto_id": "arroz", "patron": "arroz" },
+    { "producto_id": "pasta_fideos", "patron": "fideos" },
+    { "producto_id": "pasta_fideos", "patron": "ensalada de fideos" },
+    { "producto_id": "pasta_fideos", "patron": "fideos con zanahoria" },
+    { "producto_id": "pasta_fideos", "patron": "fideos al oregano" },
+    { "producto_id": "pasta_fideos", "patron": "fideos con salsa" },
+    { "producto_id": "pasta_espirales", "patron": "espirales" },
+    { "producto_id": "pasta_espirales", "patron": "espirales con salsa" },
+    { "producto_id": "pasta_espirales", "patron": "espirales al oregano" },
+    { "producto_id": "pasta_mostaccioli", "patron": "mostaccioli" },
+    { "producto_id": "pasta_mostaccioli", "patron": "mostacciolis" },
+    { "producto_id": "pasta_mostaccioli", "patron": "mostacciolis al oregano" },
+    { "producto_id": "pasta_mostaccioli", "patron": "mostaccioli al oregano" },
+    { "producto_id": "pasta_mostaccioli", "patron": "motachiolis al oregano" },
+    { "producto_id": "pasta_tricolor", "patron": "fideos espirales tricolor" },
+    { "producto_id": "pasta_tricolor", "patron": "fideos corbatas tricolor" },
+    { "producto_id": "pasta_tricolor", "patron": "ensalada de fideos tricolor jardinera" },
+    { "producto_id": "pasta_tricolor", "patron": "espirales tricolor con salsa" },
+    { "producto_id": "papas", "patron": "papas" },
+    { "producto_id": "papas", "patron": "ensalada rusa" },
+    { "producto_id": "papas", "patron": "pure mitad" },
+    { "producto_id": "papas", "patron": "pure mixto" },
+    { "producto_id": "papas", "patron": "salpicon" },
+    { "producto_id": "papas", "patron": "estofado de ave" },
+    { "producto_id": "papas", "patron": "estofado de vacuno" },
+    { "producto_id": "verduras", "patron": "budin de zapallito" },
+    { "producto_id": "verduras", "patron": "budin de acelga" },
+    { "producto_id": "verduras", "patron": "verduras asadas primavera verano" },
+    { "producto_id": "verduras", "patron": "verduras asadas otono invierno" },
+    { "producto_id": "verduras", "patron": "charquican de verduras" },
+    { "producto_id": "verduras", "patron": "carbonada de vacuno" },
+
+    { "producto_id": "fruta_natural_manzana", "patron": "manzana" },
+    { "producto_id": "fruta_natural_durazno", "patron": "durazno entero nat" },
+    { "producto_id": "fruta_natural_durazno", "patron": "durazno entero natural" },
+    { "producto_id": "fruta_natural_melon", "patron": "melon trozado con miel" },
+    { "producto_id": "fruta_natural_platano", "patron": "platano" },
+    { "producto_id": "fruta_natural_pera", "patron": "pera" },
+    { "producto_id": "fruta_natural_ciruela", "patron": "ciruela" },
+    { "producto_id": "fruta_natural_mandarina", "patron": "mandarina" },
+    { "producto_id": "fruta_natural_naranja", "patron": "naranja" },
+    { "producto_id": "fruta_natural_sandia", "patron": "sandia" },
+    { "producto_id": "fruta_natural_kiwi", "patron": "kiwi" },
+    { "producto_id": "pure_fruta", "patron": "pure de fruta" },
+    { "producto_id": "pure_fruta", "patron": "fruta natural entera" },
+    { "producto_id": "postre_leche_flan", "patron": "flan" },
+    { "producto_id": "postre_leche_semola", "patron": "semola con leche" },
+    { "producto_id": "postre_leche_semola", "patron": "semola con leche y miel" },
+    { "producto_id": "postre_leche_asada", "patron": "leche asada" },
+
+    { "producto_id": "yogurt", "patron": "yogurt" },
+    { "producto_id": "fruta_conserva", "patron": "fruta en conserva" },
+    { "producto_id": "gelatina_lacteos", "patron": "gelatina" },
+    { "producto_id": "gelatina_lacteos", "patron": "jalea con yogurt" },
+
+    { "producto_id": "agua", "patron": "agua" }
+  ]
+}

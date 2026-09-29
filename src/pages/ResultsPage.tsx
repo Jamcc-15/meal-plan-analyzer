@@ -1,7 +1,8 @@
 import LunchCoveragePanel from '../components/lunch/LunchCoveragePanel.tsx'
 import ResultsView from '../components/ResultsView.tsx'
 import EmptyStateCard from '../components/ui/EmptyStateCard.tsx'
-import type { LunchCoverageItem, MealScope } from '../types/app.types.ts'
+import type { MealScope } from '../types/app.types.ts'
+import type { LunchCoverageItem } from '../features/lunch/types/analysis.types.ts'
 import type { BreakfastValidation, Nivel, ProductDrilldownMap } from '../features/breakfast/index.ts'
 import type { ExcelData } from '../types/excel.types.ts'
 import type { LiquidSummary } from '../types/liquid-analysis.types.ts'
@@ -76,8 +77,8 @@ const ResultsPage = ({
   return (
     <main className="mx-auto w-full max-w-4xl">
       <LunchCoveragePanel
-        title="Resultados de Almuerzo en construcción"
-        description="Ya detectamos columnas del bloque almuerzo. El siguiente paso es implementar reglas de clasificación para Entrada, Principal, Acompañamiento, Postre y Agua."
+        title="Resultados de Análisis de Almuerzo"
+        description="Cobertura detectada para Entrada, Principal, Acompañamiento, Postre y Bebida."
         items={lunchCoverage}
       />
     </main>

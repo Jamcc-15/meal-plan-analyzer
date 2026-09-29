@@ -1,0 +1,51 @@
+{
+  "grupo": "acompanamiento",
+  "transicion": [
+    { "id": "acompanamiento_arroz_transicion", "tipo": "frecuencia", "producto_base": "Arroz blanco o integral", "limite": "min", "veces": 4 },
+    {
+      "id": "acompanamiento_pasta_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Pasta blanca o integral",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Pasta blanca o integral", "limite": "max", "veces": 2 },
+        { "tipo": "variedad", "producto_base": "Pasta blanca o integral", "minima": 2 }
+      ]
+    },
+    { "id": "acompanamiento_pasta_tricolor_transicion", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 }
+  ],
+  "basica": [
+    { "id": "acompanamiento_arroz_basica", "tipo": "frecuencia", "producto_base": "Arroz blanco o integral", "limite": "min", "veces": 4 },
+    {
+      "id": "acompanamiento_pasta_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Pasta blanca o integral",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Pasta blanca o integral", "limite": "max", "veces": 2 },
+        { "tipo": "variedad", "producto_base": "Pasta blanca o integral", "minima": 2 }
+      ]
+    },
+    { "id": "acompanamiento_pasta_tricolor_basica", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 }
+  ],
+  "media": [
+    { "id": "acompanamiento_arroz_media", "tipo": "frecuencia", "producto_base": "Arroz blanco o integral", "limite": "min", "veces": 4 },
+    {
+      "id": "acompanamiento_pasta_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Pasta blanca o integral",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Pasta blanca o integral", "limite": "max", "veces": 2 },
+        { "tipo": "variedad", "producto_base": "Pasta blanca o integral", "minima": 2 }
+      ]
+    },
+    { "id": "acompanamiento_pasta_tricolor_media", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 }
+  ],
+  "pendientes": [
+    "Arroz: variedad mínima 2 por formato de preparación y entrega; faltan patrones que distingan graneado, primavera, árabe, al perejil u otros.",
+    "Papas: mínimo 2 asadas o salteadas y máximo 1 como puré, puré mixto, pastel o estofado; faltan patrones por formato de preparación.",
+    "Verduras: máximos por formato de preparación (2 en guisos, 1 en tortillas o similares y 1 asadas); faltan patrones por formato.",
+    "Mantequilla y condimentos: requisitos cualitativos sin frecuencia mensual numérica."
+  ]
+}

@@ -171,6 +171,20 @@ body {
 	box-shadow: 0 14px 24px -22px rgba(15, 23, 42, 0.55);
 }
 
+/* Disable hover/animation effects inside containers marked with .no-hover */
+.no-hover .motion-lift:hover,
+.no-hover .motion-icon:hover svg,
+.no-hover .portion-option:hover {
+	animation: none !important;
+	box-shadow: none !important;
+	transform: none !important;
+}
+
+.no-hover .motion-lift,
+.no-hover .portion-option {
+	cursor: default !important;
+}
+
 .portion-option--active {
 	box-shadow: 0 16px 24px -24px rgba(234, 88, 12, 0.68);
 }

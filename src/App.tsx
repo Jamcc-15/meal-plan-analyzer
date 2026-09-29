@@ -7,7 +7,8 @@ import LunchExplorationPage from './pages/lunch/LunchExplorationPage.tsx'
 import LunchResultsPage from './pages/lunch/LunchResultsPage.tsx'
 import useAppPreferences from './hooks/useAppPreferences.ts'
 import useAnalysisState from './hooks/useAnalysisState.ts'
-import useDictionary from './hooks/useDictionary.ts'
+import usePersistentDictionary from './hooks/usePersistentDictionary.ts'
+import QuickAdd from './components/QuickAdd.tsx'
 import useReportExport from './hooks/useReportExport.ts'
 import useExcelParser from './hooks/useExcelParser.ts'
 import { SYSTEM_THEME } from './themes/systemTheme.ts'
@@ -29,7 +30,8 @@ function App() {
   const [selectedText, setSelectedText] = useState<string | null>(null)
   const [hoveredText, setHoveredText] = useState<string | null>(null)
   const [activeView, setActiveView] = useState<'exploracion' | 'resultados'>('exploracion')
-  const dictionary = useDictionary()
+  const { dictionary, setDictionary } = usePersistentDictionary()
+  const [showQuickAdd, setShowQuickAdd] = useState(false)
   const {
     summary,
     liquidSummary,
@@ -41,6 +43,11 @@ function App() {
     productBaseByText,
     selectedProductBase,
     lunchCoverage,
+    lunchAnalysis,
+    lunchValidation,
+    lunchProductBaseByText,
+    lunchSelectedStats,
+    lunchHoveredStats,
     rowCount,
     analyzedCount,
     recognizedCount,
@@ -60,13 +67,21 @@ function App() {
     selectedText,
     hoveredText,
   })
-  const { exportResultsPdf, previewResultsPdf } = useReportExport({
+  const {
+    exportResultsPdf,
+    previewResultsPdf,
+    exportLunchResultsPdf,
+    previewLunchResultsPdf,
+  } = useReportExport({
     liquidSummary,
     solidSummary,
     breakfastRawLiquid,
     breakfastRawSolid,
     breakfastValidation,
     selectedNivel,
+    lunchSummary: lunchAnalysis.summary,
+    lunchUnrecognized: lunchAnalysis.unrecognized,
+    lunchValidation,
   })
   const currentStep = !data ? 1 : activeView === 'exploracion' ? 2 : 3
 
@@ -128,6 +143,15 @@ function App() {
         />
 
         <div key={activeView} className="view-switch">
+          <div className="mx-auto my-4 max-w-6xl text-right">
+            <button
+              type="button"
+              onClick={() => setShowQuickAdd(true)}
+              className="rounded-lg border px-3 py-2 text-xs font-semibold"
+            >
+              Agregar rápido
+            </button>
+          </div>
           {activeView === 'exploracion' && selectedMeal === 'desayuno' ? (
             <BreakfastExplorationPage
               data={data}
@@ -159,7 +183,25 @@ function App() {
           ) : null}
 
           {activeView === 'exploracion' && selectedMeal === 'almuerzo' ? (
-            <LunchExplorationPage data={data} lunchCoverage={lunchCoverage} />
+            <LunchExplorationPage
+              data={data}
+              lunchCoverage={lunchCoverage}
+              lunchSummary={lunchAnalysis.summary}
+              lunchUnrecognized={lunchAnalysis.unrecognized}
+              tableFilter={tableFilter}
+              setTableFilter={setTableFilter}
+              rowCount={rowCount}
+              filteredRowCount={filteredRowCount}
+              selectedText={selectedText}
+              setSelectedText={setSelectedText}
+              hoveredText={hoveredText}
+              setHoveredText={setHoveredText}
+              tableDensity={tableDensity}
+              productBaseByText={lunchProductBaseByText}
+              selectedCount={lunchSelectedStats.count}
+              hoveredCount={lunchHoveredStats.count}
+              onViewResults={() => setActiveView('resultados')}
+            />
           ) : null}
 
           {activeView === 'resultados' && selectedMeal === 'desayuno' ? (
@@ -182,9 +224,25 @@ function App() {
           ) : null}
 
           {activeView === 'resultados' && selectedMeal === 'almuerzo' ? (
-            <LunchResultsPage data={data} lunchCoverage={lunchCoverage} />
+            <LunchResultsPage
+              data={data}
+              lunchSummary={lunchAnalysis.summary}
+              lunchUnrecognized={lunchAnalysis.unrecognized}
+              lunchValidation={lunchValidation}
+              onExportPdf={exportLunchResultsPdf}
+              onPreviewPdf={previewLunchResultsPdf}
+            />
           ) : null}
         </div>
+        {/* DictionaryEditor removed — quick add used for simple additions */}
+        {showQuickAdd ? (
+          <QuickAdd
+            selectedPortion={selectedPortion}
+            onClose={() => setShowQuickAdd(false)}
+            onAdd={(updater) => setDictionary(updater(dictionary))}
+            dictionary={dictionary}
+          />
+        ) : null}
       </div>
     </div>
   )

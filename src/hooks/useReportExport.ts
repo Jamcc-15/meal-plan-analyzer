@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import type { BreakfastValidation, Nivel } from '../types/breakfast-rules.types.ts'
 import type { LiquidSummary } from '../types/liquid-analysis.types.ts'
+import type { LunchGroupSummary, LunchUnrecognizedItem } from '../features/lunch/types/analysis.types.ts'
+import type { LunchValidation } from '../features/lunch/types/rules.types.ts'
 
 type UseReportExportInput = {
   liquidSummary: LiquidSummary
@@ -9,6 +11,9 @@ type UseReportExportInput = {
   breakfastRawSolid: Record<string, number>
   breakfastValidation: BreakfastValidation
   selectedNivel: Nivel
+  lunchSummary: LunchGroupSummary[]
+  lunchUnrecognized: LunchUnrecognizedItem[]
+  lunchValidation: LunchValidation
 }
 
 export const useReportExport = ({
@@ -18,6 +23,9 @@ export const useReportExport = ({
   breakfastRawSolid,
   breakfastValidation,
   selectedNivel,
+  lunchSummary,
+  lunchUnrecognized,
+  lunchValidation,
 }: UseReportExportInput) => {
   const exportResultsCsv = useCallback(async () => {
     const { exportResultsCsv } = await import('../utils/reportExport.ts')
@@ -49,7 +57,23 @@ export const useReportExport = ({
     })
   }, [liquidSummary, solidSummary, breakfastValidation, selectedNivel])
 
-  return { exportResultsCsv, exportResultsPdf, previewResultsPdf }
+  const exportLunchResultsPdf = useCallback(async () => {
+    const { exportLunchPdf } = await import('../utils/lunchReportExport.ts')
+    await exportLunchPdf({ lunchSummary, lunchUnrecognized, lunchValidation })
+  }, [lunchSummary, lunchUnrecognized, lunchValidation])
+
+  const previewLunchResultsPdf = useCallback(async () => {
+    const { previewLunchPdf } = await import('../utils/lunchReportExport.ts')
+    await previewLunchPdf({ lunchSummary, lunchUnrecognized, lunchValidation })
+  }, [lunchSummary, lunchUnrecognized, lunchValidation])
+
+  return {
+    exportResultsCsv,
+    exportResultsPdf,
+    previewResultsPdf,
+    exportLunchResultsPdf,
+    previewLunchResultsPdf,
+  }
 }
 
 export default useReportExport

@@ -64,7 +64,7 @@ const SidePanel = ({
   }
 
   return (
-    <aside className={`p-4 sm:p-5 lg:sticky lg:top-6 ${APP_THEME.surface.aside}`}>
+    <aside className={`p-4 sm:p-5 lg:sticky lg:top-6 ${APP_THEME.surface.aside} no-hover`}>
       <div className="flex items-center justify-between">
         <h2 className={`text-lg font-semibold ${APP_THEME.text.title}`}>Resumen</h2>
         <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
@@ -151,7 +151,7 @@ const SidePanel = ({
 
         {showHoverCard ? (
           <div className={APP_THEME.block.info}>
-            <p className={`text-xs uppercase tracking-wide ${APP_THEME.text.muted}`}>Hover</p>
+            {/* Title intentionally omitted to avoid showing the word 'Hover' */}
             <p className={`mt-2 text-sm font-semibold ${APP_THEME.text.title}`}>{hoveredText}</p>
             <p className="mt-2 text-xs text-slate-600">Frecuencia: {hoveredCount}</p>
             <p className="mt-1 text-xs text-slate-600">

@@ -20,7 +20,7 @@ export const PendingSection = ({
           ⚪
         </span>
       </div>
-      <p className="mt-1 text-xs text-slate-500">Sin regla normativa confirmada</p>
+      <p className="mt-1 text-xs text-slate-500">Sin regla confirmada</p>
       <ul className="mt-3 divide-y divide-slate-200 border-t border-slate-200">
         {products.map((product) => (
           <li

@@ -10,8 +10,8 @@ import type {
 import type { ExcelData } from '../types/excel.types.ts'
 import type { LiquidDictionary, PortionType } from '../types/liquid-analysis.types.ts'
 import breakfastRulesData from '../features/breakfast/data/desayuno.rules.json'
-import { validateRules } from '../features/breakfast/rules/validation.ts'
-import { buildLunchCoverage } from '../utils/lunchAnalysis.ts'
+import { validateRules } from '../features/breakfast/index.ts'
+import { analyzeLunch, buildLunchCoverage, validateLunch } from '../features/lunch/index.ts'
 import {
   countBreakfastLiquidsRaw,
   countLiquidSummary,
@@ -255,6 +255,40 @@ export const useAnalysisState = ({
   }, [selectedMeal, selectedText, productBaseByText])
 
   const lunchCoverage = useMemo(() => buildLunchCoverage(data), [data])
+  const lunchAnalysis = useMemo(() => analyzeLunch(data, lunchCoverage), [data, lunchCoverage])
+  const lunchValidation = useMemo(
+    () => validateLunch(selectedNivel, lunchAnalysis.summary),
+    [lunchAnalysis.summary, selectedNivel],
+  )
+  const lunchProductBaseByText = useMemo(() => {
+    const map: Record<string, string> = {}
+    lunchAnalysis.rows.forEach((row) => {
+      if (!row.productBase) return
+      if (!map[row.normalizedText]) {
+        map[row.normalizedText] = row.productBase
+      }
+    })
+    return map
+  }, [lunchAnalysis.rows])
+
+  const getLunchTextStats = (value: string | null) => {
+    if (!value) {
+      return { count: 0 }
+    }
+
+    const target = normalizeText(value)
+    const count = lunchAnalysis.rows.filter((row) => row.normalizedText === target).length
+    return { count }
+  }
+
+  const lunchSelectedStats = useMemo(
+    () => getLunchTextStats(selectedText),
+    [selectedText, lunchAnalysis.rows],
+  )
+  const lunchHoveredStats = useMemo(
+    () => getLunchTextStats(hoveredText),
+    [hoveredText, lunchAnalysis.rows],
+  )
 
   const rowCount = data?.rows.length ?? 0
   const analyzedCount = analyzedRows.length
@@ -284,6 +318,11 @@ export const useAnalysisState = ({
     productBaseByText,
     selectedProductBase,
     lunchCoverage,
+    lunchAnalysis,
+    lunchValidation,
+    lunchProductBaseByText,
+    lunchSelectedStats,
+    lunchHoveredStats,
     rowCount,
     analyzedCount,
     recognizedCount,

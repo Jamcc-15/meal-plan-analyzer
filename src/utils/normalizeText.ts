@@ -1,8 +1,15 @@
 export const normalizeText = (value: string) =>
   value
     .toString()
-    .trim()
+    .replace(/\(\s*[A-ZÁÉÍÓÚÑ]{1,10}\s*\)/g, ' ')
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\bens\./g, 'ensalada')
+    .replace(/\bc\//g, ' con ')
+    .replace(/\bmotachiolis\b/g, 'mostacciolis')
+    .replace(/\bmostachiolis\b/g, 'mostacciolis')
+    .replace(/\bcon\s*$/g, ' ')
+    .replace(/[^\w\s]/g, ' ')
     .replace(/\s+/g, ' ')
+    .trim()

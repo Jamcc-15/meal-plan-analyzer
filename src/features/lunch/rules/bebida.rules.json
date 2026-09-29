@@ -1,0 +1,9 @@
+{
+  "grupo": "bebida",
+  "transicion": [],
+  "basica": [],
+  "media": [],
+  "pendientes": [
+    "Porción de agua: frecuencia diaria para Transición, Básica y Media; el motor actual evalúa frecuencias mensuales numéricas."
+  ]
+}

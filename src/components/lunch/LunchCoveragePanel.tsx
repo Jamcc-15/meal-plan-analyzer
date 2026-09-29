@@ -1,4 +1,4 @@
-import type { LunchCoverageItem } from '../../types/app.types.ts'
+import type { LunchCoverageItem } from '../../features/lunch/types/analysis.types.ts'
 
 type LunchCoveragePanelProps = {
   title: string
@@ -49,7 +49,7 @@ const LunchCoveragePanel = ({
           disabled
           className="mt-4 w-full rounded-xl bg-slate-400 px-3 py-3 text-sm font-semibold text-white"
         >
-          Analisis de almuerzo (proximamente)
+          Análisis de almuerzo disponible
         </button>
       ) : null}
     </section>

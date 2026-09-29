@@ -1,0 +1,83 @@
+{
+  "grupo": "postre",
+  "transicion": [
+    {
+      "id": "postre_fruta_natural_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Fruta natural",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Fruta natural", "limite": "min", "veces": 10 },
+        { "tipo": "variedad", "producto_base": "Fruta natural", "minima": 3 }
+      ]
+    },
+    { "id": "postre_pure_fruta_transicion", "tipo": "frecuencia", "producto_base": "Puré de fruta", "limite": "min", "veces": 7 },
+    {
+      "id": "postre_de_leche_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "De leche",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "De leche", "limite": "max", "veces": 2 },
+        { "tipo": "variedad", "producto_base": "De leche", "minima": 2 }
+      ]
+    },
+    { "id": "postre_yogurt_transicion", "tipo": "frecuencia", "producto_base": "Yogurt", "limite": "min", "veces": 1 }
+  ],
+  "basica": [
+    {
+      "id": "postre_fruta_natural_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Fruta natural",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Fruta natural", "limite": "min", "veces": 10 },
+        { "tipo": "variedad", "producto_base": "Fruta natural", "minima": 3 }
+      ]
+    },
+    { "id": "postre_pure_fruta_basica", "tipo": "frecuencia", "producto_base": "Puré de fruta", "limite": "min", "veces": 3 },
+    {
+      "id": "postre_de_leche_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "De leche",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "De leche", "limite": "max", "veces": 2 },
+        { "tipo": "variedad", "producto_base": "De leche", "minima": 2 }
+      ]
+    },
+    { "id": "postre_yogurt_basica", "tipo": "frecuencia", "producto_base": "Yogurt", "limite": "min", "veces": 1 },
+    { "id": "postre_fruta_conserva_basica", "tipo": "frecuencia", "producto_base": "Fruta en conserva", "limite": "max", "veces": 3 },
+    { "id": "postre_gelatina_lacteos_basica", "tipo": "frecuencia", "producto_base": "Gelatina o jalea con lácteos", "limite": "max", "veces": 1 }
+  ],
+  "media": [
+    {
+      "id": "postre_fruta_natural_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Fruta natural",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Fruta natural", "limite": "min", "veces": 10 },
+        { "tipo": "variedad", "producto_base": "Fruta natural", "minima": 3 }
+      ]
+    },
+    { "id": "postre_pure_fruta_media", "tipo": "frecuencia", "producto_base": "Puré de fruta", "limite": "min", "veces": 3 },
+    {
+      "id": "postre_de_leche_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "De leche",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "De leche", "limite": "max", "veces": 2 },
+        { "tipo": "variedad", "producto_base": "De leche", "minima": 2 }
+      ]
+    },
+    { "id": "postre_yogurt_media", "tipo": "frecuencia", "producto_base": "Yogurt", "limite": "min", "veces": 1 },
+    { "id": "postre_fruta_conserva_media", "tipo": "frecuencia", "producto_base": "Fruta en conserva", "limite": "max", "veces": 3 },
+    { "id": "postre_gelatina_lacteos_media", "tipo": "frecuencia", "producto_base": "Gelatina o jalea con lácteos", "limite": "max", "veces": 1 }
+  ],
+  "pendientes": [
+    "Puré de fruta: variedad mínima 2 por sabor o fruta en mayor proporción; el patrón actual no distingue sabores.",
+    "Salsa para postre: requisito de miel sin frecuencia mensual numérica."
+  ]
+}

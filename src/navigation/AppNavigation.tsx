@@ -85,7 +85,7 @@ const AppNavigation = ({
           onClick={() => onChangeMeal('almuerzo')}
         >
           <LunchIcon className="mr-2 inline h-4 w-4" />
-          Bloque Almuerzo (en construcción)
+          Bloque Almuerzo
         </button>
       </div>
 
@@ -136,11 +136,11 @@ const AppNavigation = ({
             <div className="fade-up flex items-start justify-between gap-3 p-3 sm:p-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">
-                  Bloque almuerzo seleccionado
+                  Bloque almuerzo activo
                 </p>
                 <p className="mt-1 text-sm text-slate-600">
-                  Este bloque está en construcción. Pronto podrás analizar entrada, principal,
-                  acompañamiento, postre y agua desde aquí.
+                  Ya puedes analizar entrada, principal, acompañamiento, postre y bebida desde
+                  este bloque.
                 </p>
               </div>
               <LunchIcon className="mt-0.5 h-5 w-5 text-sky-600" />

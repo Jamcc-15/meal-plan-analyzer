@@ -1,0 +1,79 @@
+{
+  "grupo": "entrada",
+  "transicion": [
+    {
+      "id": "entrada_verduras_general_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Verduras en general",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Verduras en general", "limite": "max", "veces": 13 },
+        { "tipo": "variedad", "producto_base": "Verduras en general", "minima": 4 }
+      ]
+    },
+    { "id": "entrada_tomate_transicion", "tipo": "frecuencia", "producto_base": "Tomate", "limite": "min", "veces": 4 },
+    {
+      "id": "entrada_verduras_hoja_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Verduras de hoja",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Verduras de hoja", "limite": "min", "veces": 3 },
+        { "tipo": "variedad", "producto_base": "Verduras de hoja", "minima": 2 }
+      ]
+    }
+  ],
+  "basica": [
+    {
+      "id": "entrada_verduras_general_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Verduras en general",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Verduras en general", "limite": "max", "veces": 13 },
+        { "tipo": "variedad", "producto_base": "Verduras en general", "minima": 4 }
+      ]
+    },
+    { "id": "entrada_tomate_basica", "tipo": "frecuencia", "producto_base": "Tomate", "limite": "min", "veces": 4 },
+    {
+      "id": "entrada_verduras_hoja_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Verduras de hoja",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Verduras de hoja", "limite": "min", "veces": 3 },
+        { "tipo": "variedad", "producto_base": "Verduras de hoja", "minima": 2 }
+      ]
+    },
+    { "id": "entrada_limon_basica", "tipo": "frecuencia", "producto_base": "Limón", "limite": "min", "veces": 3 }
+  ],
+  "media": [
+    {
+      "id": "entrada_verduras_general_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Verduras en general",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Verduras en general", "limite": "max", "veces": 13 },
+        { "tipo": "variedad", "producto_base": "Verduras en general", "minima": 4 }
+      ]
+    },
+    { "id": "entrada_tomate_media", "tipo": "frecuencia", "producto_base": "Tomate", "limite": "min", "veces": 4 },
+    {
+      "id": "entrada_verduras_hoja_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Verduras de hoja",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Verduras de hoja", "limite": "min", "veces": 3 },
+        { "tipo": "variedad", "producto_base": "Verduras de hoja", "minima": 2 }
+      ]
+    },
+    { "id": "entrada_limon_media", "tipo": "frecuencia", "producto_base": "Limón", "limite": "min", "veces": 3 }
+  ],
+  "pendientes": [
+    "Jugo de limón: requisito cualitativo aplicable a ensaladas sin limón en trozo, excepto tomate.",
+    "Aceite: requisito cualitativo aplicable a todas las ensaladas.",
+    "Sal: requisito cualitativo aplicable a todas las ensaladas."
+  ]
+}

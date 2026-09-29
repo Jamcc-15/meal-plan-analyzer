@@ -1,5 +1,12 @@
 import type { LiquidSummary } from '../types/liquid-analysis.types.ts'
 import type { BreakfastValidation, Nivel, ValidationResult } from '../types/breakfast-rules.types.ts'
+import {
+  addReportContinuationPage,
+  drawReportFooters,
+  drawReportHeader,
+  getReportTableOptions,
+  REPORT_COLORS,
+} from './pdfReportTheme.ts'
 
 type ReportExportInput = {
   liquidSummary: LiquidSummary
@@ -21,23 +28,11 @@ type CsvInput = Pick<
 >
 
 const PDF_COLORS = {
-  slate900: [15, 23, 42] as const,
-  slate700: [51, 65, 85] as const,
-  slate500: [100, 116, 139] as const,
-  slate300: [203, 213, 225] as const,
-  slate200: [226, 232, 240] as const,
-  slate100: [241, 245, 249] as const,
-  slate50: [249, 250, 251] as const,
-  white: [255, 255, 255] as const,
-  liquid: [71, 85, 105] as const,
-  solid: [100, 116, 139] as const,
-  successDark: [22, 101, 52] as const,
-  success: [74, 181, 90] as const,
-  successSoft: [209, 250, 229] as const,
-  dangerDark: [153, 27, 27] as const,
-  danger: [220, 38, 38] as const,
-  dangerSoft: [254, 226, 226] as const,
-  gray300: [209, 213, 219] as const,
+  ...REPORT_COLORS,
+  slate900: REPORT_COLORS.navy,
+  liquid: REPORT_COLORS.slate700,
+  solid: REPORT_COLORS.slate500,
+  gray300: REPORT_COLORS.slate300,
 }
 
 const PDF_CONTENT_BOTTOM = 282
@@ -124,11 +119,11 @@ const formatFailureLine = (item: ValidationResult): string => {
     const expected = typeof item.meta.veces === 'number' ? item.meta.veces : item.esperado
     const obtained = typeof item.obtenido === 'number' ? item.obtenido : item.esperado
     const comp = isMax ? `máx ${expected}` : `mín ${expected}`
-    return `${item.producto_base} — ${obtained} (${comp})`
+    return `${item.producto_base} - ${obtained} (${comp})`
   }
   const minima = typeof item.meta.minima === 'number' ? item.meta.minima : item.esperado
   const obtained = typeof item.obtenido === 'number' ? item.obtenido : item.esperado
-  return `${item.producto_base} — ${obtained} (mín ${minima})`
+  return `${item.producto_base} - ${obtained} (mín ${minima})`
 }
 
 const applyStatusCellStyle = (
@@ -167,9 +162,7 @@ const applyStatusCellStyle = (
   }
 }
 
-const createBreakfastPdf = async ({
-  liquidSummary: _liquidSummary,
-  solidSummary: _solidSummary,
+export const createBreakfastPdf = async ({
   breakfastValidation,
   selectedNivel,
 }: PdfInput) => {
@@ -190,7 +183,6 @@ const createBreakfastPdf = async ({
   const totalRules = breakfastValidation.all.length
   const passedRules = breakfastValidation.all.filter((item) => item.cumple).length
   const failedRules = Math.max(totalRules - passedRules, 0)
-  const adicionalesEvaluados = breakfastValidation.adicionales.length
 
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
   const pdfDoc = doc as unknown as { lastAutoTable?: { finalY: number } }
@@ -201,121 +193,54 @@ const createBreakfastPdf = async ({
   const nextY = () => lastContentY + 7
 
   const drawContinuationHeader = () => {
-    doc.addPage()
-    doc.setFillColor(...PDF_COLORS.white)
-    doc.rect(0, 0, 210, 10, 'F')
-    doc.setFontSize(9)
-    doc.setTextColor(...PDF_COLORS.slate700)
-    doc.setFont('', 'normal')
-    doc.text('Resumen de Minuta – Continuación', 14, 6)
-    doc.setDrawColor(...PDF_COLORS.gray300)
-    doc.setLineWidth(0.3)
-    doc.line(0, 8, 210, 8)
+    addReportContinuationPage(doc, 'Bloque Desayuno')
   }
 
   const ensurePageSpace = (y: number, minSpace = 0) => {
     if (y + minSpace <= PDF_CONTENT_BOTTOM) return y
     drawContinuationHeader()
+    // position cursor after continuation header
+    lastContentY = 12
     return 20
   }
 
   const addSectionTitle = (title: string, color: readonly [number, number, number]) => {
     const y = ensurePageSpace(nextY(), PDF_SECTION_MIN_SPACE)
+
+    // subtle separator above section
+    doc.setDrawColor(...PDF_COLORS.slate200)
+    doc.setLineWidth(0.6)
+    doc.line(14, y - 4, 196, y - 4)
+
+    // section title
     doc.setFontSize(11)
-    doc.setFont('', 'bold')
+    doc.setFont('helvetica', 'bold')
     doc.setTextColor(...PDF_COLORS.slate900)
     doc.text(title, 14, y)
-    doc.setFont('', 'normal')
+    doc.setFont('helvetica', 'normal')
+
+    // colored short underline to emphasize section
     doc.setDrawColor(...color)
-    doc.setLineWidth(0.4)
-    doc.line(14, y + 1.6, 68, y + 1.6)
-    return y + 3.6
+    doc.setLineWidth(0.6)
+    doc.line(14, y + 1.6, 78, y + 1.6)
+
+    // add small vertical gap after title
+    lastContentY = y + 7
+    return lastContentY
   }
 
-  const tableBaseOptions = {
-    theme: 'striped',
-    showHead: 'everyPage',
-    rowPageBreak: 'avoid',
-    styles: {
-      fontSize: 8,
-      textColor: PDF_COLORS.slate900,
-      lineColor: PDF_COLORS.slate200,
-      lineWidth: 0.08,
-      cellPadding: 4,
-      overflow: 'linebreak',
-      valign: 'middle',
-    },
-    headStyles: {
-      textColor: PDF_COLORS.slate900,
-      fillColor: PDF_COLORS.slate50,
-      fontStyle: 'bold',
-      fontSize: 8,
-      minCellHeight: 10,
-    },
-    alternateRowStyles: {
-      fillColor: PDF_COLORS.slate100,
-    },
-    bodyStyles: {
-      fillColor: PDF_COLORS.white,
-      minCellHeight: 9,
-    },
-    tableLineColor: PDF_COLORS.slate200,
-    tableLineWidth: 0.08,
-    margin: { left: 14, right: 14 },
-  }
+  const tableBaseOptions = getReportTableOptions()
 
-  // MINIMAL PROFESSIONAL HEADER
-  doc.setFillColor(...PDF_COLORS.white)
-  doc.rect(0, 0, 210, 20, 'F')
-
-  doc.setFontSize(16)
-  doc.setTextColor(...PDF_COLORS.slate900)
-  doc.setFont('', 'bold')
-  doc.text('Informe de Cumplimiento Normativo – Desayuno', 14, 8)
-
-  doc.setFontSize(8.5)
-  doc.setFont('', 'normal')
-  doc.setTextColor(...PDF_COLORS.slate700)
-  const dateStr = new Date().toLocaleDateString('es-CL')
-  doc.text(`Fecha: ${dateStr} | Nivel: ${nivelLabel}`, 14, 13)
-
-  // Subtle line under header
-  doc.setDrawColor(...PDF_COLORS.gray300)
-  doc.setLineWidth(0.3)
-  doc.line(0, 16, 210, 16)
-
-  // SIMPLE METRICS LINE (no cards, clean)
-  doc.setFontSize(8.5)
-  doc.setTextColor(...PDF_COLORS.slate700)
-  doc.setFont('', 'normal')
-  doc.text(`Resumen: ${totalRules} reglas evaluadas | ${passedRules} cumplen | ${failedRules} no cumplen | ${adicionalesEvaluados} adicionales`, 14, 22)
-
-  // RESULTADO FINAL - Simple text with left border
   const isPassed = failedRules === 0
-  const finalResultColor: readonly [number, number, number] = isPassed ? PDF_COLORS.successDark : PDF_COLORS.dangerDark
   const finalResultText = isPassed ? 'ACEPTADO' : 'RECHAZADO'
-  const finalResultDetail = isPassed ? 'Todas las reglas cumplen' : `${failedRules} de ${totalRules} reglas no cumplen`
-
-  // RESULT BOX with left border (no background, professional)
-  // Track current Y to avoid overlaps
-  let currentY = 25
-
-  doc.setDrawColor(...finalResultColor)
-  doc.setLineWidth(1)
-  doc.line(14, currentY - 2, 14, currentY + 6)
-
-  doc.setFontSize(12)
-  doc.setTextColor(...finalResultColor)
-  doc.setFont('', 'bold')
-  doc.text(`RESULTADO FINAL: ${finalResultText}`, 20, currentY + 2.5)
-
-  doc.setFontSize(8.5)
-  doc.setFont('', 'normal')
-  doc.setTextColor(...PDF_COLORS.slate700)
-  doc.text(finalResultDetail, 20, currentY + 5.5)
-
-  // Move past result box with buffer
-  currentY += 10
+  const reportHeader = drawReportHeader(doc, {
+    mealLabel: 'Bloque Desayuno',
+    nivelLabel,
+    total: totalRules,
+    passed: passedRules,
+  })
+  const currentY = reportHeader.contentStartY
+  lastContentY = currentY
 
   // INCUMPLIMIENTOS SECTION
   const allFailures = buildFailuresSummary(breakfastValidation.all)
@@ -325,9 +250,9 @@ const createBreakfastPdf = async ({
     let failureY = ensurePageSpace(currentY, PDF_SECTION_MIN_SPACE)
     doc.setFontSize(10.5)
     doc.setTextColor(...PDF_COLORS.slate900)
-    doc.setFont('', 'bold')
+    doc.setFont('helvetica', 'bold')
     doc.text('INCUMPLIMIENTOS DETECTADOS', 14, failureY)
-    doc.setFont('', 'normal')
+    doc.setFont('helvetica', 'normal')
     doc.setDrawColor(...PDF_COLORS.danger)
     doc.setLineWidth(0.4)
     doc.line(14, failureY + 1.6, 100, failureY + 1.6)
@@ -336,10 +261,10 @@ const createBreakfastPdf = async ({
     if (allFailures.exceso.length > 0) {
       doc.setFontSize(9)
       doc.setTextColor(...PDF_COLORS.slate900)
-      doc.setFont('', 'bold')
+      doc.setFont('helvetica', 'bold')
       doc.text('EXCESOS', 14, failureY)
       failureY += 4
-      doc.setFont('', 'normal')
+      doc.setFont('helvetica', 'normal')
       doc.setFontSize(8.5)
       allFailures.exceso.forEach((item) => {
         const line = formatFailureLine(item)
@@ -353,10 +278,10 @@ const createBreakfastPdf = async ({
     if (allFailures.deficit.length > 0) {
       doc.setFontSize(9)
       doc.setTextColor(...PDF_COLORS.slate900)
-      doc.setFont('', 'bold')
+      doc.setFont('helvetica', 'bold')
       doc.text('DÉFICITS', 14, failureY)
       failureY += 4
-      doc.setFont('', 'normal')
+      doc.setFont('helvetica', 'normal')
       doc.setFontSize(8.5)
       allFailures.deficit.forEach((item) => {
         const line = formatFailureLine(item)
@@ -370,10 +295,10 @@ const createBreakfastPdf = async ({
     if (allFailures.variedad.length > 0) {
       doc.setFontSize(9)
       doc.setTextColor(...PDF_COLORS.slate900)
-      doc.setFont('', 'bold')
+      doc.setFont('helvetica', 'bold')
       doc.text('VARIEDADES', 14, failureY)
       failureY += 4
-      doc.setFont('', 'normal')
+      doc.setFont('helvetica', 'normal')
       doc.setFontSize(8.5)
       allFailures.variedad.forEach((item) => {
         const line = formatFailureLine(item)
@@ -426,13 +351,13 @@ const createBreakfastPdf = async ({
     autoTableFn(doc, {
       ...tableBaseOptions,
       startY: addSectionTitle('Cumplimiento de reglas', SECTION_COLORS.compliance),
-      head: [['Seccion', 'Estado', 'Cumplimiento']],
+      head: [['Sección', 'Estado', 'Cumplimiento']],
       body: complianceTableBody,
       headStyles: { ...tableBaseOptions.headStyles },
       columnStyles: {
-        0: { cellWidth: 60 },
-        1: { cellWidth: 50 },
-        2: { halign: 'right', cellWidth: 42 },
+        0: { cellWidth: 70 },
+        1: { cellWidth: 56 },
+        2: { halign: 'right', cellWidth: 56 },
       },
       didParseCell: (data: { section: 'body' | string; column: { index: number }; cell: { raw: unknown; styles: Record<string, unknown> } }) => {
         if (data.section === 'body' && data.column.index === 1) {
@@ -447,16 +372,16 @@ const createBreakfastPdf = async ({
   if (liquidRows.length > 0) {
     autoTableFn(doc, {
       ...tableBaseOptions,
-      startY: addSectionTitle('Criterios – Porción líquida', SECTION_COLORS.liquid),
+      startY: addSectionTitle('Criterios - Porción líquida', SECTION_COLORS.liquid),
       head: [['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']],
       body: liquidRows,
       headStyles: { ...tableBaseOptions.headStyles },
       columnStyles: {
-        0: { cellWidth: 35 },
-        1: { cellWidth: 25 },
-        2: { cellWidth: 38 },
+        0: { cellWidth: 50 },
+        1: { cellWidth: 32 },
+        2: { cellWidth: 44 },
         3: { halign: 'right', cellWidth: 24 },
-        4: { cellWidth: 20 },
+        4: { cellWidth: 32 },
       },
       didParseCell: (data: { section: 'body' | string; column: { index: number }; cell: { raw: unknown; styles: Record<string, unknown> }; row?: { cells?: Record<string, unknown> } }) => {
         if (data.section === 'body' && data.column.index === 3) {
@@ -476,16 +401,16 @@ const createBreakfastPdf = async ({
   if (solidRows.length > 0) {
     autoTableFn(doc, {
       ...tableBaseOptions,
-      startY: addSectionTitle('Criterios – Porción sólida', SECTION_COLORS.solid),
+      startY: addSectionTitle('Criterios - Porción sólida', SECTION_COLORS.solid),
       head: [['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']],
       body: solidRows,
       headStyles: { ...tableBaseOptions.headStyles },
       columnStyles: {
-        0: { cellWidth: 35 },
-        1: { cellWidth: 25 },
-        2: { cellWidth: 38 },
+        0: { cellWidth: 50 },
+        1: { cellWidth: 32 },
+        2: { cellWidth: 44 },
         3: { halign: 'right', cellWidth: 24 },
-        4: { cellWidth: 20 },
+        4: { cellWidth: 32 },
       },
       didParseCell: (data: { section: 'body' | string; column: { index: number }; cell: { raw: unknown; styles: Record<string, unknown> }; row?: { cells?: Record<string, unknown> } }) => {
         if (data.section === 'body' && data.column.index === 3) {
@@ -505,16 +430,16 @@ const createBreakfastPdf = async ({
   if (additionalRows.length > 0) {
     autoTableFn(doc, {
       ...tableBaseOptions,
-      startY: addSectionTitle('Criterios – Adicionales', SECTION_COLORS.adicionales),
+      startY: addSectionTitle('Criterios - Adicionales', SECTION_COLORS.adicionales),
       head: [['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']],
       body: additionalRows,
       headStyles: { ...tableBaseOptions.headStyles },
       columnStyles: {
-        0: { cellWidth: 35 },
-        1: { cellWidth: 25 },
-        2: { cellWidth: 38 },
+        0: { cellWidth: 50 },
+        1: { cellWidth: 32 },
+        2: { cellWidth: 44 },
         3: { halign: 'right', cellWidth: 24 },
-        4: { cellWidth: 20 },
+        4: { cellWidth: 32 },
       },
       didParseCell: (data: { section: 'body' | string; column: { index: number }; cell: { raw: unknown; styles: Record<string, unknown> }; row?: { cells?: Record<string, unknown> } }) => {
         if (data.section === 'body' && data.column.index === 3) {
@@ -530,19 +455,7 @@ const createBreakfastPdf = async ({
     lastContentY = pdfDoc.lastAutoTable?.finalY ?? lastContentY
   }
 
-  const pageCount = doc.getNumberOfPages()
-  for (let page = 1; page <= pageCount; page += 1) {
-    doc.setPage(page)
-    doc.setDrawColor(...PDF_COLORS.gray300)
-    doc.setLineWidth(0.3)
-    doc.line(14, 287, 196, 287)
-    doc.setFontSize(8.5)
-    doc.setTextColor(...PDF_COLORS.slate700)
-    doc.setFont('', 'normal')
-    doc.text('Evaluacion normativa mensual', 14, 291)
-    doc.text(`Resultado final: ${finalResultText} | Nivel: ${nivelLabel}`, 14, 295)
-    doc.text(`Pagina ${page} de ${pageCount}`, 196, 291, { align: 'right' })
-  }
+  drawReportFooters(doc, `Bloque Desayuno - ${finalResultText}`, nivelLabel)
 
   return doc
 }

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import desayunoDictionary from '../features/breakfast/data/desayunoDictionary.json'
-import type { BreakfastDictionary } from '../types/liquid-analysis.types.ts'
+import type { BreakfastDictionary, ProductGroup } from '../types/liquid-analysis.types.ts'
 import { normalizeText } from '../utils/normalizeText.ts'
 
 const DICTIONARY_STORAGE_KEY = 'minuta-analyzer:desayuno-dictionary'
@@ -12,6 +12,19 @@ const PRODUCT_BASE_MIGRATIONS: Record<string, string> = {
   'formula lactea saborizada': 'Fórmula láctea saborizada',
   avena: 'Cereales',
 }
+
+const normalizeGroup = (group: unknown): ProductGroup | null => {
+  if (group === 'liquida' || group === 'solida' || group === 'agregado_pan') {
+    return group
+  }
+  return null
+}
+
+const portionToGroup = (portion: unknown): ProductGroup =>
+  portion === 'porcion_liquida' ? 'liquida' : 'solida'
+
+const groupToPortion = (group: ProductGroup) =>
+  group === 'liquida' ? 'porcion_liquida' : 'porcion_solida'
 
 const normalizeProductBaseLabel = (value: string): string => {
   const normalized = normalizeText(value)
@@ -26,6 +39,11 @@ const applyProductBaseMigrations = (
     products: dictionary.products.map((item) => ({
       ...item,
       producto_base: normalizeProductBaseLabel(item.producto_base),
+      grupo: normalizeGroup(item.grupo) ?? portionToGroup(item.porcion),
+      porcion:
+        item.porcion === 'porcion_liquida' || item.porcion === 'porcion_solida'
+          ? item.porcion
+          : groupToPortion(normalizeGroup(item.grupo) ?? 'solida'),
     })),
   }
 }

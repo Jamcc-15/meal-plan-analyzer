@@ -2,7 +2,8 @@ import DataTable from '../components/DataTable.tsx'
 import LunchCoveragePanel from '../components/lunch/LunchCoveragePanel.tsx'
 import SidePanel from '../components/SidePanel.tsx'
 import EmptyStateCard from '../components/ui/EmptyStateCard.tsx'
-import type { LunchCoverageItem, MealScope, TableDensity } from '../types/app.types.ts'
+import type { MealScope, TableDensity } from '../types/app.types.ts'
+import type { LunchCoverageItem } from '../features/lunch/types/analysis.types.ts'
 import type { ExcelData } from '../types/excel.types.ts'
 import type { PortionType, LiquidSummary, UnrecognizedItem } from '../types/liquid-analysis.types.ts'
 import { APP_THEME } from '../themes/appTheme.ts'
@@ -142,8 +143,8 @@ const ExplorationPage = ({
           />
         ) : (
           <LunchCoveragePanel
-            title="Almuerzo en construcción"
-            description="Sección preparada para Entrada, Principal, Acompañamiento, Postre y Agua."
+            title="Análisis de Almuerzo"
+            description="Sección habilitada para Entrada, Principal, Acompañamiento, Postre y Bebida."
             items={lunchCoverage}
             showAction
           />
