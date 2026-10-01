@@ -171,14 +171,14 @@
     {
       "id": "carne_vacuno_trozo",
       "producto_base": "Carne de vacuno",
-      "variedad": "Trozo o cubo congelado o conserva (pouch)",
+      "variedad": "Carne de vacuno",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
     {
       "id": "carne_vacuno_churrasco",
       "producto_base": "Carne de vacuno",
-      "variedad": "Churrasco congelado",
+      "variedad": "Carne de vacuno",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
@@ -199,21 +199,28 @@
     {
       "id": "carne_cerdo_pulpa",
       "producto_base": "Carne de cerdo",
-      "variedad": "Pulpa de cerdo cubo o trozo, congelada o refrigerada",
+      "variedad": "Carne de cerdo",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
     {
       "id": "carne_cerdo_lomo",
       "producto_base": "Carne de cerdo",
-      "variedad": "Lomo de cerdo congelado o refrigerado",
+      "variedad": "Carne de cerdo",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
     {
-      "id": "huevo",
+      "id": "huevo_preparacion_directa",
       "producto_base": "Huevo",
-      "variedad": "Huevo",
+      "variedad": "Frito, escalfado, revuelto o duro como opción para Charquicán",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "huevo_preparacion_elaborada",
+      "producto_base": "Huevo",
+      "variedad": "En budines, guisos, pasteles, tortillas",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
@@ -536,7 +543,19 @@
     { "producto_id": "carne_cerdo_lomo", "patron": "churrasco de cerdo" },
     { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco de vacuno" },
 
-    { "producto_id": "huevo", "patron": "huevo" },
+    { "producto_id": "huevo_preparacion_directa", "patron": "huevo frito" },
+    { "producto_id": "huevo_preparacion_directa", "patron": "huevo escalfado" },
+    { "producto_id": "huevo_preparacion_directa", "patron": "huevo revuelto" },
+    { "producto_id": "huevo_preparacion_directa", "patron": "huevo duro" },
+    { "producto_id": "huevo_preparacion_directa", "patron": "huevo como opcion para charquican" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "budin de huevo" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "huevo en budin" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "guiso de huevo" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "huevo en guiso" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "pastel de huevo" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "huevo en pastel" },
+    { "producto_id": "huevo_preparacion_elaborada", "patron": "tortilla de huevo" },
+    { "producto_id": "huevo_preparacion_directa", "patron": "huevo" },
 
     { "producto_id": "pescado_filete", "patron": "filete de pescado" },
     { "producto_id": "pescado_filete", "patron": "filete pescado al oregano" },

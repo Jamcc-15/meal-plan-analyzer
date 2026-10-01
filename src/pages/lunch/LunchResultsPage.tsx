@@ -269,13 +269,12 @@ const LunchResultsPage = ({
       {summaryRows.filter((group) => group.resultados.length > 0).map((group) => (
         <TableShell key={group.grupo} title={`Criterios – ${GROUP_LABELS[group.grupo]}`} subtitle="Producto base, criterio, regla, obtenido y estado">
           <Table
-            columns={['Producto base / variedad', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
+            columns={['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
             rows={groupValidationResults(group.resultados.flatMap(flattenValidationResult)).flatMap((rules) => rules.map((rule, index) => (
               <tr key={rule.ruleId} className="align-top">
                 {index === 0 ? (
                   <td rowSpan={rules.length} className="border-b border-t-4 border-slate-300 border-l-2 border-l-orange-200 px-3 py-2.5 align-top font-medium text-slate-900">
                     {rule.producto_base}
-                    {'variedad' in rule && rule.variedad ? <span className="block text-xs font-normal text-slate-500">{rule.variedad}</span> : null}
                   </td>
                 ) : null}
                 <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatRuleType(rule)}</td>
