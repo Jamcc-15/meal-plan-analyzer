@@ -97,6 +97,20 @@
       "grupo": "solida"
     },
     {
+      "id": "cereales_granola",
+      "producto_base": "Cereales",
+      "variedad": "Granola inflada",
+      "tiempo": "desayuno",
+      "grupo": "solida"
+    },
+    {
+      "id": "cereales_trigo_inflado",
+      "producto_base": "Cereales",
+      "variedad": "Trigo inflado",
+      "tiempo": "desayuno",
+      "grupo": "solida"
+    },
+    {
       "id": "tomate_oregano",
       "producto_base": "Tomate",
       "variedad": "Tomate orégano",
@@ -222,6 +236,9 @@
     { "producto_id": "pan_blanco_base", "patron": "pan blanco" },
     { "producto_id": "pan_integral_base", "patron": "pan integral" },
     { "producto_id": "cereales_hojuela", "patron": "cereal hojuela" },
+    { "producto_id": "cereales_granola", "patron": "granola" },
+    { "producto_id": "cereales_granola", "patron": "granola inflada" },
+    { "producto_id": "cereales_trigo_inflado", "patron": "trigo inflado" },
     { "producto_id": "tomate_oregano", "patron": "tomate oregano" },
     { "producto_id": "huevo_revuelto", "patron": "huevo revuelto" },
     { "producto_id": "pasta_huevo", "patron": "pasta huevo" },
