@@ -29,6 +29,83 @@
       "grupo": "entrada"
     },
     {
+      "id": "verduras_general_lechuga_zanahoria",
+      "producto_base": "Verduras en general",
+      "variedad": "Lechuga con zanahoria",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_lechuga_choclo",
+      "producto_base": "Verduras en general",
+      "variedad": "Lechuga con choclo",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_betarraga_zanahoria",
+      "producto_base": "Verduras en general",
+      "variedad": "Betarraga con zanahoria",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_betarraga_porotos_verdes",
+      "producto_base": "Verduras en general",
+      "variedad": "Betarraga con porotos verdes",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_zanahoria_porotos_verdes",
+      "producto_base": "Verduras en general",
+      "variedad": "Zanahoria con porotos verdes",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_zanahoria_choclo",
+      "producto_base": "Verduras en general",
+      "variedad": "Zanahoria con choclo",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_zanahoria_arvejas",
+      "producto_base": "Verduras en general",
+      "variedad": "Zanahoria con arvejas",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_zanahoria_repollo",
+      "producto_base": "Verduras en general",
+      "variedad": "Zanahoria con repollo",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_pepino_zanahoria",
+      "producto_base": "Verduras en general",
+      "variedad": "Pepino con zanahoria",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_pepino_choclo",
+      "producto_base": "Verduras en general",
+      "variedad": "Pepino con choclo",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
+      "id": "verduras_general_pepino_porotos_verdes",
+      "producto_base": "Verduras en general",
+      "variedad": "Pepino con porotos verdes",
+      "tiempo": "almuerzo",
+      "grupo": "entrada"
+    },
+    {
       "id": "verduras_general_zapallo_italiano",
       "producto_base": "Verduras en general",
       "variedad": "Zapallo italiano",
@@ -91,7 +168,6 @@
       "tiempo": "almuerzo",
       "grupo": "entrada"
     },
-
     {
       "id": "carne_vacuno_trozo",
       "producto_base": "Carne de vacuno",
@@ -396,6 +472,17 @@
     { "producto_id": "verduras_general_betarraga", "patron": "betarraga" },
     { "producto_id": "verduras_general_zanahoria", "patron": "zanahoria" },
     { "producto_id": "verduras_general_pepino", "patron": "pepino" },
+    { "producto_id": "verduras_general_lechuga_zanahoria", "patron": "lechuga zanahoria" },
+    { "producto_id": "verduras_general_lechuga_choclo", "patron": "lechuga choclo" },
+    { "producto_id": "verduras_general_betarraga_zanahoria", "patron": "betarraga zanahoria" },
+    { "producto_id": "verduras_general_betarraga_porotos_verdes", "patron": "betarraga porotos verdes" },
+    { "producto_id": "verduras_general_zanahoria_porotos_verdes", "patron": "zanahoria porotos verdes" },
+    { "producto_id": "verduras_general_zanahoria_choclo", "patron": "zanahoria choclo" },
+    { "producto_id": "verduras_general_zanahoria_arvejas", "patron": "zanahoria arvejas" },
+    { "producto_id": "verduras_general_zanahoria_repollo", "patron": "zanahoria repollo" },
+    { "producto_id": "verduras_general_pepino_zanahoria", "patron": "pepino zanahoria" },
+    { "producto_id": "verduras_general_pepino_choclo", "patron": "pepino choclo" },
+    { "producto_id": "verduras_general_pepino_porotos_verdes", "patron": "pepino porotos verdes" },
     { "producto_id": "verduras_general_zapallo_italiano", "patron": "ensalada zapallo italiano" },
     { "producto_id": "verduras_general_choclo_arvejas", "patron": "ensalada choclo arvejas" },
     { "producto_id": "verduras_general_zapallo_italiano", "patron": "zapallo italiano" },
@@ -419,20 +506,26 @@
 
     { "producto_id": "limon", "patron": "limon" },
     { "producto_id": "limon", "patron": "1 4 limon" },
-
     { "producto_id": "carne_vacuno_trozo", "patron": "charquican con carne" },
     { "producto_id": "carne_vacuno_trozo", "patron": "carbonada de vacuno" },
     { "producto_id": "carne_vacuno_trozo", "patron": "estofado de vacuno" },
     { "producto_id": "carne_vacuno_trozo", "patron": "carne al jugo" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "carne vacuno al jugo" },
     { "producto_id": "carne_vacuno_trozo", "patron": "tomatican" },
     { "producto_id": "carne_vacuno_trozo", "patron": "carbonada" },
 
     { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco vacuno" },
     { "producto_id": "carne_vacuno_churrasco", "patron": "charrasco vacuno" },
+    { "producto_id": "carne_vacuno_churrasco", "patron": "charrasco de vacuno" },
 
     { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo" },
+    { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo al jugo" },
+    { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo asado" },
+    { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo al curry" },
+    { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo a la miel" },
     { "producto_id": "carne_ave_filetillo", "patron": "estofado de ave" },
     { "producto_id": "carne_ave_trutro", "patron": "trutro de pollo" },
+    { "producto_id": "carne_ave_trutro", "patron": "trutro de pollo asado" },
 
     { "producto_id": "carne_cerdo_pulpa", "patron": "cerdo al jugo" },
     { "producto_id": "carne_cerdo_pulpa", "patron": "cerdo al curry" },
@@ -446,12 +539,22 @@
     { "producto_id": "huevo", "patron": "huevo" },
 
     { "producto_id": "pescado_filete", "patron": "filete de pescado" },
+    { "producto_id": "pescado_filete", "patron": "filete pescado al oregano" },
+    { "producto_id": "pescado_filete", "patron": "filete congelado" },
+    { "producto_id": "pescado_filete", "patron": "filete de pescado al horno" },
+    { "producto_id": "pescado_filete", "patron": "filete pescado al horno" },
+    { "producto_id": "pescado_filete", "patron": "filete de pescado al limon" },
     { "producto_id": "pescado_filete", "patron": "budin de pescado" },
     { "producto_id": "pescado_filete", "patron": "salmon al horno" },
+    { "producto_id": "pescado_trozo", "patron": "trozo de pescado" },
+    { "producto_id": "pescado_trozo", "patron": "lomo de pescado" },
+    { "producto_id": "pescado_trozo", "patron": "pulpa de pescado" },
     { "producto_id": "pescado_trozo", "patron": "croquetas de pescado" },
+    { "producto_id": "pescado_trozo", "patron": "croquetas de jurel" },
     { "producto_id": "pescado_trozo", "patron": "budin de jurel" },
     { "producto_id": "pescado_apanado", "patron": "nuggets de pescado" },
     { "producto_id": "pescado_apanado", "patron": "nugget de pescado" },
+    { "producto_id": "pescado_apanado", "patron": "apanado de pescado" },
     { "producto_id": "pescado_lomito_atun", "patron": "atun" },
     { "producto_id": "pescado_lomito_atun", "patron": "pino de atun frio" },
     { "producto_id": "pescado_lomito_atun", "patron": "atun en sala blanca" },
@@ -464,15 +567,28 @@
     { "producto_id": "mariscos_algas", "patron": "charquican mar y tierra" },
 
     { "producto_id": "leguminosas_lentejas", "patron": "lentejas" },
+    { "producto_id": "leguminosas_lentejas", "patron": "lentejas guisadas" },
     { "producto_id": "leguminosas_porotos", "patron": "porotos" },
+    { "producto_id": "leguminosas_porotos", "patron": "porotos con riendas" },
     { "producto_id": "leguminosas_garbanzos", "patron": "garbanzos" },
     { "producto_id": "leguminosas_garbanzos", "patron": "garbanzos guisados" },
     { "producto_id": "leguminosas_garbanzos", "patron": "garbanzos guisadas" },
     { "producto_id": "leguminosas_arvejas", "patron": "arvejas guisadas" },
 
     { "producto_id": "arroz", "patron": "arroz" },
-    { "producto_id": "pasta_fideos", "patron": "fideos" },
+    { "producto_id": "arroz", "patron": "arroz graneado" },
+    { "producto_id": "arroz", "patron": "arroz perla" },
+    { "producto_id": "arroz", "patron": "arroz al curry" },
+    { "producto_id": "arroz", "patron": "arroz jardinera" },
+    { "producto_id": "arroz", "patron": "ensalada de arroz jardinera" },
+    { "producto_id": "arroz", "patron": "ensalada de arroz con tomate" },
+    { "producto_id": "arroz", "patron": "arroz primavera" },
+    { "producto_id": "arroz", "patron": "arroz arabe" },
+    { "producto_id": "arroz", "patron": "arroz al perejil" },
+    { "producto_id": "arroz", "patron": "arroz blanco" },
     { "producto_id": "pasta_fideos", "patron": "ensalada de fideos" },
+    { "producto_id": "pasta_fideos", "patron": "ensalada de fideos jardinera" },
+    { "producto_id": "pasta_fideos", "patron": "ensalada de fideos tricolor o blancos a la chilena" },
     { "producto_id": "pasta_fideos", "patron": "fideos con zanahoria" },
     { "producto_id": "pasta_fideos", "patron": "fideos al oregano" },
     { "producto_id": "pasta_fideos", "patron": "fideos con salsa" },
@@ -484,15 +600,26 @@
     { "producto_id": "pasta_mostaccioli", "patron": "mostacciolis al oregano" },
     { "producto_id": "pasta_mostaccioli", "patron": "mostaccioli al oregano" },
     { "producto_id": "pasta_mostaccioli", "patron": "motachiolis al oregano" },
+    { "producto_id": "pasta_mostaccioli", "patron": "mostacciolis con zanahoria" },
+    { "producto_id": "pasta_mostaccioli", "patron": "mostaccioli con zanahoria" },
+    { "producto_id": "pasta_tricolor", "patron": "pasta tricolor" },
     { "producto_id": "pasta_tricolor", "patron": "fideos espirales tricolor" },
     { "producto_id": "pasta_tricolor", "patron": "fideos corbatas tricolor" },
+    { "producto_id": "pasta_tricolor", "patron": "fideos tricolor" },
+    { "producto_id": "pasta_tricolor", "patron": "espirales tricolor" },
+    { "producto_id": "pasta_tricolor", "patron": "corbatas tricolor" },
     { "producto_id": "pasta_tricolor", "patron": "ensalada de fideos tricolor jardinera" },
     { "producto_id": "pasta_tricolor", "patron": "espirales tricolor con salsa" },
+    { "producto_id": "papas", "patron": "papa" },
     { "producto_id": "papas", "patron": "papas" },
+    { "producto_id": "papas", "patron": "papas doradas" },
+    { "producto_id": "papas", "patron": "papas cocidas" },
+    { "producto_id": "papas", "patron": "papas rusticas" },
     { "producto_id": "papas", "patron": "ensalada rusa" },
     { "producto_id": "papas", "patron": "pure mitad" },
     { "producto_id": "papas", "patron": "pure mixto" },
     { "producto_id": "papas", "patron": "salpicon" },
+    { "producto_id": "papas", "patron": "ensalada de atun y papas" },
     { "producto_id": "papas", "patron": "estofado de ave" },
     { "producto_id": "papas", "patron": "estofado de vacuno" },
     { "producto_id": "verduras", "patron": "budin de zapallito" },
@@ -500,6 +627,7 @@
     { "producto_id": "verduras", "patron": "verduras asadas primavera verano" },
     { "producto_id": "verduras", "patron": "verduras asadas otono invierno" },
     { "producto_id": "verduras", "patron": "charquican de verduras" },
+    { "producto_id": "verduras", "patron": "charquican con carne" },
     { "producto_id": "verduras", "patron": "carbonada de vacuno" },
 
     { "producto_id": "fruta_natural_manzana", "patron": "manzana" },
@@ -514,6 +642,8 @@
     { "producto_id": "fruta_natural_sandia", "patron": "sandia" },
     { "producto_id": "fruta_natural_kiwi", "patron": "kiwi" },
     { "producto_id": "pure_fruta", "patron": "pure de fruta" },
+    { "producto_id": "pure_fruta", "patron": "pure de fruta ind" },
+    { "producto_id": "pure_fruta", "patron": "pure de fruta ind manzana" },
     { "producto_id": "pure_fruta", "patron": "fruta natural entera" },
     { "producto_id": "postre_leche_flan", "patron": "flan" },
     { "producto_id": "postre_leche_semola", "patron": "semola con leche" },
@@ -523,7 +653,11 @@
     { "producto_id": "yogurt", "patron": "yogurt" },
     { "producto_id": "fruta_conserva", "patron": "fruta en conserva" },
     { "producto_id": "gelatina_lacteos", "patron": "gelatina" },
+    { "producto_id": "gelatina_lacteos", "patron": "gelatina con yogurt" },
+    { "producto_id": "gelatina_lacteos", "patron": "jalea" },
+    { "producto_id": "gelatina_lacteos", "patron": "jalea con lacteos" },
     { "producto_id": "gelatina_lacteos", "patron": "jalea con yogurt" },
+    { "producto_id": "gelatina_lacteos", "patron": "torta de yogurt" },
 
     { "producto_id": "agua", "patron": "agua" }
   ]

@@ -227,6 +227,7 @@ function App() {
             <LunchResultsPage
               data={data}
               lunchSummary={lunchAnalysis.summary}
+              lunchRows={lunchAnalysis.rows}
               lunchUnrecognized={lunchAnalysis.unrecognized}
               lunchValidation={lunchValidation}
               onExportPdf={exportLunchResultsPdf}

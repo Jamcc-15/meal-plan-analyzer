@@ -59,6 +59,11 @@ const formatObtained = (rule: ValidationResult): string => {
   return String(rule.obtenido)
 }
 
+const flattenValidationResult = (rule: ValidationResult): ValidationResult[] => {
+  if (rule.tipo !== 'compuesta') return [rule]
+  return rule.condiciones.flatMap(flattenValidationResult)
+}
+
 const formatProduct = (rule: ValidationResult) => {
   const label = `${rule.producto_base}${'variedad' in rule && rule.variedad ? ` - ${rule.variedad}` : ''}`
   if (rule.tipo !== 'compuesta') return label
@@ -130,7 +135,7 @@ export const createLunchPdf = async ({ lunchSummary, lunchUnrecognized, lunchVal
       ...tableOptions,
       startY: titleY,
       head: [['Producto base / detalle', 'Criterio', 'Regla', 'Obtenido', 'Estado']],
-      body: group.resultados.map((rule) => [
+      body: group.resultados.flatMap(flattenValidationResult).map((rule) => [
         formatProduct(rule),
         formatCriterion(rule),
         formatRule(rule),

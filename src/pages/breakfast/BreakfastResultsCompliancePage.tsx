@@ -69,6 +69,16 @@ const getValidationRows = (items: BreakfastValidation['porcion_liquida']) =>
     estado: item.cumple ? 'Cumple' : 'No cumple',
   }))
 
+const groupValidationRows = (rows: ValidationRowData[]): ValidationRowData[][] => {
+  const groups = new Map<string, ValidationRowData[]>()
+  rows.forEach((row) => {
+    const group = groups.get(row.productoBase) ?? []
+    group.push(row)
+    groups.set(row.productoBase, group)
+  })
+  return Array.from(groups.values())
+}
+
 const getSectionCompliance = (label: string, items: BreakfastValidation['porcion_liquida']): ComplianceRow => {
   const total = items.length
   const passed = items.filter((item) => item.cumple).length
@@ -197,25 +207,27 @@ const RenderValidationTable = ({
     <TableShell title={title} subtitle="Producto base, criterio, regla, obtenido y estado">
       <Table
         columns={['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
-        rows={rows.map((row) => (
+        rows={groupValidationRows(rows).flatMap((group) => group.map((row, index) => (
           <tr key={`${title}-${row.productoBase}-${row.criterio}`} className="align-top">
-            <td className="border-b border-slate-100 px-3 py-2.5 text-slate-900">
-              <button
-                type="button"
-                onClick={() => onInspectProduct(row.productoBase)}
-                className="text-left font-medium text-slate-900 underline-offset-4 hover:underline"
-              >
-                {row.productoBase}
-              </button>
-            </td>
-            <td className="border-b border-slate-100 px-3 py-2.5 text-slate-700">{row.criterio}</td>
-            <td className="border-b border-slate-100 px-3 py-2.5 text-slate-700">{row.regla}</td>
-            <td className="border-b border-slate-100 px-3 py-2.5 text-slate-700">{row.obtenido}</td>
-            <td className="border-b border-slate-100 px-3 py-2.5">
+            {index === 0 ? (
+              <td rowSpan={group.length} className="border-b border-t-4 border-slate-300 border-l-2 border-l-orange-200 px-3 py-2.5 align-top text-slate-900">
+                <button
+                  type="button"
+                  onClick={() => onInspectProduct(row.productoBase)}
+                  className="text-left font-medium text-slate-900 underline-offset-4 hover:underline"
+                >
+                  {row.productoBase}
+                </button>
+              </td>
+            ) : null}
+            <td className={`border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{row.criterio}</td>
+            <td className={`border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{row.regla}</td>
+            <td className={`border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{row.obtenido}</td>
+            <td className={`border-b border-slate-100 px-3 py-2.5 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>
               <StatusPill status={row.estado} />
             </td>
           </tr>
-        ))}
+        )))}
       />
     </TableShell>
   )

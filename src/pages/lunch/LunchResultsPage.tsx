@@ -3,6 +3,7 @@ import EmptyStateCard from '../../components/ui/EmptyStateCard.tsx'
 import type {
   LunchGroupKey,
   LunchGroupSummary,
+  LunchAnalysisRow,
   LunchUnrecognizedItem,
 } from '../../features/lunch/types/analysis.types.ts'
 import type { LunchValidation, ValidationResult } from '../../features/lunch/types/rules.types.ts'
@@ -11,6 +12,7 @@ import type { ExcelData } from '../../types/excel.types.ts'
 type LunchResultsPageProps = {
   data: ExcelData | null
   lunchSummary: LunchGroupSummary[]
+  lunchRows: LunchAnalysisRow[]
   lunchUnrecognized: LunchUnrecognizedItem[]
   lunchValidation: LunchValidation
   onExportPdf: () => Promise<void> | void
@@ -58,6 +60,21 @@ const formatObtained = (rule: ValidationResult): string => {
     return rule.condiciones.map(formatObtained).join(`\n${rule.operador}\n`)
   }
   return String(rule.obtenido)
+}
+
+const flattenValidationResult = (rule: ValidationResult): ValidationResult[] => {
+  if (rule.tipo !== 'compuesta') return [rule]
+  return rule.condiciones.flatMap(flattenValidationResult)
+}
+
+const groupValidationResults = (rules: ValidationResult[]): ValidationResult[][] => {
+  const groups = new Map<string, ValidationResult[]>()
+  rules.forEach((rule) => {
+    const group = groups.get(rule.producto_base) ?? []
+    group.push(rule)
+    groups.set(rule.producto_base, group)
+  })
+  return Array.from(groups.values())
 }
 
 const StatusPill = ({ status }: { status: 'cumple' | 'no_cumple' | 'pendiente' }) => {
@@ -111,9 +128,48 @@ const MetricCard = ({ label, value, accent }: { label: string; value: string; ac
   )
 }
 
+const DetectionLog = ({ rows }: { rows: LunchAnalysisRow[] }) => (
+  <details className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50">
+    <summary className="cursor-pointer px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
+      Ver detección de ruteo ({rows.length} filas)
+    </summary>
+    <div className="overflow-x-auto border-t border-slate-200 bg-white px-3 py-3">
+      {rows.length === 0 ? (
+        <p className="text-xs text-slate-500">No hay filas para este grupo.</p>
+      ) : (
+        <table className="min-w-full text-xs">
+          <thead>
+            <tr className="text-left text-[10px] uppercase tracking-[0.12em] text-slate-500">
+              <th className="px-2 py-2">Texto original</th>
+              <th className="px-2 py-2">Normalizado</th>
+              <th className="px-2 py-2">Producto base</th>
+              <th className="px-2 py-2">Variedad</th>
+              <th className="px-2 py-2">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, index) => (
+              <tr key={`${row.normalizedText}-${index}`} className="border-t border-slate-100 align-top">
+                <td className="px-2 py-2 text-slate-900">{row.text}</td>
+                <td className="px-2 py-2 text-slate-500">{row.normalizedText}</td>
+                <td className="px-2 py-2 text-slate-700">{row.productBase ?? 'Sin clasificación'}</td>
+                <td className="px-2 py-2 text-slate-700">{row.variety ?? '--'}</td>
+                <td className={`px-2 py-2 font-semibold ${row.recognized ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {row.recognized ? 'Reconocido' : 'No reconocido'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  </details>
+)
+
 const LunchResultsPage = ({
   data,
   lunchSummary,
+  lunchRows,
   lunchUnrecognized,
   lunchValidation,
   onExportPdf,
@@ -214,27 +270,22 @@ const LunchResultsPage = ({
         <TableShell key={group.grupo} title={`Criterios – ${GROUP_LABELS[group.grupo]}`} subtitle="Producto base, criterio, regla, obtenido y estado">
           <Table
             columns={['Producto base / variedad', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
-            rows={group.resultados.map((rule) => (
+            rows={groupValidationResults(group.resultados.flatMap(flattenValidationResult)).flatMap((rules) => rules.map((rule, index) => (
               <tr key={rule.ruleId} className="align-top">
-                <td className="border-b border-slate-100 px-3 py-2.5 font-medium text-slate-900">
-                  {rule.producto_base}
-                  {'variedad' in rule && rule.variedad ? <span className="block text-xs font-normal text-slate-500">{rule.variedad}</span> : null}
-                  {rule.tipo === 'compuesta' ? (
-                    <ul className="mt-1 space-y-0.5 text-xs font-normal text-slate-500">
-                      {rule.condiciones.map((condition) => (
-                        <li key={condition.ruleId}>{condition.cumple ? '✓' : '✕'} {'variedad' in condition && condition.variedad ? condition.variedad : condition.producto_base}</li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </td>
-                <td className="whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700">{formatRuleType(rule)}</td>
-                <td className="whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700">{formatRuleText(rule)}</td>
-                <td className="whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700">{formatObtained(rule)}</td>
-                <td className="border-b border-slate-100 px-3 py-2.5"><StatusPill status={rule.cumple ? 'cumple' : 'no_cumple'} /></td>
+                {index === 0 ? (
+                  <td rowSpan={rules.length} className="border-b border-t-4 border-slate-300 border-l-2 border-l-orange-200 px-3 py-2.5 align-top font-medium text-slate-900">
+                    {rule.producto_base}
+                    {'variedad' in rule && rule.variedad ? <span className="block text-xs font-normal text-slate-500">{rule.variedad}</span> : null}
+                  </td>
+                ) : null}
+                <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatRuleType(rule)}</td>
+                <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatRuleText(rule)}</td>
+                <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatObtained(rule)}</td>
+                <td className={`border-b border-slate-100 px-3 py-2.5 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}><StatusPill status={rule.cumple ? 'cumple' : 'no_cumple'} /></td>
               </tr>
-            ))}
+            )))}
           />
-
+          <DetectionLog rows={lunchRows.filter((row) => row.group === group.grupo)} />
         </TableShell>
       ))}
 
