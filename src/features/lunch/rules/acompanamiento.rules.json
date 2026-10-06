@@ -12,7 +12,9 @@
         { "tipo": "variedad", "producto_base": "Pasta blanca o integral", "minima": 2 }
       ]
     },
-    { "id": "acompanamiento_pasta_tricolor_transicion", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 }
+    { "id": "acompanamiento_pasta_tricolor_transicion", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 },
+    { "id": "acompanamiento_papas_transicion", "tipo": "frecuencia", "producto_base": "Papas", "limite": "min", "veces": 2 },
+    { "id": "acompanamiento_verduras_transicion", "tipo": "frecuencia", "producto_base": "Verduras", "limite": "max", "veces": 2 }
   ],
   "basica": [
     { "id": "acompanamiento_arroz_basica", "tipo": "frecuencia", "producto_base": "Arroz blanco o integral", "limite": "min", "veces": 4 },
@@ -26,7 +28,9 @@
         { "tipo": "variedad", "producto_base": "Pasta blanca o integral", "minima": 2 }
       ]
     },
-    { "id": "acompanamiento_pasta_tricolor_basica", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 }
+    { "id": "acompanamiento_pasta_tricolor_basica", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 },
+    { "id": "acompanamiento_papas_basica", "tipo": "frecuencia", "producto_base": "Papas", "limite": "min", "veces": 2 },
+    { "id": "acompanamiento_verduras_basica", "tipo": "frecuencia", "producto_base": "Verduras", "limite": "max", "veces": 2 }
   ],
   "media": [
     { "id": "acompanamiento_arroz_media", "tipo": "frecuencia", "producto_base": "Arroz blanco o integral", "limite": "min", "veces": 4 },
@@ -40,7 +44,9 @@
         { "tipo": "variedad", "producto_base": "Pasta blanca o integral", "minima": 2 }
       ]
     },
-    { "id": "acompanamiento_pasta_tricolor_media", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 }
+    { "id": "acompanamiento_pasta_tricolor_media", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 },
+    { "id": "acompanamiento_papas_media", "tipo": "frecuencia", "producto_base": "Papas", "limite": "min", "veces": 2 },
+    { "id": "acompanamiento_verduras_media", "tipo": "frecuencia", "producto_base": "Verduras", "limite": "max", "veces": 2 }
   ],
   "pendientes": [
     "Arroz: variedad mínima 2 por formato de preparación y entrega; faltan patrones que distingan graneado, primavera, árabe, al perejil u otros.",

@@ -104,6 +104,12 @@ function App() {
   }, [data])
 
   useEffect(() => {
+    if (data) {
+      setActiveView('resultados')
+    }
+  }, [data])
+
+  useEffect(() => {
     if (!data?.detectedNivel) return
     setSelectedNivel(data.detectedNivel)
   }, [data?.detectedNivel, setSelectedNivel])
@@ -117,12 +123,8 @@ function App() {
           onChangeView={setActiveView}
           hasData={Boolean(data)}
           selectedMeal={selectedMeal}
-          onChangeMeal={setSelectedMeal}
           selectedPortion={selectedPortion}
           onChangePortion={setSelectedPortion}
-          selectedNivel={selectedNivel}
-          onChangeNivel={setSelectedNivel}
-          detectedNivel={data?.detectedNivel ?? null}
           stats={{
             rowCount,
             analyzedCount,
@@ -213,11 +215,14 @@ function App() {
               breakfastRawSolid={breakfastRawSolid}
               unrecognizedItems={unrecognizedItemsCombined}
               selectedNivel={selectedNivel}
+              onChangeNivel={setSelectedNivel}
               breakfastValidation={breakfastValidation}
               liquidDrilldown={liquidDrilldown}
               solidDrilldown={solidDrilldown}
               onExportPdf={exportResultsPdf}
               onPreviewPdf={previewResultsPdf}
+              selectedMeal={selectedMeal}
+              onChangeMeal={setSelectedMeal}
               onBackToExploration={() => setActiveView('exploracion')}
               onInspectProduct={handleInspectProduct}
             />
@@ -232,6 +237,11 @@ function App() {
               lunchValidation={lunchValidation}
               onExportPdf={exportLunchResultsPdf}
               onPreviewPdf={previewLunchResultsPdf}
+              selectedMeal={selectedMeal}
+              onChangeMeal={setSelectedMeal}
+              selectedNivel={selectedNivel}
+              onChangeNivel={setSelectedNivel}
+              detectedNivel={data?.detectedNivel ?? null}
             />
           ) : null}
         </div>

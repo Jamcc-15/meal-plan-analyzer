@@ -1,4 +1,8 @@
 import { type ReactNode } from 'react'
+import AnalysisBlockSelector from '../../components/AnalysisBlockSelector.tsx'
+import AnalysisRulesSelector from '../../components/AnalysisRulesSelector.tsx'
+import type { MealScope } from '../../types/app.types.ts'
+import type { Nivel } from '../../features/breakfast/index.ts'
 import EmptyStateCard from '../../components/ui/EmptyStateCard.tsx'
 import type {
   LunchGroupKey,
@@ -17,6 +21,11 @@ type LunchResultsPageProps = {
   lunchValidation: LunchValidation
   onExportPdf: () => Promise<void> | void
   onPreviewPdf: () => Promise<void> | void
+  selectedMeal: MealScope
+  onChangeMeal: (meal: MealScope) => void
+  selectedNivel: Nivel
+  onChangeNivel: (nivel: Nivel) => void
+  detectedNivel?: Nivel | null
 }
 
 const GROUP_LABELS: Record<LunchGroupKey, string> = {
@@ -44,18 +53,22 @@ const formatRuleType = (rule: ValidationResult): string => {
 
 const formatRuleText = (rule: ValidationResult): string => {
   if (rule.tipo === 'frecuencia') {
-    return `${rule.meta.limite === 'max' ? 'Máximo' : 'Mínimo'}: ${rule.meta.veces} veces`
+    return `${rule.meta.veces} (${rule.meta.limite === 'max' ? 'máx.' : 'mín.'})`
   }
-  if (rule.tipo === 'variedad') return `Mínimo: ${rule.meta.minima} variedades`
+  if (rule.tipo === 'variedad') return `${rule.meta.minima} (mín.)`
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatRuleText).join(`\n${rule.operador}\n`)
   }
   return String(rule.esperado)
 }
 
+const formatRuleVariety = (rule: ValidationResult): string => {
+  if ('variedad' in rule && rule.variedad) return rule.variedad
+  return '--'
+}
+
 const formatObtained = (rule: ValidationResult): string => {
-  if (rule.tipo === 'frecuencia') return `${rule.obtenido} veces`
-  if (rule.tipo === 'variedad') return `${rule.obtenido} variedades`
+  if (rule.tipo === 'frecuencia' || rule.tipo === 'variedad') return String(rule.obtenido)
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatObtained).join(`\n${rule.operador}\n`)
   }
@@ -174,6 +187,11 @@ const LunchResultsPage = ({
   lunchValidation,
   onExportPdf,
   onPreviewPdf,
+  selectedMeal,
+  onChangeMeal,
+  selectedNivel,
+  onChangeNivel,
+  detectedNivel = null,
 }: LunchResultsPageProps) => {
   if (!data) {
     return (
@@ -198,7 +216,18 @@ const LunchResultsPage = ({
   })
 
   return (
-    <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+    <>
+      <div className="mx-auto w-full max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
+        <AnalysisRulesSelector
+          selectedNivel={selectedNivel}
+          onChangeNivel={onChangeNivel}
+          detectedNivel={detectedNivel}
+        />
+        <div className="mt-3">
+        <AnalysisBlockSelector selectedMeal={selectedMeal} onChangeMeal={onChangeMeal} />
+        </div>
+      </div>
+      <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
       <section className="rounded-[1.75rem] border border-slate-200 bg-linear-to-br from-white via-slate-50 to-slate-100 p-5 shadow-sm sm:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
@@ -267,9 +296,9 @@ const LunchResultsPage = ({
       </section>
 
       {summaryRows.filter((group) => group.resultados.length > 0).map((group) => (
-        <TableShell key={group.grupo} title={`Criterios – ${GROUP_LABELS[group.grupo]}`} subtitle="Producto base, criterio, regla, obtenido y estado">
+        <TableShell key={group.grupo} title={`Criterios – ${GROUP_LABELS[group.grupo]}`} subtitle="Producto base, formato, criterio, regla, obtenido y estado">
           <Table
-            columns={['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
+            columns={['Producto base', 'Formato', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
             rows={groupValidationResults(group.resultados.flatMap(flattenValidationResult)).flatMap((rules) => rules.map((rule, index) => (
               <tr key={rule.ruleId} className="align-top">
                 {index === 0 ? (
@@ -277,6 +306,9 @@ const LunchResultsPage = ({
                     {rule.producto_base}
                   </td>
                 ) : null}
+                <td className={`border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>
+                  {formatRuleVariety(rule)}
+                </td>
                 <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatRuleType(rule)}</td>
                 <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatRuleText(rule)}</td>
                 <td className={`whitespace-pre-line border-b border-slate-100 px-3 py-2.5 text-slate-700 ${index === 0 ? 'border-t-4 border-slate-300' : ''}`}>{formatObtained(rule)}</td>
@@ -319,7 +351,8 @@ const LunchResultsPage = ({
           ))}
         />
       </TableShell>
-    </main>
+      </main>
+    </>
   )
 }
 

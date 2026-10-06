@@ -70,13 +70,13 @@ const simpleRuleStatus = (item: ValidationResult) => (item.cumple ? 'Cumple' : '
 
 const buildRuleCriteriaText = (item: ValidationResult) => {
   if (item.tipo === 'frecuencia') {
-    const limite = item.meta.limite === 'min' ? 'Mín' : item.meta.limite === 'max' ? 'Máx' : '--'
     const veces = typeof item.meta.veces === 'number' ? item.meta.veces : item.esperado
-    return `${limite} ${veces}/mes`
+    const limite = item.meta.limite === 'min' ? 'mín.' : item.meta.limite === 'max' ? 'máx.' : '--'
+    return `${veces} (${limite})`
   }
 
   const minima = typeof item.meta.minima === 'number' ? item.meta.minima : item.esperado
-  return `Mín ${minima} variedad`
+  return `${minima} (mín.)`
 }
 
 const formatObtained = (value: string | number) =>
@@ -85,7 +85,7 @@ const formatObtained = (value: string | number) =>
 const buildRulesRows = (items: ValidationResult[]) =>
   items.map((item) => [
     item.producto_base,
-    item.tipo === 'frecuencia' ? 'Frec./mes' : 'Variedad',
+    item.tipo === 'frecuencia' ? 'Frecuencia mensual' : 'Variedad mínima',
     buildRuleCriteriaText(item),
     formatObtained(item.obtenido),
     simpleRuleStatus(item),

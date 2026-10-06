@@ -1,5 +1,4 @@
 import type { MealScope } from '../types/app.types.ts'
-import type { Nivel } from '../features/breakfast/index.ts'
 import type { PortionType } from '../types/liquid-analysis.types.ts'
 import { APP_THEME } from '../themes/appTheme.ts'
 import type { ReactNode } from 'react'
@@ -23,20 +22,16 @@ type AppHeaderProps = {
   onChangeView: (view: 'exploracion' | 'resultados') => void
   hasData: boolean
   selectedMeal: MealScope
-  onChangeMeal: (meal: MealScope) => void
   selectedPortion: PortionType
   onChangePortion: (portion: PortionType) => void
-  selectedNivel: Nivel
-  onChangeNivel: (nivel: Nivel) => void
-  detectedNivel?: Nivel | null
   stats: HeaderStats
   fileSection?: ReactNode
 }
 
 const steps = [
   { id: 1, title: '1. Cargar minuta', help: 'Sube un archivo Excel' },
-  { id: 2, title: '2. Revisar datos', help: 'Explora tabla y resumen lateral' },
-  { id: 3, title: '3. Analizar resultados', help: 'Ve totales por base y variedad' },
+  { id: 2, title: 'Revisar datos', help: 'Explora tabla y resumen lateral' },
+  { id: 3, title: 'Analizar resultados', help: 'Ve totales por base y variedad' },
 ]
 
 const AppHeader = ({
@@ -45,18 +40,11 @@ const AppHeader = ({
   onChangeView,
   hasData,
   selectedMeal,
-  onChangeMeal,
   selectedPortion,
   onChangePortion,
-  selectedNivel,
-  onChangeNivel,
-  detectedNivel = null,
   stats,
   fileSection,
 }: AppHeaderProps) => {
-  const detectedNivelLabel =
-    detectedNivel === 'transicion' ? 'Transición' : detectedNivel === 'basica' ? 'Básica' : 'Media'
-
   return (
     <header className="mx-auto mb-6 max-w-6xl sm:mb-8 fade-up">
       <p className={`text-xs font-semibold uppercase tracking-[0.35em] ${APP_THEME.text.accent}`}>
@@ -118,48 +106,11 @@ const AppHeader = ({
 
       {fileSection ? <div className="mt-4">{fileSection}</div> : null}
 
-      {hasData && selectedMeal === 'desayuno' ? (
-        <div className={`mt-3 max-w-xl p-3 sm:p-3.5 ${APP_THEME.surface.panel}`}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600">Nivel</p>
-          {detectedNivel ? (
-            <p className="mt-1 inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
-              Nivel detectado: {detectedNivelLabel}
-            </p>
-          ) : null}
-          <p className="mt-1 text-xs text-slate-600 sm:text-sm">
-            {detectedNivel
-              ? 'Detectado automáticamente. Puedes ajustarlo si corresponde.'
-              : 'No se detectó automáticamente. Selecciona el nivel manualmente.'}
-          </p>
-          <div className="mt-2 grid gap-2 sm:grid-cols-3">
-            {([
-              ['transicion', 'Transición'],
-              ['basica', 'Básica'],
-              ['media', 'Media'],
-            ] as const).map(([nivelValue, nivelLabel]) => (
-              <button
-                key={nivelValue}
-                type="button"
-                className={`motion-icon motion-lift rounded-xl border px-3 py-2 text-sm font-semibold ${
-                  selectedNivel === nivelValue
-                    ? 'border-slate-900 bg-slate-900 text-white'
-                    : 'border-slate-200 bg-white/70 text-slate-700 hover:bg-slate-100'
-                }`}
-                onClick={() => onChangeNivel(nivelValue)}
-              >
-                {nivelLabel}
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
       {hasData ? (
         <AppNavigation
           activeView={activeView}
           onChangeView={onChangeView}
           selectedMeal={selectedMeal}
-          onChangeMeal={onChangeMeal}
           selectedPortion={selectedPortion}
           onChangePortion={onChangePortion}
         />

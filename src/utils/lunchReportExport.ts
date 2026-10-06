@@ -41,18 +41,22 @@ const formatCriterion = (rule: ValidationResult): string => {
 
 const formatRule = (rule: ValidationResult): string => {
   if (rule.tipo === 'frecuencia') {
-    return `${rule.meta.limite === 'max' ? 'Máximo' : 'Mínimo'}: ${rule.meta.veces} veces`
+    return `${rule.meta.veces} (${rule.meta.limite === 'max' ? 'máx.' : 'mín.'})`
   }
-  if (rule.tipo === 'variedad') return `Mínimo: ${rule.meta.minima} variedades`
+  if (rule.tipo === 'variedad') return `${rule.meta.minima} (mín.)`
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatRule).join(`\n${rule.operador}\n`)
   }
   return String(rule.esperado)
 }
 
+const formatVariety = (rule: ValidationResult): string => {
+  if ('variedad' in rule && rule.variedad) return rule.variedad
+  return '--'
+}
+
 const formatObtained = (rule: ValidationResult): string => {
-  if (rule.tipo === 'frecuencia') return `${rule.obtenido} veces`
-  if (rule.tipo === 'variedad') return `${rule.obtenido} variedades`
+  if (rule.tipo === 'frecuencia' || rule.tipo === 'variedad') return String(rule.obtenido)
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatObtained).join(`\n${rule.operador}\n`)
   }
@@ -62,18 +66,6 @@ const formatObtained = (rule: ValidationResult): string => {
 const flattenValidationResult = (rule: ValidationResult): ValidationResult[] => {
   if (rule.tipo !== 'compuesta') return [rule]
   return rule.condiciones.flatMap(flattenValidationResult)
-}
-
-const formatProduct = (rule: ValidationResult) => {
-  const label = `${rule.producto_base}${'variedad' in rule && rule.variedad ? ` - ${rule.variedad}` : ''}`
-  if (rule.tipo !== 'compuesta') return label
-  const conditions = rule.condiciones.map((condition) => {
-    const target = 'variedad' in condition && condition.variedad
-      ? condition.variedad
-      : condition.tipo === 'variedad' ? 'Variedad mínima' : condition.producto_base
-    return `${condition.cumple ? 'OK' : 'NO'}: ${target}`
-  })
-  return [label, ...conditions].join('\n')
 }
 
 export const createLunchPdf = async ({ lunchSummary, lunchUnrecognized, lunchValidation }: LunchPdfInput) => {
@@ -134,20 +126,22 @@ export const createLunchPdf = async ({ lunchSummary, lunchUnrecognized, lunchVal
     autoTableFn(doc, {
       ...tableOptions,
       startY: titleY,
-      head: [['Producto base / detalle', 'Criterio', 'Regla', 'Obtenido', 'Estado']],
+      head: [['Producto base', 'Formato', 'Criterio', 'Regla', 'Obtenido', 'Estado']],
       body: group.resultados.flatMap(flattenValidationResult).map((rule) => [
-        formatProduct(rule),
+        rule.producto_base,
+        formatVariety(rule),
         formatCriterion(rule),
         formatRule(rule),
         formatObtained(rule),
         rule.cumple ? 'Cumple' : 'No cumple',
       ]),
       columnStyles: {
-        0: { cellWidth: 50 },
-        1: { cellWidth: 34 },
-        2: { cellWidth: 40 },
-        3: { halign: 'right', cellWidth: 28 },
-        4: { cellWidth: 30 },
+        0: { cellWidth: 34 },
+        1: { cellWidth: 46 },
+        2: { cellWidth: 31 },
+        3: { cellWidth: 31 },
+        4: { halign: 'right', cellWidth: 22 },
+        5: { cellWidth: 18 },
       },
       didParseCell: (data: { section: string; column: { index: number }; cell: { raw: unknown; styles: Record<string, unknown> } }) => {
         styleReportStatusCell(data, 4)

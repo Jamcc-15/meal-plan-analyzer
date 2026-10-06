@@ -88,6 +88,14 @@ const lunchDictionary = buildLunchDictionary(almuerzoDictionaryData as LunchDict
 const matchLunchDictionary = (normalizedValue: string, group: LunchGroupKey) => {
   return (
     lunchDictionary[group].find((entry) => {
+      if (
+        group === 'acompanamiento' &&
+        normalizedValue.includes('tricolor') &&
+        entry.productBase === 'Pasta blanca o integral'
+      ) {
+        return false
+      }
+
       return (
         normalizedValue === entry.normalizedPattern ||
         ` ${normalizedValue} `.includes(` ${entry.normalizedPattern} `)

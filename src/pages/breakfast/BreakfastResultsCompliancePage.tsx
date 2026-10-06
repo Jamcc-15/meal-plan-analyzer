@@ -47,17 +47,17 @@ const formatNivelLabel = (nivel: Nivel) => {
 
 const formatCount = (value: number) => numberFormatter.format(value)
 
-const getRuleLabel = (tipo: string) => (tipo === 'frecuencia' ? 'Frec./mes' : 'Variedad')
+const getRuleLabel = (tipo: string) => (tipo === 'frecuencia' ? 'Frecuencia mensual' : 'Variedad mínima')
 
 const getRuleText = (item: BreakfastValidation['porcion_liquida'][number]) => {
   if (item.tipo === 'frecuencia') {
-    const prefix = item.meta.limite === 'max' ? 'Máx' : 'Mín'
     const value = typeof item.meta.veces === 'number' ? item.meta.veces : item.esperado
-    return `${prefix} ${value}/mes`
+    const suffix = item.meta.limite === 'max' ? 'máx.' : 'mín.'
+    return `${value} (${suffix})`
   }
 
   const minimum = typeof item.meta.minima === 'number' ? item.meta.minima : item.esperado
-  return `Mín ${minimum} variedad`
+  return `${minimum} (mín.)`
 }
 
 const getValidationRows = (items: BreakfastValidation['porcion_liquida']) =>
