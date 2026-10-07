@@ -600,6 +600,8 @@
     { "producto_id": "pescado_trozo", "patron": "lomo de pescado" },
     { "producto_id": "pescado_trozo", "patron": "pulpa de pescado" },
     { "producto_id": "pescado_trozo", "patron": "croquetas de pescado" },
+    { "producto_id": "pescado_trozo", "patron": "croquetas pescado" },
+    { "producto_id": "pescado_trozo", "patron": "croquetas pescado caballa" },
     { "producto_id": "pescado_trozo", "patron": "croquetas de jurel" },
     { "producto_id": "pescado_trozo", "patron": "budin de jurel" },
     { "producto_id": "pescado_apanado", "patron": "nuggets de pescado" },
