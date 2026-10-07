@@ -211,9 +211,30 @@
       "grupo": "principal"
     },
     {
-      "id": "huevo_preparacion_directa",
+      "id": "huevo_frito",
       "producto_base": "Huevo",
-      "variedad": "Frito, escalfado, revuelto o duro como opción para Charquicán",
+      "variedad": "Huevo frito",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "huevo_escalfado",
+      "producto_base": "Huevo",
+      "variedad": "Huevo escalfado",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "huevo_revuelto",
+      "producto_base": "Huevo",
+      "variedad": "Huevo revuelto",
+      "tiempo": "almuerzo",
+      "grupo": "principal"
+    },
+    {
+      "id": "huevo_duro",
+      "producto_base": "Huevo",
+      "variedad": "Huevo duro",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
@@ -553,11 +574,11 @@
     { "producto_id": "carne_cerdo_lomo", "patron": "churrasco de cerdo" },
     { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco de vacuno" },
 
-    { "producto_id": "huevo_preparacion_directa", "patron": "huevo frito" },
-    { "producto_id": "huevo_preparacion_directa", "patron": "huevo escalfado" },
-    { "producto_id": "huevo_preparacion_directa", "patron": "huevo revuelto" },
-    { "producto_id": "huevo_preparacion_directa", "patron": "huevo duro" },
-    { "producto_id": "huevo_preparacion_directa", "patron": "huevo como opcion para charquican" },
+    { "producto_id": "huevo_frito", "patron": "huevo frito" },
+    { "producto_id": "huevo_escalfado", "patron": "huevo escalfado" },
+    { "producto_id": "huevo_revuelto", "patron": "huevo revuelto" },
+    { "producto_id": "huevo_duro", "patron": "huevo duro" },
+    { "producto_id": "huevo_frito", "patron": "huevo como opcion para charquican" },
     { "producto_id": "huevo_preparacion_elaborada", "patron": "budin de huevo" },
     { "producto_id": "huevo_preparacion_elaborada", "patron": "huevo en budin" },
     { "producto_id": "huevo_preparacion_elaborada", "patron": "guiso de huevo" },
