@@ -21,7 +21,7 @@ const GROUP_LABELS: Record<LunchGroupKey, string> = {
   principal: 'Principal',
   acompanamiento: 'Acompañamiento',
   postre: 'Postre',
-  bebida: 'Agua',
+  bebida: 'Bebida',
 }
 
 const formatNivel = (nivel: LunchValidation['nivel']) => {
@@ -31,10 +31,7 @@ const formatNivel = (nivel: LunchValidation['nivel']) => {
 }
 
 const formatCriterion = (rule: ValidationResult): string => {
-  if (rule.producto_base === 'Agua') return 'Diario'
-  if (rule.tipo === 'frecuencia') {
-    return rule.producto_base === 'Agua' ? 'Frecuencia diaria' : 'Frecuencia mensual'
-  }
+  if (rule.tipo === 'frecuencia') return 'Frecuencia mensual'
   if (rule.tipo === 'variedad') return 'Variedad mínima'
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatCriterion).join(`\n${rule.operador}\n`)
@@ -43,7 +40,6 @@ const formatCriterion = (rule: ValidationResult): string => {
 }
 
 const formatRule = (rule: ValidationResult): string => {
-  if (rule.producto_base === 'Agua') return 'Cumple'
   if (rule.tipo === 'frecuencia') {
     return `${rule.meta.veces} (${rule.meta.limite === 'max' ? 'máx.' : 'mín.'})`
   }
@@ -55,15 +51,11 @@ const formatRule = (rule: ValidationResult): string => {
 }
 
 const formatVariety = (rule: ValidationResult): string => {
-  if (rule.producto_base === 'Agua') return '--'
   if ('variedad' in rule && rule.variedad) return rule.variedad
   return '--'
 }
 
 const formatObtained = (rule: ValidationResult): string => {
-  if (rule.producto_base === 'Agua' && rule.tipo === 'frecuencia') {
-    return `${rule.obtenido} de ${rule.meta.veces}`
-  }
   if (rule.tipo === 'frecuencia' || rule.tipo === 'variedad') return String(rule.obtenido)
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatObtained).join(`\n${rule.operador}\n`)
@@ -130,8 +122,7 @@ export const createLunchPdf = async ({ lunchSummary, lunchUnrecognized, lunchVal
 
   Object.values(lunchValidation.grupos).forEach((group) => {
     if (group.resultados.length === 0) return
-    const title = group.grupo === 'bebida' ? 'Porción de agua' : `Criterios - ${GROUP_LABELS[group.grupo]}`
-    const titleY = drawReportSectionTitle(doc, title, nextSectionY())
+    const titleY = drawReportSectionTitle(doc, `Criterios - ${GROUP_LABELS[group.grupo]}`, nextSectionY())
     autoTableFn(doc, {
       ...tableOptions,
       startY: titleY,
