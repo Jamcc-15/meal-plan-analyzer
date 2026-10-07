@@ -68,28 +68,9 @@ const getVarietyCount = (
   return varieties[variety] ?? findNormalizedEntry(varieties, variety) ?? 0
 }
 
-const countExternalMentions = (summary: SummaryData, productBase: string): number => {
-  const varietyMap = getVarietyMap(summary)
-  const ownVarieties = getVarietiesForProduct(summary, productBase)
-  const ownTotal = Object.values(ownVarieties).reduce((total, count) => total + count, 0)
-  const targets = buildMatchTargets(productBase)
-  const allMatches = Object.values(varietyMap).reduce(
-    (total, varieties) =>
-      total +
-      Object.entries(varieties).reduce(
-        (subtotal, [name, count]) =>
-          targets.some((target) => matchesTarget(name, target)) ? subtotal + count : subtotal,
-        0,
-      ),
-    0,
-  )
-  return Math.max(allMatches - ownTotal, 0)
-}
-
 const getProductCount = (summary: SummaryData, productBase: string): number => {
   const productMap = getProductBaseMap(summary)
-  const direct = productMap[productBase] ?? findNormalizedEntry(productMap, productBase) ?? 0
-  return direct + countExternalMentions(summary, productBase)
+  return productMap[productBase] ?? findNormalizedEntry(productMap, productBase) ?? 0
 }
 
 const getDistinctVarietiesCount = (summary: SummaryData, productBase: string): number => {
