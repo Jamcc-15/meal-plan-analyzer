@@ -50,12 +50,24 @@ export const validateLunch = (
   const grupos = Object.fromEntries(
     GROUPS.map((grupo) => {
       const groupRules = rules[grupo]
+      const groupSummary = summaries.find((summary) => summary.group === grupo)
+      const rulesForGroup = grupo === 'bebida' && groupSummary
+        ? groupRules[nivel].map((rule) => (
+          rule.tipo === 'frecuencia'
+            ? { ...rule, veces: groupSummary.total }
+            : rule
+        ))
+        : groupRules[nivel]
       return [
         grupo,
         {
           grupo,
           nivel,
-          resultados: validateRules(groupRules, nivel, summaryByGroup[grupo]),
+          resultados: validateRules(
+            { ...groupRules, [nivel]: rulesForGroup },
+            nivel,
+            summaryByGroup[grupo],
+          ),
           pendientes: groupRules.pendientes,
         },
       ]

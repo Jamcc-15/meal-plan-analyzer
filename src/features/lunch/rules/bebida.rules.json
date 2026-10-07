@@ -1,9 +1,34 @@
 {
   "grupo": "bebida",
-  "transicion": [],
-  "basica": [],
-  "media": [],
-  "pendientes": [
-    "Porción de agua: frecuencia diaria para Transición, Básica y Media; el motor actual evalúa frecuencias mensuales numéricas."
-  ]
+  "transicion": [
+    {
+      "id": "bebida_agua_transicion",
+      "tipo": "frecuencia",
+      "producto_base": "Agua",
+      "variedad": "Porción de agua",
+      "limite": "min",
+      "veces": 1
+    }
+  ],
+  "basica": [
+    {
+      "id": "bebida_agua_basica",
+      "tipo": "frecuencia",
+      "producto_base": "Agua",
+      "variedad": "Porción de agua",
+      "limite": "min",
+      "veces": 1
+    }
+  ],
+  "media": [
+    {
+      "id": "bebida_agua_media",
+      "tipo": "frecuencia",
+      "producto_base": "Agua",
+      "variedad": "Porción de agua",
+      "limite": "min",
+      "veces": 1
+    }
+  ],
+  "pendientes": []
 }

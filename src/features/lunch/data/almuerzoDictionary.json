@@ -714,6 +714,10 @@
     { "producto_id": "gelatina_lacteos", "patron": "jalea con yogurt" },
     { "producto_id": "gelatina_lacteos", "patron": "torta de yogurt" },
 
-    { "producto_id": "agua", "patron": "agua" }
+    { "producto_id": "agua", "patron": "agua" },
+    { "producto_id": "agua", "patron": "agua natural" },
+    { "producto_id": "agua", "patron": "agua de hierbas" },
+    { "producto_id": "agua", "patron": "agua con cascara de limon" },
+    { "producto_id": "agua", "patron": "cascara de limon" }
   ]
 }

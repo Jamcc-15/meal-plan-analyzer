@@ -33,7 +33,7 @@ const GROUP_LABELS: Record<LunchGroupKey, string> = {
   principal: 'Principal',
   acompanamiento: 'Acompañamiento',
   postre: 'Postre',
-  bebida: 'Bebida',
+  bebida: 'Agua',
 }
 
 const formatNivelLabel = (nivel: LunchValidation['nivel']) => {
@@ -43,7 +43,10 @@ const formatNivelLabel = (nivel: LunchValidation['nivel']) => {
 }
 
 const formatRuleType = (rule: ValidationResult): string => {
-  if (rule.tipo === 'frecuencia') return 'Frecuencia mensual'
+  if (rule.producto_base === 'Agua') return 'Diario'
+  if (rule.tipo === 'frecuencia') {
+    return rule.producto_base === 'Agua' ? 'Frecuencia diaria' : 'Frecuencia mensual'
+  }
   if (rule.tipo === 'variedad') return 'Variedad mínima'
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatRuleType).join(`\n${rule.operador}\n`)
@@ -52,6 +55,7 @@ const formatRuleType = (rule: ValidationResult): string => {
 }
 
 const formatRuleText = (rule: ValidationResult): string => {
+  if (rule.producto_base === 'Agua') return 'Cumple'
   if (rule.tipo === 'frecuencia') {
     return `${rule.meta.veces} (${rule.meta.limite === 'max' ? 'máx.' : 'mín.'})`
   }
@@ -63,11 +67,15 @@ const formatRuleText = (rule: ValidationResult): string => {
 }
 
 const formatRuleVariety = (rule: ValidationResult): string => {
+  if (rule.producto_base === 'Agua') return '--'
   if ('variedad' in rule && rule.variedad) return rule.variedad
   return '--'
 }
 
 const formatObtained = (rule: ValidationResult): string => {
+  if (rule.producto_base === 'Agua' && rule.tipo === 'frecuencia') {
+    return `${rule.obtenido} de ${rule.meta.veces}`
+  }
   if (rule.tipo === 'frecuencia' || rule.tipo === 'variedad') return String(rule.obtenido)
   if ('condiciones' in rule) {
     return rule.condiciones.map(formatObtained).join(`\n${rule.operador}\n`)
@@ -296,7 +304,7 @@ const LunchResultsPage = ({
       </section>
 
       {summaryRows.filter((group) => group.resultados.length > 0).map((group) => (
-        <TableShell key={group.grupo} title={`Criterios – ${GROUP_LABELS[group.grupo]}`} subtitle="Producto base, formato, criterio, regla, obtenido y estado">
+        <TableShell key={group.grupo} title={group.grupo === 'bebida' ? 'Porción de agua' : `Criterios – ${GROUP_LABELS[group.grupo]}`} subtitle="Producto base, formato, criterio, regla, obtenido y estado">
           <Table
             columns={['Producto base', 'Formato', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
             rows={groupValidationResults(group.resultados.flatMap(flattenValidationResult)).flatMap((rules) => rules.map((rule, index) => (
