@@ -86,6 +86,19 @@ const buildLunchDictionary = (dictionary: LunchDictionary) => {
 const lunchDictionary = buildLunchDictionary(almuerzoDictionaryData as LunchDictionary)
 
 const matchLunchDictionary = (normalizedValue: string, group: LunchGroupKey) => {
+  if (group === 'entrada') {
+    const words = normalizedValue.split(/\s+/)
+    const firstWord = words[0] === 'ensalada' ? words[1] : words[0]
+    if (firstWord === 'repollo' || firstWord === 'apio') {
+      const leafyEntry = lunchDictionary[group].find(
+        (entry) =>
+          entry.productBase === 'Verduras de hoja' &&
+          entry.normalizedPattern === firstWord,
+      )
+      if (leafyEntry) return leafyEntry
+    }
+  }
+
   return (
     lunchDictionary[group].find((entry) => {
       if (
@@ -184,29 +197,38 @@ export const analyzeLunch = (data: ExcelData | null, coverage: LunchCoverageItem
     const productCounter: Record<string, number> = {}
     const varietyCounter: Record<string, Record<string, LunchVarietyDetail>> = {}
 
-    recognizedRows.forEach((item) => {
-      const key = item.productBase ?? 'Sin clasificación'
-      topCounter[key] = (topCounter[key] ?? 0) + 1
-      productCounter[key] = (productCounter[key] ?? 0) + 1
+    const addProductCount = (productBase: string, variety: string, sample: string) => {
+      topCounter[productBase] = (topCounter[productBase] ?? 0) + 1
+      productCounter[productBase] = (productCounter[productBase] ?? 0) + 1
 
-      if (!item.productBase || !item.variety) return
-      if (!varietyCounter[item.productBase]) {
-        varietyCounter[item.productBase] = {}
+      if (!varietyCounter[productBase]) {
+        varietyCounter[productBase] = {}
       }
 
-      const current = varietyCounter[item.productBase][item.variety]
+      const current = varietyCounter[productBase][variety]
       if (!current) {
-        varietyCounter[item.productBase][item.variety] = {
-          name: item.variety,
+        varietyCounter[productBase][variety] = {
+          name: variety,
           count: 1,
-          samples: [item.text],
+          samples: [sample],
         }
         return
       }
 
       current.count += 1
-      if (current.samples.length < 3 && !current.samples.includes(item.text)) {
-        current.samples.push(item.text)
+      if (current.samples.length < 3 && !current.samples.includes(sample)) {
+        current.samples.push(sample)
+      }
+    }
+
+    recognizedRows.forEach((item) => {
+      if (item.productBase && item.variety) {
+        addProductCount(item.productBase, item.variety, item.text)
+      }
+
+      const includesLemon = item.group === 'entrada' && item.normalizedText.includes('limon')
+      if (includesLemon && item.productBase !== 'Limón') {
+        addProductCount('Limón', 'Limón', item.text)
       }
     })
 
