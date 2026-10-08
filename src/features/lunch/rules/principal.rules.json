@@ -1,7 +1,16 @@
 {
   "grupo": "principal",
   "transicion": [
-    { "id": "principal_carne_vacuno_transicion", "tipo": "frecuencia", "producto_base": "Carne de vacuno", "limite": "min", "veces": 3 },
+    {
+      "id": "principal_carne_vacuno_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de vacuno",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Trozo o cubo congelado o conserva (pouch)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Churrasco congelado", "limite": "min", "veces": 2 }
+      ]
+    },
     { "id": "principal_carne_ave_filetillo_transicion", "tipo": "frecuencia", "producto_base": "Carne de ave", "variedad": "Filetillo entero, congelado o conserva (pouch o enlatado)", "limite": "min", "veces": 3 },
     { "id": "principal_carne_cerdo_transicion", "tipo": "frecuencia", "producto_base": "Carne de cerdo", "limite": "min", "veces": 1 },
     {
@@ -39,7 +48,16 @@
     }
   ],
   "basica": [
-    { "id": "principal_carne_vacuno_basica", "tipo": "frecuencia", "producto_base": "Carne de vacuno", "limite": "min", "veces": 3 },
+    {
+      "id": "principal_carne_vacuno_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de vacuno",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Trozo o cubo congelado o conserva (pouch)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Churrasco congelado", "limite": "min", "veces": 2 }
+      ]
+    },
     {
       "id": "principal_carne_ave_basica",
       "tipo": "compuesta",
@@ -86,7 +104,16 @@
     }
   ],
   "media": [
-    { "id": "principal_carne_vacuno_media", "tipo": "frecuencia", "producto_base": "Carne de vacuno", "limite": "min", "veces": 3 },
+    {
+      "id": "principal_carne_vacuno_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Carne de vacuno",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Trozo o cubo congelado o conserva (pouch)", "limite": "min", "veces": 1 },
+        { "tipo": "frecuencia", "producto_base": "Carne de vacuno", "variedad": "Churrasco congelado", "limite": "min", "veces": 2 }
+      ]
+    },
     {
       "id": "principal_carne_ave_media",
       "tipo": "compuesta",

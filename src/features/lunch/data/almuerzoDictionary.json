@@ -171,14 +171,14 @@
     {
       "id": "carne_vacuno_trozo",
       "producto_base": "Carne de vacuno",
-      "variedad": "Carne de vacuno",
+      "variedad": "Trozo o cubo congelado o conserva (pouch)",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
     {
       "id": "carne_vacuno_churrasco",
       "producto_base": "Carne de vacuno",
-      "variedad": "Carne de vacuno",
+      "variedad": "Churrasco congelado",
       "tiempo": "almuerzo",
       "grupo": "principal"
     },
@@ -549,12 +549,19 @@
     { "producto_id": "carne_vacuno_trozo", "patron": "estofado de vacuno" },
     { "producto_id": "carne_vacuno_trozo", "patron": "carne al jugo" },
     { "producto_id": "carne_vacuno_trozo", "patron": "carne vacuno al jugo" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "carne vacuno al jugo pouch" },
     { "producto_id": "carne_vacuno_trozo", "patron": "tomatican" },
     { "producto_id": "carne_vacuno_trozo", "patron": "carbonada" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "trozo de vacuno congelado" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "cubo de vacuno congelado" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "trozo de vacuno conserva pouch" },
+    { "producto_id": "carne_vacuno_trozo", "patron": "cubo de vacuno conserva pouch" },
 
     { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco vacuno" },
     { "producto_id": "carne_vacuno_churrasco", "patron": "charrasco vacuno" },
     { "producto_id": "carne_vacuno_churrasco", "patron": "charrasco de vacuno" },
+    { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco congelado" },
+    { "producto_id": "carne_vacuno_churrasco", "patron": "churrasco de vacuno congelado" },
 
     { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo" },
     { "producto_id": "carne_ave_filetillo", "patron": "filetillo de pollo al jugo" },
