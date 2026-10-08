@@ -225,9 +225,12 @@ export const analyzeLunch = (data: ExcelData | null, coverage: LunchCoverageItem
       if (item.productBase && item.variety) {
         addProductCount(item.productBase, item.variety, item.text)
       }
+    })
 
+    groupRows.forEach((item) => {
       const includesLemon = item.group === 'entrada' && item.normalizedText.includes('limon')
-      if (includesLemon && item.productBase !== 'Limón') {
+      const alreadyCountedAsLemon = item.productBase === 'Limón'
+      if (includesLemon && !alreadyCountedAsLemon) {
         addProductCount('Limón', 'Limón', item.text)
       }
     })
