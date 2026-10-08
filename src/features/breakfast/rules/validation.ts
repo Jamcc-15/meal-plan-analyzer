@@ -1,7 +1,5 @@
-import {
-  validateRule as validateGenericRule,
-  validateRules as validateGenericRules,
-} from '../../rules/validation.ts'
+import { validateRule as validateGenericRule, validateRules as validateGenericRules } from '../../rules/validation.ts'
+import { createAliasSummaryMetrics } from '../../rules/summaryMetrics.ts'
 import type {
   BreakfastValidation,
   DesayunoRules,
@@ -10,13 +8,13 @@ import type {
 } from '../types/rules.types.ts'
 
 export const validateRule = (rule: Parameters<typeof validateGenericRule>[0], summary: SummaryData) =>
-  validateGenericRule(rule, summary, { allowCrossProductAliases: true })
+  validateGenericRule(rule, summary, createAliasSummaryMetrics())
 
 export const validateRules = (
   sectionRules: Parameters<typeof validateGenericRules>[0],
   nivel: Nivel,
   summary: SummaryData,
-) => validateGenericRules(sectionRules, nivel, summary, { allowCrossProductAliases: true })
+) => validateGenericRules(sectionRules, nivel, summary, createAliasSummaryMetrics())
 
 export const validateBreakfast = (
   rules: DesayunoRules,
