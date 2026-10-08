@@ -34,6 +34,7 @@ function App() {
   const [showQuickAdd, setShowQuickAdd] = useState(false)
   const {
     summary,
+    breakfastRows,
     liquidSummary,
     solidSummary,
     breakfastRawLiquid,
@@ -219,6 +220,7 @@ function App() {
               breakfastValidation={breakfastValidation}
               liquidDrilldown={liquidDrilldown}
               solidDrilldown={solidDrilldown}
+              breakfastRows={breakfastRows}
               onExportPdf={exportResultsPdf}
               onPreviewPdf={previewResultsPdf}
               selectedMeal={selectedMeal}

@@ -95,6 +95,10 @@ export const useAnalysisState = ({
     () => extractBreakfastLiquidRows(data, dictionary, selectedPortion),
     [data, dictionary, selectedPortion],
   )
+  const breakfastRows = useMemo(
+    () => [...liquidRows, ...solidRows],
+    [liquidRows, solidRows],
+  )
 
   const summary = useMemo(() => countLiquidSummary(analyzedRows), [analyzedRows])
   const liquidSummary = useMemo(() => countLiquidSummary(liquidRows), [liquidRows])
@@ -309,6 +313,7 @@ export const useAnalysisState = ({
 
   return {
     summary,
+    breakfastRows,
     liquidSummary,
     solidSummary,
     breakfastRawLiquid,

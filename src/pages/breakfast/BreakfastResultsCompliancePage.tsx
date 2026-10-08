@@ -2,7 +2,11 @@ import { type ReactNode } from 'react'
 import EmptyStateCard from '../../components/ui/EmptyStateCard.tsx'
 import type { BreakfastValidation, Nivel, ProductDrilldownMap } from '../../features/breakfast/index.ts'
 import type { ExcelData } from '../../types/excel.types.ts'
-import type { LiquidSummary, UnrecognizedItem } from '../../types/liquid-analysis.types.ts'
+import type {
+  LiquidAnalysisRow,
+  LiquidSummary,
+  UnrecognizedItem,
+} from '../../types/liquid-analysis.types.ts'
 
 type BreakfastResultsCompliancePageProps = {
   data: ExcelData | null
@@ -15,6 +19,7 @@ type BreakfastResultsCompliancePageProps = {
   breakfastValidation: BreakfastValidation
   liquidDrilldown: ProductDrilldownMap
   solidDrilldown: ProductDrilldownMap
+  breakfastRows: LiquidAnalysisRow[]
   onExportPdf: () => void
   onPreviewPdf: () => void
   onBackToExploration: () => void
@@ -192,6 +197,44 @@ const MetricCard = ({
   )
 }
 
+const DetectionLog = ({ rows }: { rows: LiquidAnalysisRow[] }) => (
+  <details className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50">
+    <summary className="cursor-pointer px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
+      Ver detección de ruteo ({rows.length} filas)
+    </summary>
+    <div className="overflow-x-auto border-t border-slate-200 bg-white px-3 py-3">
+      {rows.length === 0 ? (
+        <p className="text-xs text-slate-500">No hay filas para Desayuno.</p>
+      ) : (
+        <table className="min-w-full text-xs">
+          <thead>
+            <tr className="text-left text-[10px] uppercase tracking-[0.12em] text-slate-500">
+              <th className="px-2 py-2">Texto original</th>
+              <th className="px-2 py-2">Normalizado</th>
+              <th className="px-2 py-2">Producto base</th>
+              <th className="px-2 py-2">Variedad</th>
+              <th className="px-2 py-2">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, index) => (
+              <tr key={`${row.porcion}-${row.textoNormalizado}-${index}`} className="border-t border-slate-100 align-top">
+                <td className="px-2 py-2 text-slate-900">{row.porcionTexto}</td>
+                <td className="px-2 py-2 text-slate-500">{row.textoNormalizado}</td>
+                <td className="px-2 py-2 text-slate-700">{row.productoBase ?? 'Sin clasificación'}</td>
+                <td className="px-2 py-2 text-slate-700">{row.variedad ?? '--'}</td>
+                <td className={`px-2 py-2 font-semibold ${row.reconocido ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {row.reconocido ? 'Reconocido' : 'No reconocido'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  </details>
+)
+
 const RenderValidationTable = ({
   title,
   items,
@@ -204,7 +247,10 @@ const RenderValidationTable = ({
   const rows = getValidationRows(items)
 
   return (
-    <TableShell title={title} subtitle="Producto base, criterio, regla, obtenido y estado">
+    <TableShell
+      title={title}
+      subtitle={`${title.replace('Criterios – ', '')}: producto base, criterio, regla, obtenido y estado`}
+    >
       <Table
         columns={['Producto base', 'Criterio', 'Regla', 'Obtenido', 'Estado']}
         rows={groupValidationRows(rows).flatMap((group) => group.map((row, index) => (
@@ -279,6 +325,7 @@ const BreakfastResultsCompliancePage = ({
   breakfastValidation,
   liquidDrilldown,
   solidDrilldown,
+  breakfastRows,
   onExportPdf,
   onPreviewPdf,
   onBackToExploration,
@@ -399,12 +446,14 @@ const BreakfastResultsCompliancePage = ({
           items={liquidRows}
           onInspectProduct={onInspectProduct}
         />
+        <DetectionLog rows={breakfastRows.filter((row) => row.porcion === 'porcion_liquida')} />
 
         <RenderValidationTable
           title="Criterios – Porción sólida"
           items={solidRows}
           onInspectProduct={onInspectProduct}
         />
+        <DetectionLog rows={breakfastRows.filter((row) => row.porcion === 'porcion_solida')} />
 
         {unrecognizedItems.length > 0 ? (
           <section className="rounded-2xl border border-rose-200 bg-rose-50/40 p-5">

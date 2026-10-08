@@ -5,7 +5,11 @@ import type { MealScope } from '../../types/app.types.ts'
 import EmptyStateCard from '../../components/ui/EmptyStateCard.tsx'
 import type { BreakfastValidation, Nivel, ProductDrilldownMap } from '../../features/breakfast/index.ts'
 import type { ExcelData } from '../../types/excel.types.ts'
-import type { LiquidSummary, UnrecognizedItem } from '../../types/liquid-analysis.types.ts'
+import type {
+  LiquidAnalysisRow,
+  LiquidSummary,
+  UnrecognizedItem,
+} from '../../types/liquid-analysis.types.ts'
 
 type BreakfastResultsPageProps = {
   data: ExcelData | null
@@ -19,6 +23,7 @@ type BreakfastResultsPageProps = {
   breakfastValidation: BreakfastValidation
   liquidDrilldown: ProductDrilldownMap
   solidDrilldown: ProductDrilldownMap
+  breakfastRows: LiquidAnalysisRow[]
   onExportPdf: () => void
   onPreviewPdf: () => void
   onBackToExploration: () => void
@@ -39,6 +44,7 @@ const BreakfastResultsPage = ({
   breakfastValidation,
   liquidDrilldown,
   solidDrilldown,
+  breakfastRows,
   onExportPdf,
   onPreviewPdf,
   onBackToExploration,
@@ -82,6 +88,7 @@ const BreakfastResultsPage = ({
         breakfastValidation={breakfastValidation}
         liquidDrilldown={liquidDrilldown}
         solidDrilldown={solidDrilldown}
+        breakfastRows={breakfastRows}
         onExportPdf={onExportPdf}
         onPreviewPdf={onPreviewPdf}
         onBackToExploration={onBackToExploration}
