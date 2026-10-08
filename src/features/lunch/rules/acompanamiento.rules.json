@@ -13,7 +13,16 @@
       ]
     },
     { "id": "acompanamiento_pasta_tricolor_transicion", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 },
-    { "id": "acompanamiento_papas_transicion", "tipo": "frecuencia", "producto_base": "Papas", "limite": "min", "veces": 2 },
+    {
+      "id": "acompanamiento_papas_transicion",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Papas",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Papas", "variedad": "Asadas, salteadas", "limite": "min", "veces": 2 },
+        { "tipo": "frecuencia", "producto_base": "Papas", "variedad": "Puré de papa, puré mixto, pastel, estofado", "limite": "max", "veces": 1 }
+      ]
+    },
     { "id": "acompanamiento_verduras_transicion", "tipo": "frecuencia", "producto_base": "Verduras", "limite": "max", "veces": 2 }
   ],
   "basica": [
@@ -29,7 +38,16 @@
       ]
     },
     { "id": "acompanamiento_pasta_tricolor_basica", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 },
-    { "id": "acompanamiento_papas_basica", "tipo": "frecuencia", "producto_base": "Papas", "limite": "min", "veces": 2 },
+    {
+      "id": "acompanamiento_papas_basica",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Papas",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Papas", "variedad": "Asadas, salteadas", "limite": "min", "veces": 2 },
+        { "tipo": "frecuencia", "producto_base": "Papas", "variedad": "Puré de papa, puré mixto, pastel, estofado", "limite": "max", "veces": 1 }
+      ]
+    },
     { "id": "acompanamiento_verduras_basica", "tipo": "frecuencia", "producto_base": "Verduras", "limite": "max", "veces": 2 }
   ],
   "media": [
@@ -45,7 +63,16 @@
       ]
     },
     { "id": "acompanamiento_pasta_tricolor_media", "tipo": "frecuencia", "producto_base": "Pasta tricolor", "limite": "min", "veces": 2 },
-    { "id": "acompanamiento_papas_media", "tipo": "frecuencia", "producto_base": "Papas", "limite": "min", "veces": 2 },
+    {
+      "id": "acompanamiento_papas_media",
+      "tipo": "compuesta",
+      "operador": "AND",
+      "producto_base": "Papas",
+      "condiciones": [
+        { "tipo": "frecuencia", "producto_base": "Papas", "variedad": "Asadas, salteadas", "limite": "min", "veces": 2 },
+        { "tipo": "frecuencia", "producto_base": "Papas", "variedad": "Puré de papa, puré mixto, pastel, estofado", "limite": "max", "veces": 1 }
+      ]
+    },
     { "id": "acompanamiento_verduras_media", "tipo": "frecuencia", "producto_base": "Verduras", "limite": "max", "veces": 2 }
   ],
   "pendientes": [

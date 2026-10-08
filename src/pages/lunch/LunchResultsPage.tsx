@@ -224,7 +224,7 @@ const LunchResultsPage = ({
           detectedNivel={detectedNivel}
         />
         <div className="mt-3">
-        <AnalysisBlockSelector selectedMeal={selectedMeal} onChangeMeal={onChangeMeal} />
+          <AnalysisBlockSelector selectedMeal={selectedMeal} onChangeMeal={onChangeMeal} />
         </div>
       </div>
       <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">

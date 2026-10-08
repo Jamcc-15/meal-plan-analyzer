@@ -75,7 +75,7 @@ const BreakfastResultsPage = ({
           detectedNivel={data.detectedNivel}
         />
         <div className="mt-3">
-        <AnalysisBlockSelector selectedMeal={selectedMeal} onChangeMeal={onChangeMeal} />
+          <AnalysisBlockSelector selectedMeal={selectedMeal} onChangeMeal={onChangeMeal} />
         </div>
       </div>
       <BreakfastResultsCompliancePage

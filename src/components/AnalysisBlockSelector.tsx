@@ -8,7 +8,7 @@ type AnalysisBlockSelectorProps = {
 
 const AnalysisBlockSelector = ({ selectedMeal, onChangeMeal }: AnalysisBlockSelectorProps) => (
   <section className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col items-center gap-3 text-center">
       <div>
         <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
           Bloque a analizar
@@ -17,10 +17,10 @@ const AnalysisBlockSelector = ({ selectedMeal, onChangeMeal }: AnalysisBlockSele
           Selecciona el servicio que quieres evaluar en este informe.
         </p>
       </div>
-      <div className="inline-flex w-fit rounded-xl border border-slate-200 bg-slate-50 p-1">
+      <div className="grid w-full max-w-md grid-cols-2 gap-1 rounded-xl border border-slate-200 bg-slate-50 p-1">
         <button
           type="button"
-          className={`motion-lift rounded-lg px-3 py-2 text-sm font-semibold ${
+          className={`motion-lift min-w-32 rounded-lg px-5 py-3 text-base font-semibold ${
             selectedMeal === 'desayuno'
               ? 'bg-orange-500 text-white shadow-sm'
               : 'text-slate-700 hover:bg-white'
@@ -32,7 +32,7 @@ const AnalysisBlockSelector = ({ selectedMeal, onChangeMeal }: AnalysisBlockSele
         </button>
         <button
           type="button"
-          className={`motion-lift rounded-lg px-3 py-2 text-sm font-semibold ${
+          className={`motion-lift min-w-32 rounded-lg px-5 py-3 text-base font-semibold ${
             selectedMeal === 'almuerzo'
               ? 'bg-sky-600 text-white shadow-sm'
               : 'text-slate-700 hover:bg-white'
